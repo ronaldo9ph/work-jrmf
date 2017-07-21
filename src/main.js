@@ -4,6 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App'
 import router from './router'
+import http from './plugins/http'
 
 Vue.config.productionTip = false
 /* 保留两位小数 */
@@ -12,6 +13,11 @@ Vue.filter('discount', function (value) {
 })
 
 axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2'
+
+const FastClick = require('fastclick')
+FastClick.attach(document.body)
+
+Vue.use(http)
 
 /* eslint-disable no-new */
 new Vue({
