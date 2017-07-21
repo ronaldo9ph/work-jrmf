@@ -1,0 +1,481 @@
+@url:"../assets";
+@main_color:#fd5525;
+body{
+    background: #eeeeee;
+}
+.fund-list{
+    .tb{
+        width: 100%;
+        td,th{
+            background-color: white;
+            border-bottom: 7px solid #eeeeee;
+        }
+        th{
+            padding: 0px 10px;
+            font-weight: normal;
+            color: #666666;
+        }
+        td{
+            padding: 10px;
+            &.text-right{
+                text-align: right;
+            }
+            &.mar{
+                border: none;
+                background-color: inherit;
+                padding: 3px 0px;
+                line-height: inherit;
+                font-size: 0px;
+            }
+        }
+        .name{
+            color: #666666;
+            margin-bottom: 3px;
+            height: 25px;
+            line-height: 25px;
+            overflow: hidden;
+        }
+    }
+    .text-right .relbox dt{
+        text-align: right;
+    }
+    .relbox{
+        text-align: left;
+        a{
+            color: #666666;
+        }
+        dt{
+            .sel{
+                padding-right: 13px;
+                height: 40px;
+                line-height: 40px;
+                display: inline-block;
+                background: url("@{url}/down.png") no-repeat right center;
+                background-size: 10px;
+            }
+        }
+        dd{
+            position: absolute;
+            width: 100%;
+            top: 40px;
+            left: 0px;
+            z-index: 9;
+            padding-left: 10px;
+            background-color: white;
+            border-top: 1px solid #d6d6d6;
+            a{
+                display: block;
+                line-height: 40px;
+                border-bottom: 1px solid #d6d6d6;
+                &:last-child{
+                    border-bottom: none;
+                }
+                &.current{
+                    color: @main_color;
+                    background: url("@{url}/right.png") no-repeat 95% center;
+                    background-size: 15px;
+                }
+            }
+        }
+    }
+}
+.detailHistory{
+    .tb{
+        width: 100%;
+        th{
+            background-color: #eff0f4;
+            font-size: 16px;
+            color: #666666;
+            font-weight: normal;
+        }
+        td,th{
+            padding: 10px 5px;
+            text-align: center;
+        }
+        td{
+            border: 1px solid #c8c8c8;
+            background-color: white;
+        }
+    }
+}
+.fundDetail{
+    .top{
+        background-color: #ef5043;
+        color: white;
+        text-align: center;
+        padding-bottom: 15px;
+        .name{
+            padding: 12% 0px;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .item{
+            li{
+                float: left;
+                width: 33.3%;
+                line-height: 20px;
+                &:nth-child(2){
+                    border-left: 1px solid white;
+                    border-right: 1px solid white;
+                }
+            }
+        }
+    }
+    .box{
+        background-color: white;
+        border-top: 1px solid #cfd0d3;
+        border-bottom: 1px solid #cfd0d3;
+        margin-top: 10px;
+        &.chart{
+            padding-bottom: 15px;
+        }
+        .t{
+            height: 40px;
+            line-height: 40px;
+            padding-left: 15px;
+            background: url("@{url}/arrow.png") 96% center no-repeat;
+            background-size: 10px;
+            padding-right: 30px;
+            display: block;
+            .title{
+                font-weight: normal;
+            }
+            .arrow{
+                color: #999999;
+                font-size: 12px;
+            }
+        }
+    }
+    .info{
+        margin-left: 15px;
+        li{
+            line-height: 40px;
+            border-top: 1px solid #e1e0e0;
+        }
+    }
+    .con{
+        border-top: 1px solid #e1e0e0;
+        margin: 0px 0px 0px 15px;
+        padding: 15px;
+        img{
+            width: 100%;
+        }
+    }
+    .tab{
+        border: 1px solid #ef4d43;
+        border-radius: 4px;
+        margin:0px 15px 15px;
+
+        a{
+            width: 25%;
+            text-align: center;
+            float: left;
+            height: 35px;
+            line-height: 35px;
+            color: #ef4d43;
+            border-right: 1px solid #ef4d43;
+            &.current{
+                color: white;
+                background-color: #ef4d43;
+            }
+            &:last-child{
+                border-right:none;
+            }
+        }
+    }
+}
+.detal-rule{
+    .tab{
+        border-bottom: 1px solid #e5e5e6;
+        background-color: white;
+        text-align: center;
+        margin-bottom: 5px;
+        a{
+            padding: 10px 15px;
+            margin: 0px 10px;
+            display: inline-block;
+            &.current{
+                border-bottom: 2px solid #ef5643;
+                position: relative;
+                top: 1px;
+                color: #ef5643;
+            }
+        }
+    }
+    .box{
+        background-color: white;
+        padding-left: 15px;
+        border-top: 1px solid #e1e1e4;
+        border-bottom: 1px solid #e1e1e4;
+        margin-bottom: 5px;
+        .title{
+            padding: 10px 0px;
+            border-bottom: 1px solid #e1e0e0;
+            font-weight: normal;
+        }
+        &.mrlc{
+            .img{
+                padding: 10px 15px 10px 0px;
+                border-bottom: 1px solid #e1e0e0;
+                img{
+                    width: 100%;
+                }
+            }
+            .des{
+                padding: 10px 15px 10px 0px;
+                line-height: 22px;
+                color: #999999;
+                &.b{
+                    border-top: 1px solid #e1e0e0;
+                }
+            }
+        }
+        &.mrfl{
+            .h4t{
+                line-height: 20px;
+                border-left: 5px solid #1967b2;
+                padding-left: 10px;
+                margin: 10px 0px;
+                font-weight: normal;
+            }
+            .tb{
+                width: 100%;
+                th,td{
+                    padding: 8px 0px;
+                    font-weight: normal;
+                    text-align: center;
+                    border-bottom: 1px solid #e1e0e0;
+                    &.text-left{
+                        text-align: left;
+                    }
+                }
+                th{
+                    border-bottom: none;
+                    padding: 10px 0px 5px;
+                }
+                td{
+                    color: #666666;
+                    &.text-red{
+                        color: @main_color;
+                    }
+                }
+                tr:last-child{
+                    td{
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+    .w{
+        padding: 15px;
+        color: #666666;
+    }
+}
+.procon{
+    height: 70px;
+    box-sizing: content-box;
+    padding: 10px 0px 10px 0px;
+    margin-right: 15px;
+    position: relative;
+    color: #666666;
+    font-size: 12px;
+    .line{
+        position: absolute;
+        width: 100%;
+        top: 45px;
+        left: 0px;
+        height: 5px;
+        background:#ff6c44; /* 一些不支持背景渐变的浏览器 */
+        background:-moz-linear-gradient(left, #fdaf7c, #ff6c44);
+        background:-webkit-gradient(linear, 0 0, 0 right, from(#ff0000), to(#ff6c44));
+        background:-o-linear-gradient(left, #fdaf7c, #ff6c44);
+        border-radius: 4px;
+    }
+    .tb{
+        width: 100%;
+        text-align: center;
+        td{
+            line-height: 25px;
+        }
+    }
+    .circle{
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        border: 5px solid #ef4a43;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0px 0px 3px #ef4a43;
+        margin: 5px 0px 0px;
+        position: relative;
+        z-index: 3;
+    }
+    td.text-right{
+        .circle{
+            margin-right: 25px;
+        }
+    }
+}
+.fund-record{
+    .pd{
+        padding: 20px 0px;
+    }
+    .tab{
+        border-bottom: 1px solid #e5e5e6;
+        background-color: white;
+        text-align: center;
+        a{
+            padding: 10px 0px;
+            width: 20%;
+            float: left;
+            text-align: center;
+            color: #666666;
+            &.current{
+                border-bottom: 2px solid #ef5643;
+                position: relative;
+                top: 1px;
+                color: #ef5643;
+            }
+        }
+    }
+}
+.fundSum{
+    .box{
+        background-color: white;
+        border-top: 1px solid #e5e5e6;
+        border-bottom: 1px solid #e5e5e6;
+        margin-bottom: 5px;
+        .title{
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #e5e5e6;
+            padding-left: 15px;
+            color: #666666;
+            font-weight: normal;
+        }
+        .con{
+            padding:10px 15px;
+            box-sizing: content-box;
+        }
+        &.fund-info{
+            .item{
+                li{
+                    padding-left: 100px;
+                    position: relative;
+                    line-height: 30px;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                    text-align: right;
+                    .t{
+                        position: absolute;
+                        left:0px;
+                        top: 0px;
+                        width: 100px;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+        &.fund-wgt{
+            .con{
+                line-height: 25px;
+                height: 120px;
+                overflow: hidden;
+                &.auto{
+                    height: auto;
+                }
+                p{
+                    text-indent: 2em;
+                }
+            }
+            .more{
+                padding:0px 20px 15px;
+            }
+        }
+    }
+}
+.fundNotice{
+    li{
+        border-bottom: 1px solid #c9c9c9;
+        a{
+            display: block;
+            padding: 8px 10px 8px 105px;
+            position: relative;
+            background-color: white;
+            line-height: 22px;
+            .time{
+                position: absolute;
+                left: 15px;
+                top: 10px;
+                width: 90px;
+                color: #666666;
+            }
+        }
+    }
+}
+.fund-hold{
+    color: #666666;
+    .box{
+        background-color: white;
+        border-top: 1px solid #e9e9ec;
+        border-bottom: 1px solid #e9e9ec;
+        padding:10px 15px;
+        margin-top: 5px;
+    }
+    .tb{
+        width: 100%;
+        background-color: white;
+        td,th{
+            padding: 10px 15px;
+            text-align: center;
+            border-bottom: 1px solid #dadada;
+            font-weight: normal;
+            &.text-left{
+                text-align: left;
+            }
+            &.text-right{
+                text-align: right;
+            }
+            .t{
+                color: #333333;
+            }
+        }
+        th{
+            font-size: 12px;
+        }
+    }
+}
+.fund-fh{
+    color: #666666;
+    margin-top:10px;
+    li{
+        margin-bottom: 5px;
+        background-color: white;
+        padding: 10px 15px;
+        line-height: 25px;
+    }
+}
+.noticeDetail{
+  padding: 15px;
+  .title{
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .w{
+    padding: 20px 0px 10px;
+  }
+  .con{
+    line-height: 22px;
+  }
+}
+@media screen and (max-width: 360px) {
+.fundSum{
+    .box{
+        &.fund-info{
+            font-size: 12px;
+        }
+    }
+}
+}
