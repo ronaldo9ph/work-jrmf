@@ -72,7 +72,6 @@ body{
     .num{
       font-size: 26px;
       line-height: 35px;
-      font-family: 'Helvetica';
     }
   }
   dd{
@@ -182,6 +181,49 @@ body{
     line-height: 25px;
     margin: 5px 0px;
     display: block;
-    font-family: 'Helvetica';
+  }
+}
+.fundThemes{
+  .tab{
+      border-bottom: 1px solid #e5e5e6;
+      background-color: white;
+      text-align: center;
+      a{
+          padding: 10px 0px;
+          width: 33.3%;
+          float: left;
+          text-align: center;
+          color: #666666;
+          &.current{
+              border-bottom: 2px solid #ef5643;
+              position: relative;
+              top: 1px;
+              color: #ef5643;
+          }
+      }
+  }
+  .tb{
+    width: 100%;
+    border-top: 1px solid #e5e5e6;
+    margin-top: 5px;
+    th,td{
+      padding: 10px 15px;
+      background-color: white;
+      border-bottom: 1px solid #e5e5e6;
+      &.text-left{
+        text-align: left;
+      }
+      &.text-right{
+        text-align: right;
+      }
+    }
+    th{
+      font-size: 12px;
+      font-weight: normal;
+      color: #666666;
+    }
+    .name{
+      margin-bottom: 5px;
+    }
   }
 }

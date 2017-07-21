@@ -27,7 +27,7 @@
       <li v-for="item in hotThemeList">
         <router-link :to="{ name: 'fundthemes', params: {id:item.themeId} }">
           <p class="name">{{item.themeTitle}}</p>
-          <dfn class="per"><span v-if="item. unit_NET_CHNG_PCT_1_MON>0">+</span>{{item. unit_NET_CHNG_PCT_1_MON}}%</dfn>
+          <dfn class="per num"><span v-if="item. unit_NET_CHNG_PCT_1_MON>0">+</span>{{item. unit_NET_CHNG_PCT_1_MON}}%</dfn>
           <p class="text-gray">近一个月最高</p>
         </router-link>
       </li>
