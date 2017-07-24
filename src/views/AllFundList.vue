@@ -113,32 +113,21 @@ export default {
     },
     loadData: async function () {
       const res = await this.$http.post('/h5fund/index/searchAllFund/return.html', {'limit': this.pageSize, 'pageNo': this.pageIndex, 'type': this.fundType, 'orderBy': this.dayIncrease})
-        // .then((res) => {
-        //   for (var i = 0; i < res.data.fundList.length; i++) {
-        //     this.fundList.push(res.data.fundList[i])
-        //   }
-        //   this.hasNext = res.data.hasNext
-        //   this.pageIndex++
-        //   this.loading = false
-        // })
-        // .catch(function (err) {
-        //   console.error(err)
-        // })
-        if (res.data) {
-          console.log('qingq')
-          for (var i = 0; i < res.data.fundList.length; i++) {
-            this.fundList.push(res.data.fundList[i])
-          }
-          this.hasNext = res.data.hasNext
-          this.pageIndex++
-          this.loading = false
+      if (res.data) {
+        for (var i = 0; i < res.data.fundList.length; i++) {
+          this.fundList.push(res.data.fundList[i])
         }
+        this.hasNext = res.data.hasNext
+        this.pageIndex++
+        this.loading = false
+      }
     },
     locHref: function (id) {
-       this.$router.push({ name: 'funddetail', params: { id: id }})
+      this.$router.push({ name: 'funddetail', params: { id: id }})
     }
   }
 }
+
 </script>
 
 <style lang="less">
