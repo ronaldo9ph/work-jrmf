@@ -19,10 +19,11 @@ axios.interceptors.request.use(config => {
 
 // code状态码200判断
 axios.interceptors.response.use(res => {
-  if (res.data.code !== 200) {
-    console.error(res.data.msg)
-    return Promise.reject(res)
-  }
+  console.log(res.data)
+  // if (res.data.code !== 200) {
+  //   console.error(res.data.msg)
+  //   return Promise.reject(res)
+  // }
   return res
 }, error => {
   return Promise.resolve(error.response)
@@ -47,9 +48,9 @@ function checkCode (res) {
   if (res.status === -404) {
     console.error(res.msg)
   }
-  if (res.data && (!res.data.success)) {
-    console.error(res.data.error_msg)
-  }
+  // if (res.data && (!res.data.success)) {
+  //   console.error(res.data.error_msg)
+  // }
   return res
 }
 
