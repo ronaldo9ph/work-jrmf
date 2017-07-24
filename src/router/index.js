@@ -39,7 +39,7 @@ export default new Router({
       component: FundThemes
     },
     {
-      path: '/fundsearch', // 基金搜索 
+      path: '/fundsearch', // 基金搜索
       name: 'fundsearch',
       component: FundSearch
     },
