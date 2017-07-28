@@ -27,7 +27,7 @@
       <li v-for="item in hotThemeList">
         <router-link :to="{ name: 'fundthemes', params: {id:item.themeId} }">
           <p class="name">{{item.themeTitle}}</p>
-          <dfn class="per"><span v-if="item. unit_NET_CHNG_PCT_1_MON>0">+</span>{{item. unit_NET_CHNG_PCT_1_MON}}%</dfn>
+          <dfn class="per num"><span v-if="item. unit_NET_CHNG_PCT_1_MON>0">+</span>{{item. unit_NET_CHNG_PCT_1_MON}}%</dfn>
           <p class="text-gray">近一个月最高</p>
         </router-link>
       </li>
@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default{
   data(){
     return{
@@ -50,21 +48,18 @@ export default{
       list:[]//热卖推荐
     }
   },
-  created:function(){
-    axios.post('/h5fund/index/return.html')
-      .then((res) => {
-        this.hotThemeList=[]
-        this.list=[]
-        for(let i=0;i<res.data.hotThemeList.length;i++){
-          this.hotThemeList[i]=res.data.hotThemeList[i]
-        }
-        for(let i=0;i<res.data.list.length;i++){
-          this.list[i]=res.data.list[i]
-        }
-      })
-      .catch(function (err) {
-        console.error(err)
-      })
+  created: async function(){
+    const res = await this.$http.post('/lists/recommend_list-theme_list.html')
+    if(res.data){
+      this.hotThemeList=[]
+      this.list=[]
+      for(let i=0;i<res.data.hotThemeList.length;i++){
+        this.hotThemeList[i]=res.data.hotThemeList[i]
+      }
+      for(let i=0;i<res.data.list.length;i++){
+        this.list[i]=res.data.list[i]
+      }
+    }
   },
   methods:{
     splitTag:function(value){

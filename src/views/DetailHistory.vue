@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   name: 'detailhistory',
   data () {
@@ -27,15 +25,11 @@ export default {
       list: ''
     }
   },
-  created: function () {
-    var url = '/h5fund/fundtrade/detailHistory/return.html'
-    axios.post(url, qs.stringify({'fundid': this.$route.params.id, 'innercode': this.$route.params.code}))
-        .then((res) => {
+  created: async function () {
+    const res = await this.$http.post('/h5fund/fundtrade/detailHistory/return.html', {'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
+    if (res.data) {
           this.list = res.data.fundHistoryInfo
-        })
-        .catch(function (err) {
-          console.error(err)
-        })
+    }
   }
 }
 </script>

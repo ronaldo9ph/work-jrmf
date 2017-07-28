@@ -4,6 +4,22 @@
     <meta charset="utf-8">
     <title>vue-fund</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script>
+    function func (msg) {
+      var layer = document.createElement('div')
+      layer.id = 'layer'
+      layer.setAttribute('class', '_alert')
+      if (document.getElementById('layer') == null) {
+        layer.innerHTML = msg
+        document.body.appendChild(layer)
+        var l = document.getElementById('layer').offsetWidth / 2
+        var h = document.getElementById('layer').offsetHeight / 2
+        layer.style.marginLeft = l * -1 + 'px'
+        setTimeout('document.body.removeChild(layer)', 3000)
+      }
+    }
+
+    </script>
   </head>
   <body>
     <div id="app"></div>
