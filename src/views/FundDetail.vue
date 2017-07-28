@@ -64,12 +64,20 @@
               <li>基金代码：{{fundcode}}</li>
           </ul>
       </div>
+      <div class="bt"><a href="javascript:void(0)" class="btn btn-block btn-red">投</a></div>
+      <div class="popbg" id="popbg" style="display:none;"></div>
+      <div class="popwin" style="display:none;">
+        <div class="con w">
+          <p>为保护您的投资权益，根据相关规定，您必须完成风险测评，如未完成，将不能向您提供基金产品及服务</p>
+          <div class="bt clearfix text-center">
+            <a href="javascript:void(0)" class="btn btn-red">去风险测评</a>
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   name: 'funddetail',
   data () {
@@ -83,21 +91,17 @@ export default {
       fundrisk: ''
     }
   },
-  created: function () {
-    var url = '/h5fund/fundtrade/funddetail/return.html'
-    axios.post(url, qs.stringify({'fundcode': this.$route.params.id}))
-        .then((res) => {
-          this.fundid = res.data.fundid
-          this.innercode = res.data.innercode
-          this.fundsname = res.data.fundinfo.fundsname
-          this.fundcode = res.data.fund_code
-          this.unit_NET_CHNG_PCT = res.data.unit_net_chng_pct
-          this.unit_net = res.data.unit_net
-          this.fundrisk = res.data.fundrisk
-        })
-        .catch(function (err) {
-          console.error(err)
-        })
+  created: async function () {
+    const res = await this.$http.post('/h5fund/fundtrade/funddetail/return.html', {'fundcode': this.$route.params.id})
+    if(res.data){
+      this.fundid = res.data.fundid
+      this.innercode = res.data.innercode
+      this.fundsname = res.data.fundinfo.fundsname
+      this.fundcode = res.data.fund_code
+      this.unit_NET_CHNG_PCT = res.data.unit_net_chng_pct
+      this.unit_net = res.data.unit_net
+      this.fundrisk = res.data.fundrisk
+    }
   }
 }
 </script>

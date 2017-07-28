@@ -97,26 +97,20 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default{
   data () {
     return {
       fundChagRateList: []
     }
   },
-  created: function () {
-    var url='/h5fund/fundtrade/detailChagRate/return.html';
-    axios.post(url, qs.stringify({'fundid': this.$route.params.id, 'innercode': this.$route.params.code}))
-        .then((res) => {
-          this.fundChagRateList = []
-          for (var i = 0; i < res.data.fundChagRateList.length; i++) {
-            this.fundChagRateList[i] = res.data.fundChagRateList[i]
-          }
-        })
-        .catch(function (err) {
-          console.error(err)
-        })
+  created: async function () {
+    const res = await this.$http.post('/api_fund/v1/chag_rate.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
+    if(res.data){
+      this.fundChagRateList = []
+      for (var i = 0; i < res.data.fundChagRateList.length; i++) {
+        this.fundChagRateList[i] = res.data.fundChagRateList[i]
+      }
+    }
   }
 }
 </script>

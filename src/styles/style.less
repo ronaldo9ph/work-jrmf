@@ -99,6 +99,9 @@ body{
     }
 }
 .fundDetail{
+    .bt{
+      padding: 20px 15px;
+    }
     .top{
         background-color: #ef5043;
         color: white;
@@ -467,6 +470,331 @@ body{
   }
   .con{
     line-height: 22px;
+  }
+}
+.fund-assets{
+  padding-bottom: 100px;
+  .top{
+    background-color: #ef4a43;
+    padding: 20px 0px;
+    line-height: 23px;
+    margin-bottom: 10px;
+    .tb{
+      width: 100%;
+      td{
+        padding-left: 15px;
+        color: white;
+        vertical-align: middle;
+        &.name{
+          padding-bottom: 20px;
+        }
+      }
+    }
+  }
+  .box{
+    background-color: white;
+    border-top: 1px solid #e1e2e5;
+    border-bottom: 1px solid #e1e2e5;
+    margin-bottom: 10px;
+    &.item{
+      .it{
+        width: 50%;
+        border-right: 1px solid #e1e2e5;
+        margin:15px 0px;
+        padding: 5px 0px;
+        &:last-child{
+          border-right: none;
+        }
+        .t{
+          font-size: 12px;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}
+.chtBox{
+  .tab{
+      border-bottom: 1px solid #e5e5e6;
+      background-color: white;
+      text-align: center;
+      a{
+          padding: 10px 15px;
+          margin: 0px 10px;
+          display: inline-block;
+          &.current{
+              border-bottom: 2px solid #ef5643;
+              position: relative;
+              top: 1px;
+              color: #ef5643;
+          }
+      }
+  }
+  .chartCon{
+    padding: 20px;
+  }
+}
+.syDetail{
+  .pad{
+    padding: 20px 0px;
+  }
+  .list{
+    li{
+      padding: 10px 15px;
+      border-bottom: 1px solid #e5e5e6;
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+  }
+}
+.fixedbar{
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  a{
+    display: block;
+    width: 50%;
+    float: left;
+    height: 45px;
+    line-height: 45px;
+    border-right: 1px solid white;
+    background-color: #ef4a43;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    &:last-child{
+      border-right: none;
+    }
+    &.disabled{
+      background-color: #bebebe;
+    }
+  }
+}
+.orderPage{
+  .top{
+    background-color: #ef4a43;
+    padding: 20px 0px;
+    color: white;
+    .tp{
+      padding:0px 15px;
+      margin-bottom: 10px;
+      .h1t{
+        font-size: 18px;
+        font-weight: normal;
+        margin: 0px;
+      }
+      .tag{
+        padding: 0px 10px 0px 15px;
+        color: #e9322d;
+        font-size: 12px;
+        height: 18px;
+        line-height: 18px;
+        background: url("@{url}/tag-white.png") no-repeat;
+        background-size:100% 18px;
+      }
+    }
+    .bt{
+      line-height: 22px;
+      font-size: 12px;
+      .item{
+        width: 50%;
+        padding-left: 15px;
+      }
+    }
+  }
+  .box{
+    background-color: white;
+    margin-top: 10px;
+    &.bank{
+      height: 60px;
+      padding: 0px 15px 0px 55px;
+      position: relative;
+      line-height: 22px;
+      .img{
+        position: absolute;
+        left: 15px;
+        top: 10px;
+        width: 35px;
+        height: 35px;
+      }
+      .t{
+        padding-top: 7px;
+      }
+    }
+    &.buyNum{
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+      padding: 0px 15px 0px 95px;
+      overflow: hidden;
+      .t{
+        position: absolute;
+        left: 15px;
+        height: 40px;
+        line-height: 40px;
+        display: block;
+      }
+      .txt{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        border: none;
+      }
+    }
+  }
+  .sub{
+      margin:40px 0px 20px;
+  }
+  &.redeem{
+    .w{
+      padding: 20px 15px 0px;
+      line-height: 20px;
+      font-size: 12px;
+    }
+    .bank{
+      height: 50px;
+      .img{
+        top: 6px;
+      }
+      .t{
+        padding-top: 13px;
+      }
+    }
+    .buyNum{
+      padding-right: 100px;
+      .btn{
+        position: absolute;
+        top: 7px;
+        right: 15px;
+        font-size: 12px;
+        height: 26px;
+        line-height: 26px;
+
+        border-radius: 0px;
+        &.disabled{
+          color:white;
+          border: none;
+        }
+      }
+    }
+  }
+}
+.popwin{
+  background-color: white;
+  width: 80%;
+  left: 10%;
+  top: 50%;
+  margin-top: -90px;
+  z-index: 10;
+  position: fixed;
+  .t{
+    text-align: center;
+    border-bottom: 1px solid #f5f5f5;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+  }
+  .con{
+    padding: 20px;
+    margin-left: 0px;
+    &.w{
+      line-height: 20px;
+      font-size: 12px;
+    }
+    .txt{
+      width: 100%;
+      height: 35px;
+      line-height: 35px;
+      padding: 0px 10px;
+      border: 1px solid #9f9f9f;
+      border-radius: 2px;
+      margin-bottom: 5px;
+    }
+    .bt{
+      padding-top: 15px;
+      a{
+        width: 46%;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+.redeemSuc{
+  .w{
+    color: #f04a3a;
+    padding: 15px 0px;
+    text-align: center;
+    font-size: 18px;
+    i{
+      display: inline-block;
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      background: url("@{url}/successIcon.png") no-repeat;
+      background-size:20px;
+      position: relative;
+      top: 4px;
+    }
+  }
+  .box{
+    background-color: white;
+    position: relative;
+    font-size: 14px;
+    .line{
+      position: absolute;
+      left: 30px;
+      height: 100px;
+      top: 25px;
+      border-left: 1px solid #f04a3a;
+    }
+    .it{
+      margin-left: 50px;
+      height: 50px;
+      line-height: 50px;
+      border-bottom: 1px solid #f5f5f5;
+      position: relative;
+      &:last-child{
+        border-bottom: none;
+      }
+      &.mid{
+        padding: 5px 0px;
+        line-height: 20px;
+      }
+      i{
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        display: block;
+        overflow: hidden;
+        border-radius: 50%;
+        background-color: white;
+        border: 1px solid #f04b3c;
+        top: 18px;
+        left: -27px;
+        z-index: 4;
+        box-sizing: content-box;
+        em{
+          width: 8px;
+          height: 8px;
+          box-sizing: content-box;
+          background-color: #f04b3c;
+          margin: 2px;
+          display: block;
+          overflow: hidden;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+  .padbox{
+    padding: 15px;
+    line-height: 20px;
+    .btn-white{
+      margin-bottom: 10px;
+      border: none;
+    }
   }
 }
 @media screen and (max-width: 360px) {

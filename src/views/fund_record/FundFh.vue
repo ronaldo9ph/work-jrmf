@@ -12,26 +12,20 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   data () {
     return {
       queryFundDivList: []
     }
   },
-  created: function () {
-    var url = '/h5fund/fundtrade/fundRecord/dividendsReturn.html'
-    axios.post(url, qs.stringify({'fundid': this.$route.params.id, 'innercode': this.$route.params.code}))
-      .then((res) => {
-        this.queryFundDivList=[]
-        for(let i=0;i<res.data.queryFundDivList.length;i++){
-          this.queryFundDivList[i]=res.data.queryFundDivList[i]
-        }
-      })
-      .catch(function (err) {
-        console.error(err)
-      })
+  created: async function () {
+    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/dividendsReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
+    if(res.data){
+      this.queryFundDivList=[]
+      for(let i=0;i<res.data.queryFundDivList.length;i++){
+        this.queryFundDivList[i]=res.data.queryFundDivList[i]
+      }
+    }
   }
 }
 

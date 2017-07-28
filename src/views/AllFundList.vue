@@ -66,8 +66,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   name: 'fundlist',
   data () {
@@ -112,7 +110,7 @@ export default {
       this.loadData()
     },
     loadData: async function () {
-      const res = await this.$http.post('/h5fund/index/searchAllFund/return.html', {'limit': this.pageSize, 'pageNo': this.pageIndex, 'type': this.fundType, 'orderBy': this.dayIncrease})
+      const res = await this.$http.post('/apifund/v1/search/all_list.html', {'limit': this.pageSize, 'pageNo': this.pageIndex, 'type': this.fundType, 'orderBy': this.dayIncrease})
       if (res.data) {
         for (var i = 0; i < res.data.fundList.length; i++) {
           this.fundList.push(res.data.fundList[i])

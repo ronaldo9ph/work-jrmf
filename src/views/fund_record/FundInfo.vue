@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   data () {
     return {
@@ -54,27 +52,23 @@ export default {
       invst_stra: '' // 投资策略
     }
   },
-  created: function () {
-    var url = 'h5fund/fundtrade/fundRecord/basicInfoReturn.html'
-    axios.post(url, qs.stringify({'fundid': this.$route.params.id, 'innercode': this.$route.params.code}))
-      .then((res) => {
-        this.fundname = res.data.fundInfo.fundname
-        this.fund_CODE = res.data.fundInfo.fund_CODE
-        this.estab_date = res.data.fundInfo.estab_date
-        this.total_assets = res.data.fundInfo.total_assets
-        this.merge_equity =res.data.fundInfo.merge_equity
-        this.mana_NAME=res.data.fundInfo.mana_NAME
-        this.trup_name=res.data.fundInfo.trup_name
-        this.invst_target=res.data.fundBasicInfo.invst_target
-        this.invst_stra=res.data.fundBasicInfo.invst_stra
-        this.fundManager=[];
-        for(let i=0; i<res.data.fundManager.length;i++){
-          this.fundManager[i]=res.data.fundManager[i]
-        }
-      })
-      .catch(function (err) {
-        console.error(err)
-      })
+  created: async function () {
+    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/basicInfoReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
+    if(res.data){
+      this.fundname = res.data.fundInfo.fundname
+      this.fund_CODE = res.data.fundInfo.fund_CODE
+      this.estab_date = res.data.fundInfo.estab_date
+      this.total_assets = res.data.fundInfo.total_assets
+      this.merge_equity =res.data.fundInfo.merge_equity
+      this.mana_NAME=res.data.fundInfo.mana_NAME
+      this.trup_name=res.data.fundInfo.trup_name
+      this.invst_target=res.data.fundBasicInfo.invst_target
+      this.invst_stra=res.data.fundBasicInfo.invst_stra
+      this.fundManager=[];
+      for(let i=0; i<res.data.fundManager.length;i++){
+        this.fundManager[i]=res.data.fundManager[i]
+      }
+    }
   },
   methods:{
     showMore:function(event){

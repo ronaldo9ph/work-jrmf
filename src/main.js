@@ -13,7 +13,6 @@ Vue.filter('discount', function (value) {
 })
 
 axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2'
-
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 

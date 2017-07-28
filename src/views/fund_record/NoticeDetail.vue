@@ -9,8 +9,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   data () {
     return {
@@ -21,19 +19,15 @@ export default {
       source:''
     }
   },
-  created: function () {
-    var url = '/h5fund/fundtrade/fundRecord/announcementDetailReturn.html'
-    axios.post(url, qs.stringify({'fundid': this.$route.params.id, 'innercode': this.$route.params.code, 'disc_id': this.$route.params.disc_id}))
-      .then((res) => {
-        this.fundid = res.data.fundid
-        this.title=res.data.fundAnnounceDetail.title
-        this.txt_content=res.data.fundAnnounceDetail.txt_content
-        this.declaredate=res.data.fundAnnounceDetail.declaredate
-        this.source=res.data.fundAnnounceDetail.source
-      })
-      .catch(function (err) {
-        console.error(err)
-      })
+  created: async function () {
+    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/announcementDetailReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
+    if(res.data){
+      this.fundid = res.data.fundid
+      this.title=res.data.fundAnnounceDetail.title
+      this.txt_content=res.data.fundAnnounceDetail.txt_content
+      this.declaredate=res.data.fundAnnounceDetail.declaredate
+      this.source=res.data.fundAnnounceDetail.source
+    }
   }
 }
 

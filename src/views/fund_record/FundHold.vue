@@ -34,8 +34,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default {
   data () {
     return {
@@ -47,24 +45,20 @@ export default {
       stk_val_asset_prop: '' // 股票占比
     }
   },
-  created: function () {
-    var url = '/h5fund/fundtrade/fundRecord/fundHoldingReturn.html'
-    axios.post(url, qs.stringify({'fundid': this.$route.params.id, 'innercode': this.$route.params.code}))
-      .then((res) => {
-        this.sourceReport = res.data.sourceReport
-        this.fundAsset = res.data.fundAsset
-        this.bnd_val_asset_prop = res.data.fundAsset.bnd_val_asset_prop
-        this.dep_reck_up_asset_up = res.data.fundAsset.dep_reck_up_asset_up
-        this.oth_asset_val_tot_prop = res.data.fundAsset.oth_asset_val_tot_prop
-        this.fundStkDetailList = []
-        this.stk_val_asset_prop = res.data.fundAsset.stk_val_asset_prop
-        for (let i = 0; i < res.data.fundStkDetailList.length; i++) {
-          this.fundStkDetailList[i] = res.data.fundStkDetailList[i]
-        }
-      })
-      .catch(function (err) {
-        console.error(err)
-      })
+  created: async function () {
+    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/fundHoldingReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
+    if(res.data){
+      this.sourceReport = res.data.sourceReport
+      this.fundAsset = res.data.fundAsset
+      this.bnd_val_asset_prop = res.data.fundAsset.bnd_val_asset_prop
+      this.dep_reck_up_asset_up = res.data.fundAsset.dep_reck_up_asset_up
+      this.oth_asset_val_tot_prop = res.data.fundAsset.oth_asset_val_tot_prop
+      this.fundStkDetailList = []
+      this.stk_val_asset_prop = res.data.fundAsset.stk_val_asset_prop
+      for (let i = 0; i < res.data.fundStkDetailList.length; i++) {
+        this.fundStkDetailList[i] = res.data.fundStkDetailList[i]
+      }
+    }
   }
 }
 

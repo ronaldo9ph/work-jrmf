@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import qs from 'qs'
 export default{
   data(){
     return{
@@ -38,17 +36,14 @@ export default{
       active:0
     }
   },
-  created:function(){
-    axios.post('/h5fund/index/return.html')
-      .then((res) => {
-        this.list=[]
-        for(let i=0;i<res.data.list.length;i++){
-          this.list[i]=res.data.list[i]
-        }
-      })
-      .catch(function (err) {
-        console.error(err)
-      })
+  created: async function(){
+    const res = await this.$http.post('/h5fund/index/return.html')
+    if(res.data){
+      this.list=[]
+      for(let i=0;i<res.data.list.length;i++){
+        this.list[i]=res.data.list[i]
+      }
+    }
   },
   methods:{
     splitTag:function(value){
