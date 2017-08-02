@@ -16,7 +16,7 @@
 export default {
   data () {
     return {
-      bank:''
+
     }
   },
   created: async function () {

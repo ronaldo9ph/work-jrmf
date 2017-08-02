@@ -19,12 +19,14 @@ export default {
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/dividendsReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
-    if(res.data){
-      this.queryFundDivList=[]
-      for(let i=0;i<res.data.queryFundDivList.length;i++){
-        this.queryFundDivList[i]=res.data.queryFundDivList[i]
+    const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/fund-dividends')
+    if (res.data.fstat) {
+      this.queryFundDivList = []
+      for (let i = 0; i < res.data.queryFundDivList.length; i++) {
+        this.queryFundDivList[i] = res.data.queryFundDivList[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

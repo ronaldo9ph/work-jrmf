@@ -30,23 +30,25 @@
 
 <script>
 export default{
-  data(){
-    return{
-      list:[],//列表
-      active:0
+  data () {
+    return {
+      list: [], // 列表
+      active: 0
     }
   },
-  created: async function(){
-    const res = await this.$http.post('/h5fund/index/return.html')
-    if(res.data){
-      this.list=[]
-      for(let i=0;i<res.data.list.length;i++){
-        this.list[i]=res.data.list[i]
+  created: async function () {
+    const res = await this.$http.get('/h5fund/index/return.html')
+    if (res.data.fstat) {
+      this.list = []
+      for (let i = 0; i < res.data.list.length; i++) {
+        this.list[i] = res.data.list[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
-  methods:{
-    splitTag:function(value){
+  methods: {
+    splitTag: function (value) {
       var arr = value.split(',')
       var _html = ''
       for (let i = 0; i < arr.length; i++) {
@@ -54,11 +56,12 @@ export default{
       }
       return _html
     },
-    fundDetail:function(id){
-      this.$router.push({path: '/funddetail/'+id})
+    fundDetail: function (id) {
+      this.$router.push({path: '/funddetail/' + id})
     }
   }
 }
+
 </script>
 
 <style lang="less">

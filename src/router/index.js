@@ -39,8 +39,6 @@ import ChargeFh from '@/views/fund_charge/ChargeFh'
 import ChargeElse from '@/views/fund_charge/ChargeElse'
 import DetailProfit from '@/views/DetailProfit'
 import FundAssets from '@/views/fund_assets/FundAssets'
-import SyDetail from '@/views/fund_assets/SyDetail'
-import JyRecord from '@/views/fund_assets/JyRecord'
 import FundFh from '@/views/fund_record/FundFh'
 import FundType from '@/views/fund_record/FundType'
 import NoticeDetail from '@/views/fund_record/NoticeDetail'
@@ -135,19 +133,9 @@ export default new Router({
       component: DetailProfit
     },
     {
-      path: '/fundassets/:id', // 基金资产详情页
+      path: '/fundassets/:id/', // 基金资产详情页
       name: 'fundassets',
-      component: FundAssets,
-      children: [
-        { path: 'sydetail',
-          name: 'fundassets/sydetail', // 收益明细
-          component: SyDetail
-        },
-        { path: 'jyrecord',
-          name: 'fundassets/jyrecord', // 交易记录
-          component: JyRecord
-        }
-      ]
+      component: FundAssets
     },
     {
       path: '/fundlist', // 基金列表页
@@ -211,7 +199,7 @@ export default new Router({
       ]
     },
     {
-      path: '/fundrecord/:id/:code', // 基金档案
+      path: '/fundrecord/:id', // 基金档案
       component: FundRecord,
       name: 'fundrecord',
       children: [
@@ -257,7 +245,7 @@ export default new Router({
       name: 'detailhistory',
       component: Detailhistory
     },
-    { path: '/notice/:fundid/:code/:id',
+    { path: '/notice/:id/:disc_id',
       name: 'noticedetail', // 基金公告详情
       component: NoticeDetail
     }

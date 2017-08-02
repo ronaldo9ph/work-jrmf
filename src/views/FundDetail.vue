@@ -57,20 +57,24 @@
       <div class="box">
           <div class="t clearfix">
               <h3 class="title text-medium pull-left">基金档案</h3>
-              <router-link :to="{ name: 'fundrecord/info', params: {id:fundid,code:innercode} }" class="arrow text-medium pull-right">概况、公告、持仓、行业、分红</router-link>
+              <router-link :to="{ name: 'fundrecord/info', params: {id:fundid} }" class="arrow text-medium pull-right">概况、公告、持仓、行业、分红</router-link>
           </div>
           <ul class="info">
               <li>基金名称：{{fundsname}}</li>
               <li>基金代码：{{fundcode}}</li>
           </ul>
       </div>
-      <div class="bt"><a href="javascript:void(0)" class="btn btn-block btn-red">投</a></div>
-      <div class="popbg" id="popbg" style="display:none;"></div>
-      <div class="popwin" style="display:none;">
+      <div class="bt">
+        <router-link :to="{ name: 'order', params: {'id':fundid} }" class="btn btn-block btn-red" v-if="isOpenAccount && isRisk">投</router-link>
+        <a href="javascript:void(0)" v-else-if="!isRisk && isOpenAccount" class="btn btn-block btn-red" @click="openRiskDialog()">投</a>
+        <router-link v-else :to="{ name: 'openfundaccount', params: {'id':fundid} }" class="btn btn-block btn-red">投</router-link>
+      </div>
+      <div class="popbg" id="popbg" style="display:none;" v-show="isRisk"></div>
+      <div class="popwin" style="display:none;" v-show="isRisk">
         <div class="con w">
           <p>为保护您的投资权益，根据相关规定，您必须完成风险测评，如未完成，将不能向您提供基金产品及服务</p>
           <div class="bt clearfix text-center">
-            <a href="javascript:void(0)" class="btn btn-red">去风险测评</a>
+            <router-link :to="{ name: 'risktest'}" class="btn btn-red">去风险测评</router-link>
           </div>
         </div>
       </div>
@@ -79,7 +83,6 @@
 
 <script>
 export default {
-  name: 'funddetail',
   data () {
     return {
       fundid: '',
@@ -88,12 +91,14 @@ export default {
       fundcode: '', // 基金代码
       unit_NET_CHNG_PCT: '', // 日涨幅
       unit_net: '', // 最新净值
-      fundrisk: ''
+      fundrisk: '', // 基金风险等级
+      isOpenAccount: true, // 是否开户 false表示未开户
+      isRisk: false // 是否进行过风险测试
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/funddetail/return.html', {'fundcode': this.$route.params.id})
-    if(res.data){
+    const res = await this.$http.get('api/v1/funds/' + this.$route.params.id)
+    if (res.data.fstat) {
       this.fundid = res.data.fundid
       this.innercode = res.data.innercode
       this.fundsname = res.data.fundinfo.fundsname
@@ -101,9 +106,17 @@ export default {
       this.unit_NET_CHNG_PCT = res.data.unit_net_chng_pct
       this.unit_net = res.data.unit_net
       this.fundrisk = res.data.fundrisk
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+    }
+  },
+  methods: {
+    openRiskDialog: function () {
+      this.isRisk = true
     }
   }
 }
+
 </script>
 
 <style lang="less">
