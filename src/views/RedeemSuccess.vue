@@ -8,7 +8,6 @@
       <div class="it"><i></i>赎回份额到帐可查询</div>
     </div>
     <div class="padbox">
-      <router-link :to="{ name: 'fundlist'}" class="btn btn-white btn-block">查看更多基金</router-link>
       <router-link :to="{ name: 'fundindex'}" class="btn btn-red btn-block">返回首页</router-link>
     </div>
     <div class="padbox text-gray text-normal">
@@ -23,7 +22,7 @@
 export default {
   data () {
     return {
-      bank:''
+
     }
   },
   created: async function () {

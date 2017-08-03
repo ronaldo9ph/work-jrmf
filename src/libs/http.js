@@ -3,8 +3,8 @@ import qs from 'qs'
 
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-axios.defaults.baseURL = 'http://xxx.xxx.com'
-
+axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2/'
+// axios.defaults.baseURL = 'http://localhost:8080/yilucaifu-openapi/'
 // POST传参序列化
 axios.interceptors.request.use(config => {
   // loading

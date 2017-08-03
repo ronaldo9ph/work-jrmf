@@ -45,41 +45,44 @@ export default {
       fund_CODE: '', // 基金代码
       estab_date: '', // 成立日期
       merge_equity: '', // 资产
-      mana_NAME: '' , // 管理者名称
-      trup_name:'', // 托管人
+      mana_NAME: '', // 管理者名称
+      trup_name: '', // 托管人
       fundManager: [], // 基金经理
       invst_target: '', // 投资理念
       invst_stra: '' // 投资策略
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/basicInfoReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
-    if(res.data){
+    const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id)
+    if (res.data.fstat) {
       this.fundname = res.data.fundInfo.fundname
       this.fund_CODE = res.data.fundInfo.fund_CODE
       this.estab_date = res.data.fundInfo.estab_date
       this.total_assets = res.data.fundInfo.total_assets
-      this.merge_equity =res.data.fundInfo.merge_equity
-      this.mana_NAME=res.data.fundInfo.mana_NAME
-      this.trup_name=res.data.fundInfo.trup_name
-      this.invst_target=res.data.fundBasicInfo.invst_target
-      this.invst_stra=res.data.fundBasicInfo.invst_stra
-      this.fundManager=[];
-      for(let i=0; i<res.data.fundManager.length;i++){
-        this.fundManager[i]=res.data.fundManager[i]
+      this.merge_equity = res.data.fundInfo.merge_equity
+      this.mana_NAME = res.data.fundInfo.mana_NAME
+      this.trup_name = res.data.fundInfo.trup_name
+      this.invst_target = res.data.fundBasicInfo.invst_target
+      this.invst_stra = res.data.fundBasicInfo.invst_stra
+      this.fundManager = []
+      for (let i = 0; i < res.data.fundManager.length; i++) {
+        this.fundManager[i] = res.data.fundManager[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
-  methods:{
-    showMore:function(event){
-      if(event.currentTarget.innerText=='收起'){
-        document.getElementById("fundManager").style.height="120px"
-        event.currentTarget.innerText="查看更多"
-      }else{
-        document.getElementById("fundManager").style.height="auto"
-        event.currentTarget.innerText="收起"
+  methods: {
+    showMore: function (event) {
+      if (event.currentTarget.innerText === '收起') {
+        document.getElementById('fundManager').style.height = '120px'
+        event.currentTarget.innerText = '查看更多'
+      } else {
+        document.getElementById('fundManager').style.height = 'auto'
+        event.currentTarget.innerText = '收起'
       }
     }
   }
 }
+
 </script>

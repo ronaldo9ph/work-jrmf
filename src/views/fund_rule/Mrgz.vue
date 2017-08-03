@@ -104,13 +104,16 @@ export default{
     }
   },
   created: async function () {
-    const res = await this.$http.post('/api_fund/v1/chag_rate.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
-    if(res.data){
+    const res = await this.$http.get('api/v1/funds/chag-rates/' + this.$route.params.code)
+    if (res.data.fstat) {
       this.fundChagRateList = []
       for (var i = 0; i < res.data.fundChagRateList.length; i++) {
         this.fundChagRateList[i] = res.data.fundChagRateList[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }
+
 </script>

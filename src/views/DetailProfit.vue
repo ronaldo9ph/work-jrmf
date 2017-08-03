@@ -54,13 +54,14 @@ export default {
 
     }
   },
-  created: async function(){
-    const res = await this.$http.post('')
-    if (res.data) {
-
-    }
+  created: async function () {
+    // const res = await this.$http.get('')
+    // if (res.data) {
+    //
+    // }
   }
 }
+
 </script>
 
 <style lang="less">
