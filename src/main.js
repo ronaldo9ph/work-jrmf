@@ -4,9 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import http from './plugins/http'
-import {ToastPlugin, LoadingPlugin} from 'vux'
+import {ToastPlugin, LoadingPlugin, Countup} from 'vux'
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
+Vue.use(Countup)
 Vue.config.productionTip = false
 /* 保留两位小数 */
 Vue.filter('discount', function (value) {

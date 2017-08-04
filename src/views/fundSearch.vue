@@ -1,10 +1,10 @@
 <template lang="html">
 <div class="searchPage">
   <div class="searchBox">
-      <input type="text" class="txt" @keyup="keyChange($event)" placeholder="请输入基金名称或代码" id="txt" />
+      <input type="text" v-model="val" class="txt" placeholder="请输入基金名称或代码" id="txt" />
       <input type="button" class="search-btn" value="搜索" @click="searchFund()" />
   </div>
-  <div class="search-history" v-show="isEmpty" style="display:none">
+  <div class="search-history" v-show="isEmpty && setData" style="display:none">
     <div class="top clearfix">
       <span class="title pull-left">历史搜索</span>
       <a href="javascript:void(0)" class="pull-right text-red" @click="clearRecord()">清空记录</a>
@@ -13,7 +13,7 @@
       <a href="javascript:void(0)" v-for="item in setData" @click="searchVal(item)">{{item}}</a>
     </div>
   </div>
-  <div v-if="isEmpty">
+  <div>
     <div class="fundResult" v-if="recommandProductsFund">
       <table class="tb" v-for="item in recommandProductsFund" @click="locHref(item.fundcode)">
         <tr>
@@ -55,7 +55,8 @@ export default{
       hasnext: false, // 是否有下一页
       pageSize: 10, // 每页显示多少
       pageIndex: 1, // 当前页码
-      isHotShow: true // 热门搜索是否显示
+      isHotShow: true, // 热门搜索是否显示
+      val: '' // 输入框的值
     }
   },
   created: async function () {
@@ -79,7 +80,16 @@ export default{
       this.$vux.toast.text(restag.data.respmsg, 'middle')
     }
   },
+  watch: {
+    'val': 'queryTrendData'
+  },
   methods: {
+    queryTrendData: function () {
+      this.recommandProductsFund = []
+      this.hasnext = false
+      this.isEmpty = true
+      this.isHotShow = true
+    },
     clearRecord: async function () {
       const res = await this.$http.get('api/v1/funds/searchs/actions/clean')
       if (res.data.fstat) {
@@ -89,39 +99,30 @@ export default{
       }
     },
     searchFund: async function () {
-      var obj = document.getElementById('txt').value
-      if (obj) {
-        const res = await this.$http.get('api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': obj})
+      if (this.val) {
+        const res = await this.$http.get('api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
         if (res.data.fstat) {
           if (res.data.recommandProductsFund.length > 0) {
+            this.recommandProductsFund = res.data.recommandProductsFund
             this.isHotShow = false
             this.isEmpty = false
             if (this.pageIndex === 1) {
               this.recommandProductsFund = []
             }
-            // this.recommandProductsFund = res.data.recommandProductsFund[0]
-            // for (var i = 0; i < res.data.recommandProductsFund.length; i++) {
-            //   this.recommandProductsFund.push(res.data.recommandProductsFund[i])
-            // }
+            let array = this.recommandProductsFund.concat(res.data.recommandProductsFund)
+            this.recommandProductsFund = array
             this.pageIndex++
             this.hasnext = res.data.hasnext
-            console.log(res.data.recommandProductsFund[0])
           }
         }
       }
     },
     searchVal: async function (obj) {
-      document.getElementById('txt').value = obj
+      this.val = obj
       this.searchFund()
     },
     locHref: function (id) {
       this.$router.push({name: 'funddetail', params: { id: id }})
-    },
-    keyChange: function (event) {
-      if (event.currentTarget.value === '') {
-        this.isHotShow = true
-        this.isEmpty = false
-      }
     }
   }
 }

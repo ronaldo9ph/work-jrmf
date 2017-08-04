@@ -98,12 +98,12 @@ export default new Router({
       component: Password
     },
     {
-      path: '/resetpas', // 重置支付密码1
+      path: '/resetpas/', // 重置支付密码1
       name: 'resetpas',
       component: ResetPas
     },
     {
-      path: '/resetpas2', // 重置支付密码2
+      path: '/resetpas2/:from', // 重置支付密码2
       name: 'resetpas2',
       component: ResetPas2
     },

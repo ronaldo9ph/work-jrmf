@@ -25,8 +25,8 @@
     <h3 class="title">主题基金</h3>
     <ul class="main-fund clearfix">
       <li v-for="item in hotThemeList">
-        <router-link :to="{ name: 'fundthemes', params: {id:item.themeId} }">
-          <p class="name">{{item.themeTitle}}</p>
+        <router-link :to="{ name: 'fundthemes', params: {id:item.theme_id} }">
+          <p class="name">{{item.theme_name}}</p>
           <dfn class="per num"><span v-if="item.unit_NET_CHNG_PCT_1_MON>0">+</span>{{item.unit_NET_CHNG_PCT_1_MON}}%</dfn>
           <p class="text-gray">近一个月最高</p>
         </router-link>

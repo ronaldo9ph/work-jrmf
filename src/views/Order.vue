@@ -24,7 +24,7 @@
   </div>
   <div class="box buyNum">
     <label class="t">购买金额：</label>
-    <input type="num" class="txt" :placeholder="'>='+QUOTA" id="amount" />
+    <input type="num" class="txt" :placeholder="'>='+QUOTA" v-model="amount"/>
   </div>
   <input type="hidden" name="bankno" :value="bankno" />
   <div class="padbox sub">
@@ -50,7 +50,7 @@
     <div class="con w" v-if="can">
       <p class="text-center" style="margin-bottom:10px">请输入支付密码</p>
       <div>
-        <input type="password" name="password" class="txt" id="password" />
+        <input type="password" name="password" v-model="password" class="txt" />
       </div>
       <div class="bt clearfix">
         <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消</a>
@@ -85,7 +85,9 @@ export default {
       match: false, // 是否匹配
       QUOTA: '', // 起购金额
       Fund_type: '', // 基金类型
-      can: false // 密码弹窗是否显示
+      can: false, // 密码弹窗是否显示
+      password: '', // 密码
+      amount: '' // 输入金额
     }
   },
   created: async function () {
@@ -119,16 +121,17 @@ export default {
       this.isShow = false
     },
     subFun: function () {
-      var amount = document.getElementById('amount').value
-      var startMoney = this.QUOTA
-      if (amount === '' || amount === 'undefine') {
+      if (this.amount === '') {
         this.$vux.toast.text('请输入购买金额', 'middle')
+        return false
       }
-      if (!/^[0-9]*$/.test(amount)) {
+      if (!/^[0-9]+.?[0-9]*$/.test(this.amount)) {
         this.$vux.toast.text('购买金额必须为数字', 'middle')
+        return false
       }
-      if (amount < startMoney) {
-        this.$vux.toast.text('购买金额必须大于起购金额' + startMoney + '元', 'middle')
+      if (this.amount < this.QUOTA) {
+        this.$vux.toast.text('购买金额必须大于起购金额' + this.QUOTA + '元', 'middle')
+        return false
       }
       if (this.match === false) {
         this.isShow = true
@@ -138,16 +141,16 @@ export default {
       }
     },
     subForm: async function () {
-      var password = document.getElementById('password').value
-      var amount = document.getElementById('amount').value
-      if (password === '' || password.length !== 6) {
+      if (this.password === '' || this.password.length !== 6) {
         this.$vux.toast.text('请输入六位数字支付密码', 'middle')
+        return false
       }
-      const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/buy', {'transpasswd': password, 'applicationamount': amount})
+      const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/buy', {'transpasswd': this.password, 'applicationamount': this.amount})
       if (res.data.status) {
         this.$router.push({path: '/buysuccess/' + this.FUND_CODE})
       } else {
         this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     }
   }
