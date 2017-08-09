@@ -1,13 +1,14 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
+var vuxLoader = require('vux-loader')
 var vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
+const webpackConfig = {
   entry: {
     app: './src/main.js'
   },
@@ -27,15 +28,15 @@ module.exports = {
   },
   module: {
     rules: [
-    //   {
-    //     test: /\.(js|vue)$/,
-    //     loader: 'eslint-loader',
-    //     enforce: 'pre',
-    //     include: [resolve('src'), resolve('test')],
-    //     options: {
-    //       formatter: require('eslint-friendly-formatter')
-    //     }
-    //   },
+      {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -73,3 +74,7 @@ module.exports = {
     ]
   }
 }
+
+module.exports = vuxLoader.merge(webpackConfig, {
+  plugins: ['vux-ui']
+})

@@ -53,32 +53,35 @@
 export default {
   data () {
     return {
-      fundTotalprofit:'', //持有收益
-      fundYesDprofit:'', //昨日收益
-      fundmarketvalue:'', //总金额
-      fundList:[], //持有基金列表
-      count:'' //确认中个数
+      fundTotalprofit: '', // 持有收益
+      fundYesDprofit: '', // 昨日收益
+      fundmarketvalue: '', // 总金额
+      fundList: [], // 持有基金列表
+      count: '' // 确认中个数
     }
   },
-  created: async function(){
-    const res = await this.$http.post('/h5fund/fundtrade/myHolding/return.html')
-    if (res.data) {
-      this.fundTotalprofit=res.data.fundTotalprofit
-      this.fundYesDprofit=res.data.fundYesDprofit
-      this.fundmarketvalue=res.data.fundmarketvalue
-      this.count=res.data.count
-      this.fundList=[]
-      for(let i=0;i<res.data.fundList.length;i++){
-        this.fundList[i]=res.data.fundList[i]
+  created: async function () {
+    const res = await this.$http.get('api/v1/funds/holdings')
+    if (res.data.fstat) {
+      this.fundTotalprofit = res.data.fundTotalprofit
+      this.fundYesDprofit = res.data.fundYesDprofit
+      this.fundmarketvalue = res.data.fundmarketvalue
+      this.count = res.data.count
+      this.fundList = []
+      for (let i = 0; i < res.data.fundList.length; i++) {
+        this.fundList[i] = res.data.fundList[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
   methods: {
-    locHref:function(id){
-      this.$router.push({path: '/fundassets/'+id})
+    locHref: function (id) {
+      this.$router.push({path: '/fundassets/' + id})
     }
   }
 }
+
 </script>
 
 <style lang="less">

@@ -13,20 +13,22 @@ export default {
   data () {
     return {
       fundid: '',
-      title:'',
-      txt_content:'',
-      declaredate:'',
-      source:''
+      title: '',
+      txt_content: '',
+      declaredate: '',
+      source: ''
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/announcementDetailReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
-    if(res.data){
+    const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/announcements/' + this.$route.params.disc_id)
+    if (res.data.fstat) {
       this.fundid = res.data.fundid
-      this.title=res.data.fundAnnounceDetail.title
-      this.txt_content=res.data.fundAnnounceDetail.txt_content
-      this.declaredate=res.data.fundAnnounceDetail.declaredate
-      this.source=res.data.fundAnnounceDetail.source
+      this.title = res.data.fundAnnounceDetail.title
+      this.txt_content = res.data.fundAnnounceDetail.txt_content
+      this.declaredate = res.data.fundAnnounceDetail.declaredate
+      this.source = res.data.fundAnnounceDetail.source
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

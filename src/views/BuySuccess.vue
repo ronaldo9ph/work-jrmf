@@ -8,7 +8,6 @@
       <div class="it mid"><i></i><p>收益可查询</p><p class="text-gray text-normal">通常2-3个工作日</p></div>
     </div>
     <div class="padbox">
-      <router-link :to="{ name: 'order',params:{'id':123}}" class="btn btn-white btn-block">继续购买</router-link>
       <router-link :to="{ name: 'fundindex'}" class="btn btn-red btn-block">返回首页</router-link>
     </div>
     <div class="padbox text-gray text-normal">
@@ -22,11 +21,11 @@
 export default {
   data () {
     return {
-      bank:''
+
     }
   },
   created: async function () {
-    const res = await this.$http.post('')
+    const res = await this.$http.get('')
     if (res) {
 
     }

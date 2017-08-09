@@ -19,18 +19,20 @@
 export default {
   data () {
     return {
-      sourceReport:'',//季度
-      querInduSumConfList:[] //行业列表
+      sourceReport: '', // 季度
+      querInduSumConfList: [] // 行业列表
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/industryReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
-    if(res.data){
-      this.sourceReport=res.data.sourceReport
-      this.querInduSumConfList=[]
-      for(let i=0; i<res.data.querInduSumConfList.length;i++){
-        this.querInduSumConfList[i]=res.data.querInduSumConfList[i]
+    const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/fund-industries')
+    if (res.data.fstat) {
+      this.sourceReport = res.data.sourceReport
+      this.querInduSumConfList = []
+      for (let i = 0; i < res.data.querInduSumConfList.length; i++) {
+        this.querInduSumConfList[i] = res.data.querInduSumConfList[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

@@ -25,9 +25,9 @@
     <h3 class="title">主题基金</h3>
     <ul class="main-fund clearfix">
       <li v-for="item in hotThemeList">
-        <router-link :to="{ name: 'fundthemes', params: {id:item.themeId} }">
-          <p class="name">{{item.themeTitle}}</p>
-          <dfn class="per num"><span v-if="item. unit_NET_CHNG_PCT_1_MON>0">+</span>{{item. unit_NET_CHNG_PCT_1_MON}}%</dfn>
+        <router-link :to="{ name: 'fundthemes', params: {id:item.theme_id} }">
+          <p class="name">{{item.theme_name}}</p>
+          <dfn class="per num"><span v-if="item.unit_NET_CHNG_PCT_1_MON>0">+</span>{{item.unit_NET_CHNG_PCT_1_MON}}%</dfn>
           <p class="text-gray">近一个月最高</p>
         </router-link>
       </li>
@@ -42,27 +42,34 @@
 
 <script>
 export default{
-  data(){
-    return{
-      hotThemeList:[],//主题基金
-      list:[]//热卖推荐
+  data () {
+    return {
+      hotThemeList: [], // 主题基金
+      list: []// 热卖推荐
     }
   },
-  created: async function(){
-    const res = await this.$http.get('/lists/recommend_list-theme_list.html')
-    if(res.data){
-      this.hotThemeList=[]
-      this.list=[]
-      for(let i=0;i<res.data.hotThemeList.length;i++){
-        this.hotThemeList[i]=res.data.hotThemeList[i]
+  created: async function () {
+    const res = await this.$http.get('api/v1/funds/themes')
+    if (res.data.fstat) {
+      this.hotThemeList = []
+      for (let i = 0; i < res.data.hotThemeList.length; i++) {
+        this.hotThemeList[i] = res.data.hotThemeList[i]
       }
-      for(let i=0;i<res.data.list.length;i++){
-        this.list[i]=res.data.list[i]
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+    }
+    const result = await this.$http.get('api/v1/funds/recommends')
+    if (result.data.fstat) {
+      this.list = []
+      for (let i = 0; i < result.data.list.length; i++) {
+        this.list[i] = result.data.list[i]
       }
+    } else {
+      this.$vux.toast.text(result.data.respmsg, 'middle')
     }
   },
-  methods:{
-    splitTag:function(value){
+  methods: {
+    splitTag: function (value) {
       var arr = value.split(',')
       var _html = ''
       for (let i = 0; i < arr.length; i++) {
@@ -70,11 +77,12 @@ export default{
       }
       return _html
     },
-    fundDetail:function(id){
-      this.$router.push({path: '/funddetail/'+id})
+    fundDetail: function (id) {
+      this.$router.push({path: '/funddetail/' + id})
     }
   }
 }
+
 </script>
 
 <style lang="less">

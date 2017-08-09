@@ -57,20 +57,30 @@
       <div class="box">
           <div class="t clearfix">
               <h3 class="title text-medium pull-left">基金档案</h3>
-              <router-link :to="{ name: 'fundrecord/info', params: {id:fundid,code:innercode} }" class="arrow text-medium pull-right">概况、公告、持仓、行业、分红</router-link>
+              <router-link :to="{ name: 'fundrecord/info', params: {id:fundid} }" class="arrow text-medium pull-right">概况、公告、持仓、行业、分红</router-link>
           </div>
           <ul class="info">
               <li>基金名称：{{fundsname}}</li>
               <li>基金代码：{{fundcode}}</li>
           </ul>
       </div>
-      <div class="bt"><a href="javascript:void(0)" class="btn btn-block btn-red">投</a></div>
-      <div class="popbg" id="popbg" style="display:none;"></div>
-      <div class="popwin" style="display:none;">
-        <div class="con w">
+      <div class="bt">
+        <router-link :to="{ name: 'order', params: {'id':fundid} }" class="btn btn-block btn-red" v-if="isOpenAccount==2">投</router-link>
+        <a href="javascript:void(0)" v-if="isOpenAccount==1 || isOpenAccount==0" class="btn btn-block btn-red" @click="openDialog()">投</a>
+      </div>
+      <div class="popbg" id="popbg" style="display:none;" v-show="isShow"></div>
+      <div class="popwin" style="display:none;" v-show="isShow">
+        <div class="con w" v-show="isOpenAccount==1">
           <p>为保护您的投资权益，根据相关规定，您必须完成风险测评，如未完成，将不能向您提供基金产品及服务</p>
           <div class="bt clearfix text-center">
-            <a href="javascript:void(0)" class="btn btn-red">去风险测评</a>
+            <router-link :to="{ name: 'risktest'}" class="btn btn-red">去风险测评</router-link>
+          </div>
+        </div>
+        <div class="con w" v-show="isOpenAccount==0">
+          <p>鉴于您首次购买基金，为了您的资金安全。请先完善您的个人信息，方便您购买合适的产品或服务。</p>
+          <div class="bt clearfix text-center">
+            <a href="javascript:void(0)" @click="close()" class="btn btn-white">取消购买</a>
+            <router-link :to="{ name: 'openfundaccount'}" class="btn btn-red">去完善</router-link>
           </div>
         </div>
       </div>
@@ -79,7 +89,6 @@
 
 <script>
 export default {
-  name: 'funddetail',
   data () {
     return {
       fundid: '',
@@ -88,12 +97,15 @@ export default {
       fundcode: '', // 基金代码
       unit_NET_CHNG_PCT: '', // 日涨幅
       unit_net: '', // 最新净值
-      fundrisk: ''
+      fundrisk: '', // 基金风险等级
+      isOpenAccount: '', // -1，禁用用户 0,未开户 1,未进行风险测评 2,已开户，已设置交易密码,已进行风险
+      isRisk: false, // 是否进行过风险测试
+      isShow: false
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/funddetail/return.html', {'fundcode': this.$route.params.id})
-    if(res.data){
+    const res = await this.$http.get('api/v1/funds/' + this.$route.params.id)
+    if (res.data.fstat) {
       this.fundid = res.data.fundid
       this.innercode = res.data.innercode
       this.fundsname = res.data.fundinfo.fundsname
@@ -101,9 +113,24 @@ export default {
       this.unit_NET_CHNG_PCT = res.data.unit_net_chng_pct
       this.unit_net = res.data.unit_net
       this.fundrisk = res.data.fundrisk
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+    }
+    const result = await this.$http.get('api/v1/funds/accounts')
+    if (result.data.fstat) {
+      this.isOpenAccount = result.data.openAccountStatus
+    }
+  },
+  methods: {
+    openDialog: function () {
+      this.isShow = true
+    },
+    close: function () {
+      this.isShow = false
     }
   }
 }
+
 </script>
 
 <style lang="less">

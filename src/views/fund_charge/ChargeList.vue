@@ -22,15 +22,16 @@
 export default {
   data () {
     return {
-      isShow:false // 分类是否显示
+      isShow: false // 分类是否显示
     }
   },
   methods: {
-    sortTriger:function(){
-      this.isShow?this.isShow=false:this.isShow=true
+    sortTriger: function () {
+      this.isShow ? this.isShow = false : this.isShow = true
     }
   }
 }
+
 </script>
 
 <style lang="less">

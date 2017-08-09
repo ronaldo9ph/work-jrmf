@@ -67,7 +67,6 @@
 
 <script>
 export default {
-  name: 'fundlist',
   data () {
     return {
       pageIndex: 1, // 下一页页码
@@ -110,18 +109,20 @@ export default {
       this.loadData()
     },
     loadData: async function () {
-      const res = await this.$http.post('/apifund/v1/search/all_list.html', {'limit': this.pageSize, 'pageNo': this.pageIndex, 'type': this.fundType, 'orderBy': this.dayIncrease})
-      if (res.data) {
+      const res = await this.$http.get('api/v1/funds/searchs/actions/search-all', {'limit': this.pageSize, 'page_no': this.pageIndex, 'type': this.fundType, 'order_by': this.dayIncrease})
+      if (res.data.fstat) {
         for (var i = 0; i < res.data.fundList.length; i++) {
           this.fundList.push(res.data.fundList[i])
         }
         this.hasNext = res.data.hasNext
         this.pageIndex++
         this.loading = false
+      } else {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
       }
     },
     locHref: function (id) {
-      this.$router.push({ name: 'funddetail', params: { id: id }})
+      this.$router.push({name: 'funddetail', params: { id: id }})
     }
   }
 }

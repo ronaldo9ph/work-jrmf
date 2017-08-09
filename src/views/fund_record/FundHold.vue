@@ -46,8 +46,8 @@ export default {
     }
   },
   created: async function () {
-    const res = await this.$http.post('/h5fund/fundtrade/fundRecord/fundHoldingReturn.html',{'fundid': this.$route.params.id, 'innercode': this.$route.params.code})
-    if(res.data){
+    const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/fund-holdings')
+    if (res.data.fstat) {
       this.sourceReport = res.data.sourceReport
       this.fundAsset = res.data.fundAsset
       this.bnd_val_asset_prop = res.data.fundAsset.bnd_val_asset_prop
@@ -58,9 +58,9 @@ export default {
       for (let i = 0; i < res.data.fundStkDetailList.length; i++) {
         this.fundStkDetailList[i] = res.data.fundStkDetailList[i]
       }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }
-
-
 </script>

@@ -58,12 +58,13 @@ export default {
 
     }
   },
-  methods:{
-    confirmOrder:function(){
+  methods: {
+    confirmOrder: function () {
 
     }
   }
 }
+
 </script>
 
 <style lang="less">
