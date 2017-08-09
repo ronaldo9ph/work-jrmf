@@ -49,7 +49,7 @@ export default{
     }
   },
   created: async function(){
-    const res = await this.$http.post('/lists/recommend_list-theme_list.html')
+    const res = await this.$http.get('/lists/recommend_list-theme_list.html')
     if(res.data){
       this.hotThemeList=[]
       this.list=[]
