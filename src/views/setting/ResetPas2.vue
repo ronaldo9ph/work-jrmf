@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     subFun: async function () {
-      var num = /^[0-9]\d*$|^0$/
+      let num = /^[0-9]\d*$|^0$/
       if (this.password === '') {
         this.$vux.toast.text('请输入六位数字交易密码', 'middle')
         return false

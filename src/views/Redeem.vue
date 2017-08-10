@@ -109,7 +109,7 @@ export default {
         this.$vux.toast.text('请输入六位数字支付密码', 'middle')
         return false
       }
-      const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/redeem', {'transpasswd': this.password, 'applicationamount': this.amount, 'availablevol': this.availablevol - this.disableVol})
+      const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/redeem', {'transpasswd': this.password, 'applicationvol': this.amount, 'availablevol': this.availablevol - this.disableVol})
       if (res.data.status) {
         this.$router.push({path: '/redeemsuccess/' + this.fundcode})
       } else {

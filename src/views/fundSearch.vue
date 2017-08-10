@@ -17,7 +17,7 @@
     <div class="fundResult" v-if="recommandProductsFund">
       <table class="tb" v-for="item in recommandProductsFund" @click="locHref(item.fundcode)">
         <tr>
-          <td colspan="3" class="text-left name">{{item.name}}（{{item.fundcode}}）<span class="tag">{{item.fundtype}}</span></td>
+          <td colspan="3" class="text-left name">{{item.name}}（{{item.fundcode}}）<span class="tag">{{item.typemark}}</span></td>
         </tr>
         <tr>
           <th class="text-gray" width="120">{{item.chng_name}}</th>
@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <td class="text-red num">{{item.chng_pic}}</td>
-          <td class="text-gray num">{{item.cur_fund_rate}}</td>
+          <td class="text-gray num">{{item.cur_fund_rate}}<span v-if="item.cur_fund_rate != '0.0'">%</span></td>
         </tr>
       </table>
       <div class="pad text-center" v-show="hasnext" style="display:none">
@@ -68,8 +68,9 @@ export default{
       }
     } else {
       this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
-    const restag = await this.$http.get('api/v1/funds/searchs/actions/search')
+    const restag = await this.$http.post('api/v1/funds/searchs/actions/search')
     if (restag.data) {
       this.setData = []
       for (let i = 0; i < restag.data.setData.length; i++) {
@@ -78,6 +79,7 @@ export default{
       this.isEmpty = true
     } else {
       this.$vux.toast.text(restag.data.respmsg, 'middle')
+      return false
     }
   },
   watch: {
@@ -100,7 +102,7 @@ export default{
     },
     searchFund: async function () {
       if (this.val) {
-        const res = await this.$http.get('api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
+        const res = await this.$http.post('api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
         if (res.data.fstat) {
           if (res.data.recommandProductsFund.length > 0) {
             this.recommandProductsFund = res.data.recommandProductsFund
@@ -113,12 +115,18 @@ export default{
             this.recommandProductsFund = array
             this.pageIndex++
             this.hasnext = res.data.hasnext
+          } else {
+            this.recommandProductsFund = []
           }
+        } else {
+          this.$vux.toast.text(res.data.respmsg, 'middle')
+          return false
         }
       }
     },
     searchVal: async function (obj) {
       this.val = obj
+      this.pageIndex = 1
       this.searchFund()
     },
     locHref: function (id) {

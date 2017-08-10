@@ -16,7 +16,7 @@
         <div class="box fund-wgt">
             <h3 class="title">基金经理</h3>
             <div class="con" id="fundManager">
-                <p v-for="item in fundManager">{{item.indi_NAME}},{{item.resume}}</p>
+                <p v-for="item in fundManager">{{item.resume}}</p>
             </div>
             <div class="more text-right">
                 <a href="javascript:void(0)" @click="showMore($event)" class="text-red">查看更多</a>

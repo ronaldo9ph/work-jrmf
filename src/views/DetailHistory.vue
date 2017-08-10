@@ -5,7 +5,7 @@
               <th>日期</th>
               <th>单位净值</th>
               <th>累计净值</th>
-              <th>日涨副</th>
+              <th>日涨幅</th>
           </tr>
           <tr v-for="item in list">
               <td>{{item.tradedate}}</td>

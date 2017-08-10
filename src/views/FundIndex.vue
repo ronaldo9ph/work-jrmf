@@ -8,16 +8,14 @@
   </div>
   <div class="module" v-if="list">
     <h3 class="title">热卖推荐</h3>
-    <dl class="hotRec" v-for="item in list" @click="fundDetail(item.fund_id)">
+    <dl class="hotRec" v-for="item in list" @click="fundDetail(item.fund_code)">
       <dt>
-        <p class="num text-red">{{item.unit_NET_CHNG_PCT_1_MON}}%</p>
+        <p class="num text-red">{{item.unit_NET_CHNG_PCT_1_YEAR}}%</p>
         <p class="text-gray">近一年收益</p>
       </dt>
       <dd>
         <h3 class="name">{{item.fundname}}</h3>
-        <div class="tag" v-html="splitTag(item.lable)">
-          <!--<span class="it">中盘平衡</span><span class="it">重配资源</span><span class="it">业绩突出</span>-->
-        </div>
+        <div class="tag" v-html="splitTag(item.lable)"></div>
       </dd>
     </dl>
   </div>
@@ -49,15 +47,6 @@ export default{
     }
   },
   created: async function () {
-    const res = await this.$http.get('api/v1/funds/themes')
-    if (res.data.fstat) {
-      this.hotThemeList = []
-      for (let i = 0; i < res.data.hotThemeList.length; i++) {
-        this.hotThemeList[i] = res.data.hotThemeList[i]
-      }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
-    }
     const result = await this.$http.get('api/v1/funds/recommends')
     if (result.data.fstat) {
       this.list = []
@@ -66,6 +55,15 @@ export default{
       }
     } else {
       this.$vux.toast.text(result.data.respmsg, 'middle')
+    }
+    const res = await this.$http.get('api/v1/funds/themes')
+    if (res.data.fstat) {
+      this.hotThemeList = []
+      for (let i = 0; i < res.data.hotThemeList.length; i++) {
+        this.hotThemeList[i] = res.data.hotThemeList[i]
+      }
+    } else {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
   methods: {

@@ -10,9 +10,9 @@
           <th class="text-left">基金名称</th>
           <th class="text-right">涨跌幅</th>
         </tr>
-        <tr v-for="item in list">
+        <tr v-for="item in list" @click="fundDetail(item.fund_CODE)">
           <td class="text-left">
-            <p class="name">{{item.fundname}}</p>
+            <p class="name">{{item.fundsname}}</p>
             <p class="text-gray num">{{item.fund_CODE}}</p>
           </td>
           <td class="text-right text-red num" v-if="order_by=='1week'">{{item.unit_NET_CHNG_PCT_1_WEEK}}%</td>
@@ -69,10 +69,13 @@ export default{
       if (id === '近三月') {
         this.order_by = '3mon'
       }
-      const res = await this.$http.get('api/v1/fund/themes/' + this.$route.params.id, {'order_by': this.order_by})
+      const res = await this.$http.get('api/v1/funds/themes/' + this.$route.params.id, {'order_by': this.order_by})
       if (res.data.fstat) {
         let arr = this.list.concat(res.data.fundList)
         this.list = arr
+      } else {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     }
   }
