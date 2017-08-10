@@ -58,13 +58,6 @@
           <span class="text-red pull-right"v-else-if="item.newprofit=0">{{item.newprofit}}</span>
           <span :class="item.newprofit>=0?'text-red pull-right':'text-green pull-right' " v-else>-{{item.newprofit}}</span>
         </li>
-        <li class="clearfix" v-for="item in profitList">
-          <span class="time pull-left">{{item.createtime}}</span>
-          <span class="text-red pull-right"v-if="item.newprofit>0">+{{item.newprofit}}</span>
-          <span class="text-red pull-right"v-else-if="item.newprofit=0">{{item.newprofit}}</span>
-          <span :class="item.newprofit>=0?'text-red pull-right':'text-green pull-right' " v-else>-{{item.newprofit}}</span>
-        </li>
-        <li class="clearfix"><span class="time pull-left">2017-07-25</span> <span class="text-red pull-right">+1.22</span></li>
       </ul>
       <p class="text-gray text-center pad" style="margin-top:90px;" v-else>暂无数据！</p>
       <div class="pad text-center" v-if="hasNext1">
@@ -129,8 +122,8 @@ export default {
       index: 0,
       pageIndex1: 1, // 下一页页码
       pageIndex2: 1, // 下一页页码
-      pageSize1: 5, // 每页显示个数
-      pageSize2: 4, // 每页显示个数
+      pageSize1: 10, // 每页显示个数
+      pageSize2: 5, // 每页显示个数
       hasNext1: false, // 是否有下一页
       profitList: [], // 收益明细列表
       hasNext2: false, // 是否有下一页
@@ -160,7 +153,7 @@ export default {
   },
   methods: {
     loadData1: async function () {
-      const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/incomes', {params: {'fundcode': this.$route.params.id, 'page_no': this.pageIndex1, 'page_size': this.pageSize1}})
+      const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/incomes', {'page_no': this.pageIndex1, 'page_size': this.pageSize1})
       if (res.data.fstat) {
         if (this.pageIndex1 === 1) {
           this.profitList = []
@@ -173,7 +166,7 @@ export default {
       }
     },
     loadData2: async function () {
-      const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/histories', {'page': this.pageIndex2, 'page_size': this.pageSize2})
+      const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/histories', {'page_no': this.pageIndex2, 'page_size': this.pageSize2})
       if (res.data.fstat) {
         if (this.pageIndex2 === 1) {
           this.fundHistoryList = []

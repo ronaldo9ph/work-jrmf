@@ -70,7 +70,7 @@ let arr = [
     ]
   },
   {
-    index: 3,
+    index: 2,
     title: '在您每年的家庭可支配收入中，可用于金融投资（储蓄存款除外）的比例为？',
     sel: [
       {
@@ -92,7 +92,7 @@ let arr = [
     ]
   },
   {
-    index: 4,
+    index: 3,
     title: '您是否有尚未清偿的数额较大的债务，如有，其性质是',
     sel: [
       {
@@ -114,7 +114,7 @@ let arr = [
     ]
   },
   {
-    index: 5,
+    index: 4,
     title: '您的投资知识可描述为：',
     sel: [
       {
@@ -132,7 +132,7 @@ let arr = [
     ]
   },
   {
-    index: 6,
+    index: 5,
     title: '您的投资经验可描述为：',
     sel: [
       {
@@ -154,7 +154,7 @@ let arr = [
     ]
   },
   {
-    index: 7,
+    index: 6,
     title: '您有多少年投资基金、股票、信托、私募证券或金融衍生产品等风险投资品的经验？',
     sel: [
       {
@@ -180,7 +180,7 @@ let arr = [
     ]
   },
   {
-    index: 8,
+    index: 7,
     title: '您计划的投资期限是多久？',
     sel: [
       {
@@ -202,7 +202,7 @@ let arr = [
     ]
   },
   {
-    index: 9,
+    index: 8,
     title: '您打算重点投资于哪些种类的投资品种？',
     sel: [
       {
@@ -224,7 +224,7 @@ let arr = [
     ]
   },
   {
-    index: 10,
+    index: 9,
     title: '以下哪项描述最符合您的投资态度？',
     sel: [
       {
@@ -246,7 +246,7 @@ let arr = [
     ]
   },
   {
-    index: 11,
+    index: 10,
     title: '假设有两种投资：投资A预期获得10%的收益，可能承担的损失非常小；投资B预期获得30%的收益， 但可能承担较大亏损。您会怎么支配您的投资：',
     sel: [
       {
@@ -268,7 +268,7 @@ let arr = [
     ]
   },
   {
-    index: 12,
+    index: 11,
     title: '您认为自己能承受的最大投资损失是多少？',
     sel: [
       {
@@ -314,7 +314,7 @@ export default {
         let array = this.list.concat(arr[index - 1])
         this.list = array
         this.index = index - 1
-        const res = await this.$http.get('api/v1/funds/risks/actions/submit', {'arr': this.selectArr})
+        const res = await this.$http.post('api/v1/funds/risks/actions/submit', {'arr': this.selectArr})
         if (res.data.fstat) {
           this.$router.push({path: 'riskresult'})
         } else {

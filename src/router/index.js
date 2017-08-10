@@ -14,6 +14,8 @@ import Bank from '@/views/setting/Bank'
 import OpenFundAccount from '@/views/setting/OpenFundAccount'
 import OpenAccountInfo from '@/views/setting/OpenAccountInfo'
 import FundIndex from '@/views/FundIndex'
+import ChartFund from '@/views/ChartFund'
+import ChartTest from '@/views/ChartTest'
 import FundThemes from '@/views/FundThemes'
 import FundSearch from '@/views/FundSearch'
 import Fundlist from '@/views/AllFundList'
@@ -31,12 +33,8 @@ import FundInfo from '@/views/fund_record/FundInfo'
 import FundNotice from '@/views/fund_record/FundNotice'
 import FundHold from '@/views/fund_record/FundHold'
 import ChargeList from '@/views/fund_charge/ChargeList'
-import ChargeAll from '@/views/fund_charge/ChargeAll'
-import ChargeWait from '@/views/fund_charge/ChargeWait'
-import ChargeMr from '@/views/fund_charge/ChargeMr'
-import ChargeMc from '@/views/fund_charge/ChargeMc'
-import ChargeFh from '@/views/fund_charge/ChargeFh'
-import ChargeElse from '@/views/fund_charge/ChargeElse'
+import ChargeIng from '@/views/fund_charge/ChargeIng'
+import ChargeHistory from '@/views/fund_charge/ChargeHistory'
 import DetailProfit from '@/views/DetailProfit'
 import FundAssets from '@/views/fund_assets/FundAssets'
 import FundFh from '@/views/fund_record/FundFh'
@@ -56,6 +54,16 @@ export default new Router({
       path: '/fundindex', // 基金首页
       name: 'fundindex',
       component: FundIndex
+    },
+    {
+      path: '/chartfund', // chart
+      name: 'chartfund',
+      component: ChartFund
+    },
+    {
+      path: '/charttest', // charttest
+      name: 'charttest',
+      component: ChartTest
     },
     {
       path: '/fundthemes/:id', // 基金主题详情页
@@ -123,7 +131,7 @@ export default new Router({
       component: OpenFundAccount
     },
     {
-      path: '/openaccountinfo', // 基金开户2
+      path: '/openaccountinfo/:realname/:identityno/:profession/:address/:email', // 基金开户2
       name: 'openaccountinfo',
       component: OpenAccountInfo
     },
@@ -172,29 +180,13 @@ export default new Router({
       component: ChargeList,
       name: 'chargelist',
       children: [
-        { path: 'all',
-          name: 'chargelist/all', // 全部
-          component: ChargeAll
+        { path: 'ing',
+          name: 'chargelist/ing', // 全部
+          component: ChargeIng
         },
-        { path: 'wait',
-          name: 'chargelist/wait', // 待确认
-          component: ChargeWait
-        },
-        { path: 'mr',
-          name: 'chargelist/mr', // 买入
-          component: ChargeMr
-        },
-        { path: 'mc',
-          name: 'chargelist/mc', // 卖出
-          component: ChargeMc
-        },
-        { path: 'fh',
-          name: 'chargelist/fh', // 分红
-          component: ChargeFh
-        },
-        { path: 'else',
-          name: 'chargelist/else', // 其它
-          component: ChargeElse
+        { path: 'history',
+          name: 'chargelist/history', // 待确认
+          component: ChargeHistory
         }
       ]
     },
@@ -226,7 +218,7 @@ export default new Router({
       ]
     },
     {
-      path: '/traderule/:id/:code', // 基金交易规则
+      path: '/traderule/:id', // 基金交易规则
       component: Traderule,
       name: 'traderule',
       children: [
@@ -241,7 +233,7 @@ export default new Router({
       ]
     },
     {
-      path: '/detailhistory/:id/:code', // 基金历史净值
+      path: '/detailhistory/:id', // 基金历史净值
       name: 'detailhistory',
       component: Detailhistory
     },

@@ -17,9 +17,9 @@
   </div>
   <div class="act box clearfix">
     <router-link :to="{ name: 'detailprofit'}"><i class="sy"></i>收益明细</router-link>
-    <router-link :to="{ name: 'chargelist/all'}"><i class="jy"></i>交易纪录</router-link>
+    <router-link :to="{ name: 'chargelist/ing'}"><i class="jy"></i>交易纪录</router-link>
   </div>
-  <router-link :to="{ name: 'chargelist/wait'}" class="link box" v-if="count">有<span class="text-red">{{count}}</span>笔交易正在确认中</router-link>
+  <router-link :to="{ name: 'chargelist/ing'}" class="link box" v-if="count">有<span class="text-red">{{count}}</span>笔交易正在确认中</router-link>
   <ul class="list">
     <li v-for="item in fundList" @click="locHref(item.fundcode)">
       <div class="tp clearfix">

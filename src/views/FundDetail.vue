@@ -20,17 +20,18 @@
       <div class="box chart">
           <div class="t clearfix">
               <h3 class="title pull-left">净值走势</h3>
-              <router-link :to="{ name: 'detailhistory', params: {id:fundid,code:innercode} }" class="arrow pull-right">查看历史净值</router-link>
+              <router-link :to="{ name: 'detailhistory', params: {id:fundcode} }" class="arrow pull-right">查看历史净值</router-link>
           </div>
           <div class="tab clearfix">
-              <a href="javascript:void(0)" class="current">近一月</a>
-              <a href="javascript:void(0)">近三月</a>
-              <a href="javascript:void(0)">近六月</a>
-              <a href="javascript:void(0)">近一年</a>
+              <a href="javascript:void(0)" @click="drawChart(1)" :class="isActive==1?'current':''">近一月</a>
+              <a href="javascript:void(0)" @click="drawChart(3)" :class="isActive==3?'current':''">近三月</a>
+              <a href="javascript:void(0)" @click="drawChart(6)" :class="isActive==6?'current':''">近六月</a>
+              <a href="javascript:void(0)" @click="drawChart(12)" :class="isActive==12?'current':''">近一年</a>
           </div>
+          <x-chart :id="id" :option="option" ref="chart"></x-chart>
       </div>
       <div class="box">
-          <router-link class="t clearfix" :to="{ name: 'traderule/mrgz', params: {id:fundid,code:innercode} }"><h3 class="title pull-left">交易规则</h3></router-link>
+          <router-link class="t clearfix" :to="{ name: 'traderule/mrgz', params: {id:fundcode} }"><h3 class="title pull-left">交易规则</h3></router-link>
           <div class="con">
           <div class="procon">
               <div class="line"></div>
@@ -57,7 +58,7 @@
       <div class="box">
           <div class="t clearfix">
               <h3 class="title text-medium pull-left">基金档案</h3>
-              <router-link :to="{ name: 'fundrecord/info', params: {id:fundid} }" class="arrow text-medium pull-right">概况、公告、持仓、行业、分红</router-link>
+              <router-link :to="{ name: 'fundrecord/info', params: {id:fundcode} }" class="arrow text-medium pull-right">概况、公告、持仓、行业、分红</router-link>
           </div>
           <ul class="info">
               <li>基金名称：{{fundsname}}</li>
@@ -65,7 +66,7 @@
           </ul>
       </div>
       <div class="bt">
-        <router-link :to="{ name: 'order', params: {'id':fundid} }" class="btn btn-block btn-red" v-if="isOpenAccount==2">投</router-link>
+        <router-link :to="{ name: 'order', params: {'id':fundcode} }" class="btn btn-block btn-red" v-if="isOpenAccount==2">投</router-link>
         <a href="javascript:void(0)" v-if="isOpenAccount==1 || isOpenAccount==0" class="btn btn-block btn-red" @click="openDialog()">投</a>
       </div>
       <div class="popbg" id="popbg" style="display:none;" v-show="isShow"></div>
@@ -88,11 +89,13 @@
 </template>
 
 <script>
+// 导入chart组件
+import HighCharts from 'highcharts/highstock'
+import XChart from '../components/Chart.vue'
 export default {
   data () {
     return {
       fundid: '',
-      innercode: '', // 基金内部代码
       fundsname: '', // 基金短名称
       fundcode: '', // 基金代码
       unit_NET_CHNG_PCT: '', // 日涨幅
@@ -100,10 +103,55 @@ export default {
       fundrisk: '', // 基金风险等级
       isOpenAccount: '', // -1，禁用用户 0,未开户 1,未进行风险测评 2,已开户，已设置交易密码,已进行风险
       isRisk: false, // 是否进行过风险测试
-      isShow: false
+      isShow: false,
+      isActive: 1, // chart selected
+      id: 'container',
+      data: [],
+      option: {
+        chart: {
+          height: 200
+        },
+        rangeSelector: {
+          selected: 1,
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        navigator: {
+          enabled: false
+        },
+        scrollbar: {
+          enabled: false
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: {
+            second: '%m-%d',
+            minute: '%m-%d',
+            hour: '%m-%d',
+            day: '%d',
+            week: '%y-%m-%d',
+            month: '%Y-%m',
+            year: '%Y'
+          }
+        },
+        yAxis: {
+          opposite: false
+        },
+        series: [{
+          name: ' ',
+          data: ' ',
+          type: 'spline',
+          tooltip: {
+            valueDecimals: 2
+          }
+        }]
+      }
     }
   },
   created: async function () {
+    this.drawChart(1)
     const res = await this.$http.get('api/v1/funds/' + this.$route.params.id)
     if (res.data.fstat) {
       this.fundid = res.data.fundid
@@ -127,7 +175,28 @@ export default {
     },
     close: function () {
       this.isShow = false
+    },
+    drawChart: async function (id) {
+      this.isActive = id
+      const res = await this.$http.get('api/v1/funds/holdings/123/fund-unitnets', {'month': 12})
+      if (res.data.fstat) {
+        this.data = []
+        for (let i = 0; i < res.data.unitnetList.length; i++) {
+          this.data[i] = res.data.unitnetList[i]
+        }
+        console.log(this.data)
+      } else {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
+      }
+      this.option.series[0].data = this.data
+      let _Highcharts = HighCharts
+      let chart = new _Highcharts.StockChart(this.$refs.chart.$el, this.option)
+      console.log(chart)
     }
+  },
+  components: {
+    XChart
   }
 }
 

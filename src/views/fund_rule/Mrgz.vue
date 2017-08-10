@@ -104,7 +104,7 @@ export default{
     }
   },
   created: async function () {
-    const res = await this.$http.get('api/v1/funds/chag-rates/' + this.$route.params.code)
+    const res = await this.$http.get('api/v1/funds/chag-rates/' + this.$route.params.id)
     if (res.data.fstat) {
       this.fundChagRateList = []
       for (var i = 0; i < res.data.fundChagRateList.length; i++) {

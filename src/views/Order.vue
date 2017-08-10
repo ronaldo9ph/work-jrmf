@@ -114,6 +114,7 @@ export default {
       this.Fund_type = res.data.Fund_type
     } else {
       this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {
