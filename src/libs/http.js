@@ -2,13 +2,16 @@ import axios from 'axios'
 import qs from 'qs'
 
 axios.defaults.timeout = 5000
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2/'
-// axios.defaults.baseURL = 'http://localhost:8080/yilucaifu-openapi/'
+// axios.defaults.baseURL = 'http://192.168.30.177:8080/yilucaifu-openapi/'
 // POST传参序列化
 axios.interceptors.request.use(config => {
   // loading
+  console.log('config.method ' + config.method)
   if (config.method === 'post') {
+    console.log('123')
+    console.log('1>>>>>>' + config.data)
     config.data = qs.stringify(config.data)
   }
   return config
@@ -21,7 +24,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(res => {
   console.log(res.data)
   // if (res.data.code !== 200) {
-  //   console.error(res.data.msg)
+  //   // console.error(res.data.msg)
   //   return Promise.reject(res)
   // }
   return res
@@ -59,6 +62,7 @@ export default {
     return axios({
       method: 'post',
       url,
+      data: data,
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       }

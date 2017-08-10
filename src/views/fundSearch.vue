@@ -60,7 +60,8 @@ export default{
     }
   },
   created: async function () {
-    const res = await this.$http.get('api/v1/funds/searchs/recommands')
+    const res = await this.$http.get('/api/v1/funds/searchs/recommands')
+    // const res = await this.$http.get('http://192.168.30.177:8080/yilucaifu-openapi/api/v1/funds/searchs/recommands')
     if (res.data.fstat) {
       this.recommandList = []
       for (let i = 0; i < res.data.recommandList.length; i++) {
@@ -100,7 +101,7 @@ export default{
     },
     searchFund: async function () {
       if (this.val) {
-        const res = await this.$http.get('api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
+        const res = await this.$http.post('/api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
         if (res.data.fstat) {
           if (res.data.recommandProductsFund.length > 0) {
             this.recommandProductsFund = res.data.recommandProductsFund
