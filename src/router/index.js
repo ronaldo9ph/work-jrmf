@@ -14,7 +14,6 @@ import Bank from '@/views/setting/Bank'
 import OpenFundAccount from '@/views/setting/OpenFundAccount'
 import OpenAccountInfo from '@/views/setting/OpenAccountInfo'
 import FundIndex from '@/views/FundIndex'
-import ChartFund from '@/views/ChartFund'
 import ChartTest from '@/views/ChartTest'
 import FundThemes from '@/views/FundThemes'
 import FundSearch from '@/views/FundSearch'
@@ -54,11 +53,6 @@ export default new Router({
       path: '/fundindex', // 基金首页
       name: 'fundindex',
       component: FundIndex
-    },
-    {
-      path: '/chartfund', // chart
-      name: 'chartfund',
-      component: ChartFund
     },
     {
       path: '/charttest', // charttest

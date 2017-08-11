@@ -1,18 +1,20 @@
 import axios from 'axios'
 import qs from 'qs'
+import store from '../store'
 
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 15000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2/'
-// axios.defaults.baseURL = 'http://192.168.30.177:8080/yilucaifu-openapi/'
+// axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2/'
+axios.defaults.baseURL = 'http://192.168.30.177:8080/yilucaifu-openapi/'
+// axios.defaults.headers.common['Authorization'] = 'token123123123'
 // POST传参序列化
 axios.interceptors.request.use(config => {
   // loading
-  console.log('config.method ' + config.method)
   if (config.method === 'post') {
-    console.log('123')
-    console.log('1>>>>>>' + config.data)
     config.data = qs.stringify(config.data)
+  }
+  if (store.state.token) {
+    // config.headers.Authorization = `token ${store.state.token}`
   }
   return config
 }, error => {

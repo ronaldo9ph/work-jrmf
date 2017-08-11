@@ -28,7 +28,7 @@
               <a href="javascript:void(0)" @click="drawChart(6)" :class="isActive==6?'current':''">近六月</a>
               <a href="javascript:void(0)" @click="drawChart(12)" :class="isActive==12?'current':''">近一年</a>
           </div>
-          <x-chart :id="id" :option="option" ref="chart"></x-chart>
+          <x-chart :id="id" :option="options" ref="chart"></x-chart>
       </div>
       <div class="box">
           <router-link class="t clearfix" :to="{ name: 'traderule/mrgz', params: {id:fundcode} }"><h3 class="title pull-left">交易规则</h3></router-link>
@@ -71,7 +71,7 @@
       </div>
       <div class="popbg" id="popbg" style="display:none;" v-show="isShow"></div>
       <div class="popwin" style="display:none;" v-show="isShow">
-        <div class="con w" v-show="isOpenAccount==1">
+        <div class="con w" v-show="isOpenAccount!=1">
           <p>为保护您的投资权益，根据相关规定，您必须完成风险测评，如未完成，将不能向您提供基金产品及服务</p>
           <div class="bt clearfix text-center">
             <router-link :to="{ name: 'risktest'}" class="btn btn-red">去风险测评</router-link>
@@ -107,10 +107,11 @@ export default {
       isActive: 1, // chart selected
       id: 'container',
       data: [],
-      option: {
+      options: {
         chart: {
           height: 200
         },
+        colors: ['#ff6c44'],
         rangeSelector: {
           selected: 1,
           enabled: false
@@ -136,12 +137,9 @@ export default {
             year: '%Y'
           }
         },
-        yAxis: {
-          opposite: false
-        },
         series: [{
           name: ' ',
-          data: ' ',
+          data: 'aa',
           type: 'spline',
           tooltip: {
             valueDecimals: 2
@@ -178,20 +176,20 @@ export default {
     },
     drawChart: async function (id) {
       this.isActive = id
-      const res = await this.$http.get('api/v1/funds/holdings/123/fund-unitnets', {'month': 12})
+      const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/fund-unitnets', {'month': id})
       if (res.data.fstat) {
         this.data = []
         for (let i = 0; i < res.data.unitnetList.length; i++) {
           this.data[i] = res.data.unitnetList[i]
         }
-        console.log(this.data)
       } else {
         this.$vux.toast.text(res.data.respmsg, 'middle')
         return false
       }
-      this.option.series[0].data = this.data
+      // console.log(this.options.colors)
+      this.options.series[0].data = this.data
       let _Highcharts = HighCharts
-      let chart = new _Highcharts.StockChart(this.$refs.chart.$el, this.option)
+      let chart = new _Highcharts.StockChart(this.$refs.chart.$el, this.options)
       console.log(chart)
     }
   },

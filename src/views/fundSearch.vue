@@ -61,7 +61,6 @@ export default{
   },
   created: async function () {
     const res = await this.$http.get('/api/v1/funds/searchs/recommands')
-    // const res = await this.$http.get('http://192.168.30.177:8080/yilucaifu-openapi/api/v1/funds/searchs/recommands')
     if (res.data.fstat) {
       this.recommandList = []
       for (let i = 0; i < res.data.recommandList.length; i++) {
@@ -71,8 +70,8 @@ export default{
       this.$vux.toast.text(res.data.respmsg, 'middle')
       return false
     }
-    const restag = await this.$http.post('api/v1/funds/searchs/actions/search')
-    if (restag.data) {
+    const restag = await this.$http.get('api/v1/funds/searchs/histories')
+    if (restag.data.fstat) {
       this.setData = []
       for (let i = 0; i < restag.data.setData.length; i++) {
         this.setData[i] = restag.data.setData[i]
@@ -106,7 +105,6 @@ export default{
         const res = await this.$http.post('/api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
         if (res.data.fstat) {
           if (res.data.recommandProductsFund.length > 0) {
-            this.recommandProductsFund = res.data.recommandProductsFund
             this.isHotShow = false
             this.isEmpty = false
             if (this.pageIndex === 1) {
@@ -114,6 +112,10 @@ export default{
             }
             let array = this.recommandProductsFund.concat(res.data.recommandProductsFund)
             this.recommandProductsFund = array
+            this.setData = []
+            for (let i = 0; i < res.data.setData.length; i++) {
+              this.setData[i] = res.data.setData[i]
+            }
             this.pageIndex++
             this.hasnext = res.data.hasnext
           } else {
@@ -125,7 +127,7 @@ export default{
         }
       }
     },
-    searchVal: async function (obj) {
+    searchVal: function (obj) {
       this.val = obj
       this.pageIndex = 1
       this.searchFund()

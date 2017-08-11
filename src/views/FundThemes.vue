@@ -41,7 +41,8 @@ export default{
       active: 0,
       list2: list(),
       selected: '近一周',
-      index: 0
+      index: 0,
+      order_by: '1week'
     }
   },
   created: function () {

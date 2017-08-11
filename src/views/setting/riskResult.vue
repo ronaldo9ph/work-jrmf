@@ -6,7 +6,7 @@
     <p class="text-gray text-left text-normal">{{riskLevelInfo}}</p>
   </div>
   <div class="padbox">
-    <router-link :to="{ name: 'fundindex'}" class="btn btn-block btn-red">完成</router-link>
+    <a class="btn btn-block btn-red" href="javascript:void(0)" @click="loadHref()">完成</a>
     <router-link :to="{ name: 'risktest'}" class="btn btn-block btn-white">重测</router-link>
   </div>
 </div>
@@ -25,6 +25,18 @@ export default {
     if (res.data.fstat) {
       this.riskLevelDesc = res.data.riskLevelDesc
       this.riskLevelInfo = res.data.riskLevelInfo
+    }
+  },
+  methods: {
+    loadHref: function () {
+      if (this.$store.state.backUrl === '/bank' || this.$store.state.backUrl === '/setting') {
+        this.$router.push({path: 'myhold'})
+      } else {
+        this.$router.push({path: this.$store.state.backUrl})
+        window.localStorage.setItem('backUrl', '')
+        let backUrl = window.localStorage.getItem('backUrl')
+        this.$store.commit('backUrl', {backUrl: backUrl})
+      }
     }
   }
 }
