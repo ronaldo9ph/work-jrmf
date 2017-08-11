@@ -12,16 +12,14 @@
 
 <script>
 export default {
-  data () {
-    return {
-
-    }
-  },
-  created: async function () {
-    const res = await this.$http.post('')
-    if (res) {
-
-    }
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (from.fullPath !== '/' && from.fullPath.indexOf('openaccountinfo') <= 0) {
+        window.localStorage.setItem('backUrl', from.fullPath)
+      }
+      let backUrl = window.localStorage.getItem('backUrl')
+      vm.$store.commit('backUrl', {backUrl: backUrl})
+    })
   }
 }
 

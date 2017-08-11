@@ -33,22 +33,24 @@
   </div>
   <div class="box chtBox">
     <tab :line-width="2" custom-bar-width="60px" active-color='#ef5643'>
-      <tab-item selected   @on-item-click="showTab('c')">单位净值</tab-item>
-      <tab-item  @on-item-click="showTab('d')">累积盈亏</tab-item>
+      <tab-item selected @on-item-click="drawChart(1,1)"><span v-if="fundtype!='货币型'">单位净值</span><span v-else>七日年划</span></tab-item>
+      <tab-item @on-item-click="drawChart(2,1)"><span v-if="fundtype!='货币型'">累积盈亏</span><span v-else>万份收益</span></tab-item>
     </tab>
     <div class="chtCon">
-      <div v-show="c">
-        单位净值
-      </div>
-      <div v-show="d">
-        累积盈亏
+      <x-chart :id="id" :option="option" ref="chart"></x-chart>
+      <input type="hidden" v-model="selType" />
+      <div class="tbg">
+        <a href="javascript:void(0)" :class="selType==1?'current':''" @click="drawChart('',1)">月</a><span class="line"></span>
+        <a href="javascript:void(0)" :class="selType==3?'current':''" @click="drawChart('',3)">季</a><span class="line"></span>
+        <a href="javascript:void(0)" :class="selType==6?'current':''" @click="drawChart('',6)">半年</a><span class="line"></span>
+        <a href="javascript:void(0)" :class="selType==12?'current':''" @click="drawChart('',12)">年</a>
       </div>
     </div>
   </div>
   <div class="box chtBox">
     <tab :line-width="2" custom-bar-width="60px" active-color='#ef5643'>
-      <tab-item selected   @on-item-click="showTab('a')">收益明细</tab-item>
-      <tab-item  @on-item-click="showTab('b')">交易记录</tab-item>
+      <tab-item selected   @on-item-click="drawChart(1)">收益明细</tab-item>
+      <tab-item  @on-item-click="drawChart(2)">交易记录</tab-item>
     </tab>
     <div class="syDetail" v-show="a">
       <ul class="list" v-if="profitList">
@@ -94,16 +96,21 @@
 
 <script>
 import { Tab, TabItem, Swiper, SwiperItem } from 'vux'
+// 导入chart组件
+import HighCharts from 'highcharts/highstock'
+import XChart from '../../components/Chart.vue'
 export default {
   components: {
     Tab,
     TabItem,
     Swiper,
-    SwiperItem
+    SwiperItem,
+    XChart
   },
   data () {
     return {
       fundname: '', // 基金名称
+      fundtype: '', // 基金类型
       fundcode: '', // 基金代码
       minredemptionvol: '', // 市值
       nav: '',  // 最新净值
@@ -117,8 +124,6 @@ export default {
       fundstatus: '', // 是否可投
       a: true, // 显示收益明细
       b: false, // 显示交易记录
-      c: true, // 显示单位净值
-      d: false, // 显示累计盈亏
       index: 0,
       pageIndex1: 1, // 下一页页码
       pageIndex2: 1, // 下一页页码
@@ -127,15 +132,60 @@ export default {
       hasNext1: false, // 是否有下一页
       profitList: [], // 收益明细列表
       hasNext2: false, // 是否有下一页
-      fundHistoryList: [] // 收益明细列表
+      fundHistoryList: [], // 收益明细列表
+      selType: 1, // 折线图一个月1、三个月3、六个月6、一年12
+      type: 1, // 单位净值c，累积净值d
+      id: 'container',
+      data: [],
+      option: {
+        chart: {
+          height: 200
+        },
+        colors: ['#ff6c44'],
+        rangeSelector: {
+          selected: 1,
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        navigator: {
+          enabled: false
+        },
+        scrollbar: {
+          enabled: false
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: {
+            second: '%m-%d',
+            minute: '%m-%d',
+            hour: '%m-%d',
+            day: '%d',
+            week: '%y-%m-%d',
+            month: '%Y-%m',
+            year: '%Y'
+          }
+        },
+        series: [{
+          name: ' ',
+          data: ' ',
+          type: 'spline',
+          tooltip: {
+            valueDecimals: 2
+          }
+        }]
+      }
     }
   },
   created: async function () {
+    this.drawChart(1, 1)
     this.loadData1()
     this.loadData2()
     const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id)
     if (res.data.fstat) {
       this.fundname = res.data.fund.fundname
+      this.fundtype = res.data.fund.fundtype
       this.fundcode = res.data.fund.fundcode
       this.minredemptionvol = res.data.fund.minredemptionvol
       this.lastDate = res.data.fund.lastDate
@@ -178,6 +228,41 @@ export default {
         this.pageIndex2++
       }
     },
+    drawChart: async function (type, id) {
+      this.selType = id
+      if (type !== '') {
+        this.type = type
+      }
+      if (this.type === 1) {
+        const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/fund-unitnets', {'month': id})
+        if (res.data.fstat) {
+          this.data = []
+          for (let i = 0; i < res.data.unitnetList.length; i++) {
+            this.data[i] = res.data.unitnetList[i]
+          }
+          console.log(this.data)
+        } else {
+          this.$vux.toast.text(res.data.respmsg, 'middle')
+          return false
+        }
+      } else {
+        const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/fund-unitnets', {'month': id})
+        if (res.data.fstat) {
+          this.data = []
+          for (let i = 0; i < res.data.unitnetList.length; i++) {
+            this.data[i] = res.data.unitnetList[i]
+          }
+          console.log(this.data)
+        } else {
+          this.$vux.toast.text(res.data.respmsg, 'middle')
+          return false
+        }
+      }
+      this.option.series[0].data = this.data
+      let _Highcharts = HighCharts
+      let chart = new _Highcharts.StockChart(this.$refs.chart.$el, this.option)
+      console.log(chart)
+    },
     showTab: function (e) {
       if (e === 'a') {
         this.a = true
@@ -186,14 +271,6 @@ export default {
       if (e === 'b') {
         this.a = false
         this.b = true
-      }
-      if (e === 'c') {
-        this.c = true
-        this.d = false
-      }
-      if (e === 'd') {
-        this.c = false
-        this.d = true
       }
     }
   }

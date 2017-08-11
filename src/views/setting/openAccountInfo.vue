@@ -57,10 +57,9 @@
   <div class="popwin" id="popwin" style="display:none;" v-show="isPop">
     <div class="con w text-center">
       <p class="suc">恭喜基金开户成功！</p>
-      <p class="text-left">为了方便您更好的选择基金产品，请您认真填写风险测评，了解您的风险承受能力。</p>
-      <div class="bt clearfix">
-        <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消</a>
-        <router-link :to="{ name: 'risktest', params: {} }" class="btn btn-red pull-right">去测评</router-link>
+      <p class="text-center">为了方便您更好的选择基金产品，请您认真填写风险测评，了解您的风险承受能力。</p>
+      <div class="bt clearfix text-center">
+        <router-link :to="{ name: 'risktest'}" class="btn btn-red">去测评</router-link>
       </div>
     </div>
   </div>

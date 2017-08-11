@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
+    <loading v-model="isLoading"></loading>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { Loading } from 'vux'
+import { mapState } from 'vuex'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Loading
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.isLoading
+    })
+  }
 }
 </script>
 

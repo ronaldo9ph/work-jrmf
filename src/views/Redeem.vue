@@ -44,6 +44,7 @@
 export default {
   data () {
     return {
+      fundtype: '',
       isShow: false, // 交易密码弹窗是否显示
       bankName: '', // 银行名称
       bankLogo: '', // 银行logo
@@ -55,7 +56,7 @@ export default {
       minredemptionvol: '', // 基金最少赎回份数
       minaccountbalance: '', // 基金最低持有份数
       maxredemptionvol: '', // 基金最高赎回份数
-      amount: '', // 可赎回份额
+      amount: ' ', // 可赎回份额
       password: '' // 密码
     }
   },
@@ -67,7 +68,7 @@ export default {
       this.bankbook = res.data.depositacct.substr(-4, 4)
       this.fundname = res.data.pingan_fund.fundname
       this.fundcode = res.data.pingan_fund.fundcode
-      this.fundtype = res.data.pingan_fund.fundtype
+      this.fundtype = res.data.pingan_fund.fundtypedesc
       this.availablevol = res.data.availablevol
       this.minredemptionvol = res.data.pingan_fundlimit.minredemptionvol
       this.minaccountbalance = res.data.pingan_fundlimit.minaccountbalance
@@ -87,15 +88,15 @@ export default {
         this.$vux.toast.text('赎回份额必须为数字', 'middle')
         return false
       }
-      if (this.availablevol - this.amount < this.minaccountbalance) {
+      if (this.availablevol - this.amount < this.minaccountbalance * 1) {
         this.$vux.toast.text('基金最低持有份数为' + this.minaccountbalance + '份，请全部赎回', 'middle')
         return false
       }
-      if (this.amount < this.minredemptionvol) {
+      if (this.amount * 1 < this.minredemptionvol * 1) {
         this.$vux.toast.text('基金最少赎回份数为' + this.minredemptionvol, 'middle')
         return false
       }
-      if (this.amount > this.maxredemptionvol) {
+      if (this.amount * 1 > this.maxredemptionvol * 1) {
         this.$vux.toast.text('基金最高赎回份数为' + this.maxredemptionvol, 'middle')
         return false
       }
@@ -110,7 +111,7 @@ export default {
         return false
       }
       const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/redeem', {'transpasswd': this.password, 'applicationvol': this.amount, 'availablevol': this.availablevol - this.disableVol})
-      if (res.data.status) {
+      if (res.data.fstat) {
         this.$router.push({path: '/redeemsuccess/' + this.fundcode})
       } else {
         this.$vux.toast.text(res.data.respmsg, 'middle')

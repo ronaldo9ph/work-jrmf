@@ -47,6 +47,15 @@ export default {
       profession: []
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (from.fullPath !== '/') {
+        window.localStorage.setItem('backUrl', from.fullPath)
+      }
+      let backUrl = window.localStorage.getItem('backUrl')
+      vm.$store.commit('backUrl', {backUrl: backUrl})
+    })
+  },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/accounts/actions/search')
     if (res.data.fstat) {
