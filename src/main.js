@@ -13,9 +13,10 @@ Vue.use(Countup)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 /* 保留两位小数 */
-Vue.filter('discount', function (value) {
-  return value.toFixed(2)
-})
+// Vue.filter('discount', function (value) {
+//   return value.toFixed(2)
+// })
+
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 
@@ -33,10 +34,24 @@ router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {isLoading: true})
   next()
 })
-router.afterEach(function (to) {
+router.afterEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {isLoading: false})
+  document.title = to.meta.title
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (window.sessionStorage.getItem('tokens') === null) {
+      next({
+        path: '/error',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 Vue.use(http)
 
 /* eslint-disable no-new */

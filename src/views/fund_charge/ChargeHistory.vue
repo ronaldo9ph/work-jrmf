@@ -91,8 +91,6 @@ export default {
       for (let i = 0; i < res.data.fundHistoryLists.length; i++) {
         this.list[i] = res.data.fundHistoryLists[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

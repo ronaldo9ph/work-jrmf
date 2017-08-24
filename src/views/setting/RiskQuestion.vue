@@ -317,9 +317,6 @@ export default {
         const res = await this.$http.post('api/v1/funds/risks/actions/submit', {'arr': this.selectArr})
         if (res.data.fstat) {
           this.$router.push({path: 'riskresult'})
-        } else {
-          this.$vux.toast.text(res.data.respmsg, 'middle')
-          return false
         }
       }
     },

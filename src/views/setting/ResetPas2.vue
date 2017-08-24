@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 export default {
   data () {
     return {
@@ -25,7 +26,7 @@ export default {
     }
   },
   methods: {
-    subFun: async function () {
+    subFun: debounce(async function (e) {
       let num = /^[0-9]\d*$|^0$/
       if (this.password === '') {
         this.$vux.toast.text('请输入六位数字交易密码', 'middle')
@@ -46,14 +47,17 @@ export default {
         } else {
           this.$vux.toast.text('恭喜修改密码成功', 'middle')
         }
-        setTimeout(() => {
-          this.$router.push({name: 'myhold'})
-        }, 5000)
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
+        if (window.sessionStorage.getItem('repasBackUrl') === '/password') {
+          setTimeout(() => {
+            this.$router.push({name: 'myhold'})
+          }, 3000)
+        } else {
+          setTimeout(() => {
+            this.$router.push({path: window.sessionStorage.getItem('repasBackUrl')})
+          }, 3000)
+        }
       }
-    }
+    }, 500)
   }
 }
 

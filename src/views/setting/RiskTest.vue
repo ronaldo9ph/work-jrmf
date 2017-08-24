@@ -14,10 +14,10 @@
 export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if (from.fullPath !== '/' && from.fullPath.indexOf('openaccountinfo') <= 0) {
-        window.localStorage.setItem('backUrl', from.fullPath)
+      if ((from.fullPath !== '/' && from.fullPath.indexOf('openaccountinfo') <= 0) || from.fullPath !== '/riskresult') {
+        window.sessionStorage.setItem('backUrl', from.fullPath)
       }
-      let backUrl = window.localStorage.getItem('backUrl')
+      let backUrl = window.sessionStorage.getItem('backUrl')
       vm.$store.commit('backUrl', {backUrl: backUrl})
     })
   }

@@ -7,7 +7,7 @@
       </li>
       <li>
         <label class="t">手机号码</label>
-        <input type="num" class="txt" readonly v-model="tel"/>
+        <input type="num" class="txt" readonly :value="tel"/>
       </li>
       <li class="yzm">
         <label class="t">验证码</label>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import { Group, Cell, Countdown, XSwitch } from 'vux'
 let card = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/
 export default {
@@ -47,13 +48,15 @@ export default {
       isShow: 0
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      window.sessionStorage.setItem('repasBackUrl', from.fullPath)
+    })
+  },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/passwords/actions/mobileno')
     if (res.data.fstat) {
       this.tel = res.data.mobiletelno
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
-      return false
     }
   },
   methods: {
@@ -62,7 +65,7 @@ export default {
       this.isShow = 2
       this.time2 = 60
     },
-    getCode: async function () {
+    getCode: debounce(async function (e) {
       if (this.identify === '') {
         this.$vux.toast.text('请输入持卡人身份证号', 'middle')
         return false
@@ -71,16 +74,13 @@ export default {
         this.$vux.toast.text('身份证号格式不正确', 'middle')
         return false
       }
-      const res = await this.$http.get('api/v1/funds/passwords/actions/vili-code', {'code': this.code, 'identity': this.identity, 'mobiletelno': this.tel})
+      const res = await this.$http.get('api/v1/funds/passwords/actions/check-info', {'identity': this.identify, 'mobiletelno': this.tel})
       if (res.data.fstat) {
         this.start = true
         this.isShow = 1
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
-    },
-    subFun: async function () {
+    }, 500),
+    subFun: debounce(async function (e) {
       if (this.identify === '') {
         this.$vux.toast.text('请输入持卡人身份证号', 'middle')
         return false
@@ -96,11 +96,8 @@ export default {
       const res = await this.$http.get('api/v1/funds/passwords/actions/vili-code', {'code': this.code, 'identity': this.identity, 'mobiletelno': this.tel})
       if (res.data.fstat) {
         this.$router.push({path: 'resetpas2/reset'})
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
-    }
+    }, 500)
   }
 }
 

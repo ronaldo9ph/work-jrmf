@@ -7,7 +7,7 @@
     </div>
     <div class="bt clearfix">
       <div class="item pull-left">
-        <p>单位净值：{{UNIT_NET}}{{QUOTA_UNIT_MARK}}</p>
+        <p>单位净值：{{UNIT_NET}}</p>
         <p>日涨幅：{{UNIT_NET_CHNG_PCT}}%</p>
       </div>
       <div class="item pull-left">
@@ -32,25 +32,28 @@
   </div>
   <div class="popbg" id="popbg" style="display:none;" v-show="isShow"></div>
   <div class="popwin" id="popwin" style="display:none;" v-show="isShow">
-    <div class="con w" v-if="risklevel=='保守型' && fundriskgrade=='高' && !match">
+    <div class="con w" v-if="risklevel=='保守型' && !match">
       <p>本基金的风险等级为（高），您的风险测评结果为保守型。</p>
       <p>根据相关规定，最低风险承受能力的用户不得购买高于其风险承受能力的基金产品。</p>
       <div class="bt clearfix">
         <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消购买</a>
-        <router-link :to="{ name: 'risktest', params: {} }" class="btn btn-red pull-right">重新测评</router-link>
+        <router-link :to="{ name: 'risktest'}" class="btn btn-red pull-right">重新测评</router-link>
       </div>
     </div>
-    <div class="con w" v-if="!match">
+    <div class="con w" v-if="!match && risklevel!='保守型'">
       <p>经核实，您购买的基金风险等级（{{fundriskgrade}}）高于您的风险评测结果（{{risklevel}}），购买该产品，可能导致您承担超出自身承受能力的损失以及不利后果，请你认真考虑风险，审慎购买。</p>
       <div class="bt clearfix">
         <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消购买</a>
-        <router-link :to="{ name: 'risktest', params: {} }" class="btn btn-red pull-right">重新测评</router-link>
+        <a href="javascript:void(0)" @click="showPas()" class="btn btn-red pull-right">继续购买</a>
       </div>
     </div>
     <div class="con w" v-if="can">
       <p class="text-center" style="margin-bottom:10px">请输入支付密码</p>
       <div>
         <input type="password" name="password" v-model="password" class="txt" />
+      </div>
+      <div class="text-right">
+        <router-link :to="{ name: 'resetpas'}" class="text-blue">忘记交易密码？</router-link>
       </div>
       <div class="bt clearfix">
         <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消</a>
@@ -62,6 +65,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 export default {
   data () {
     return {
@@ -82,7 +86,7 @@ export default {
       bankno: '', // 银行代码
       unionPaylimit: '', // 单笔限额
       unionPaylimitSingle: '', // 每日限额
-      match: false, // 是否匹配
+      match: false, // 是否匹配 false为不匹配
       QUOTA: '', // 起购金额
       Fund_type: '', // 基金类型
       can: false, // 密码弹窗是否显示
@@ -112,16 +116,13 @@ export default {
       this.match = res.data.match
       this.QUOTA = res.data.QUOTA
       this.Fund_type = res.data.Fund_type
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
-      return false
     }
   },
   methods: {
     closePopwin: function () {
       this.isShow = false
     },
-    subFun: function () {
+    subFun: debounce(async function (e) {
       if (this.amount === '') {
         this.$vux.toast.text('请输入购买金额', 'middle')
         return false
@@ -134,26 +135,34 @@ export default {
         this.$vux.toast.text('购买金额必须大于起购金额' + this.QUOTA + '元', 'middle')
         return false
       }
+      const res = await this.$http.get('api/v1/funds/orders/' + this.$route.params.id)
+      if (res.data.fstat) {
+        this.risklevel = res.data.risklevel
+        this.match = res.data.match
+      }
       if (this.match === false) {
         this.isShow = true
       } else {
         this.can = true
         this.isShow = true
       }
+    }, 500),
+    showPas: function () {
+      this.can = true
+      this.match = true
+      this.risklevel = ''
+      this.isShow = true
     },
-    subForm: async function () {
+    subForm: debounce(async function (e) {
       if (this.password === '' || this.password.length !== 6) {
         this.$vux.toast.text('请输入六位数字支付密码', 'middle')
         return false
       }
       const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/buy', {'transpasswd': this.password, 'applicationamount': this.amount})
-      if (res.data.status) {
+      if (res.data.fstat) {
         this.$router.push({path: '/buysuccess/' + this.FUND_CODE})
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
-    }
+    }, 500)
   }
 }
 

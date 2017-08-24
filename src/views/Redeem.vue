@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 export default {
   data () {
     return {
@@ -105,7 +106,7 @@ export default {
     Redeem: function (e) {
       this.amount = e
     },
-    subForm: async function () {
+    subForm: debounce(async function (e) {
       if (this.password === '' || this.password.length !== 6) {
         this.$vux.toast.text('请输入六位数字支付密码', 'middle')
         return false
@@ -113,11 +114,8 @@ export default {
       const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/redeem', {'transpasswd': this.password, 'applicationvol': this.amount, 'availablevol': this.availablevol - this.disableVol})
       if (res.data.fstat) {
         this.$router.push({path: '/redeemsuccess/' + this.fundcode})
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
-    }
+    }, 500)
   }
 }
 

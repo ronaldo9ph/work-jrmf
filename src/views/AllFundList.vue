@@ -43,13 +43,13 @@
                 <p class="text-gray">{{item.fund_CODE}}</p>
             </td>
             <td class="text-center">{{item.accum_NET}}</td>
-            <td :class="item.unit_NET_CHNG_PCT>=0?'text-red text-right text-red':'text-red text-right text-green'" v-if="dayIncrease=='1day'"><span v-if="item.unit_NET_CHNG_PCT>=0">+</span>{{item.unit_NET_CHNG_PCT}}</td>
-            <td class="text-red text-right" v-if="dayIncrease=='1week'"><span v-if="item.unit_NET_CHNG_PCT_1_WEEK>=0">+</span>{{item.unit_NET_CHNG_PCT_1_WEEK}}</td>
-            <td class="text-red text-right" v-if="dayIncrease=='1mon'"><span v-if="item.unit_NET_CHNG_PCT_1_MON>=0">+</span>{{item.unit_NET_CHNG_PCT_1_MON}}</td>
-            <td class="text-red text-right" v-if="dayIncrease=='3mon'"><span v-if="item.unit_NET_CHNG_PCT_3_MON>=0">+</span>{{item.unit_NET_CHNG_PCT_3_MON}}</td>
-            <td class="text-red text-right" v-if="dayIncrease=='6mon'"><span v-if="item.unit_NET_CHNG_PCT_6_MON>=0">+</span>{{item.unit_NET_CHNG_PCT_6_MON}}</td>
-            <td class="text-red text-right" v-if="dayIncrease=='1year'"><span v-if="item.unit_NET_CHNG_PCT_1_YEAR>=0">+</span>{{item.unit_NET_CHNG_PCT_1_YEAR}}</td>
-            <td class="text-red text-right" v-if="dayIncrease=='tyear'"><span v-if="item.unit_NET_CHNG_PCT_TYEAR>=0">+</span>{{item.unit_NET_CHNG_PCT_TYEAR}}</td>
+            <td :class="item.unit_NET_CHNG_PCT>=0?'text-red text-right text-red':'text-red text-right text-green'" v-if="dayIncrease=='1day'"><span v-if="item.unit_NET_CHNG_PCT>=0">+</span>{{item.unit_NET_CHNG_PCT}}%</td>
+            <td class="text-red text-right" v-if="dayIncrease=='1week'"><span v-if="item.unit_NET_CHNG_PCT_1_WEEK>=0">+</span>{{item.unit_NET_CHNG_PCT_1_WEEK}}%</td>
+            <td class="text-red text-right" v-if="dayIncrease=='1mon'"><span v-if="item.unit_NET_CHNG_PCT_1_MON>=0">+</span>{{item.unit_NET_CHNG_PCT_1_MON}}%</td>
+            <td class="text-red text-right" v-if="dayIncrease=='3mon'"><span v-if="item.unit_NET_CHNG_PCT_3_MON>=0">+</span>{{item.unit_NET_CHNG_PCT_3_MON}}%</td>
+            <td class="text-red text-right" v-if="dayIncrease=='6mon'"><span v-if="item.unit_NET_CHNG_PCT_6_MON>=0">+</span>{{item.unit_NET_CHNG_PCT_6_MON}}%</td>
+            <td class="text-red text-right" v-if="dayIncrease=='1year'"><span v-if="item.unit_NET_CHNG_PCT_1_YEAR>=0">+</span>{{item.unit_NET_CHNG_PCT_1_YEAR}}%</td>
+            <td class="text-red text-right" v-if="dayIncrease=='tyear'"><span v-if="item.unit_NET_CHNG_PCT_TYEAR>=0">+</span>{{item.unit_NET_CHNG_PCT_TYEAR}}%</td>
         </tr>
         <tr v-else>
             <td colspan="3" class="mar text-center text-gray">暂无数据！</td>
@@ -58,7 +58,6 @@
             <td colspan="3" class="mar">&nbsp;</td>
         </tr>
     </table>
-    <div class="padbox text-center text-gray" v-if="loading">正在努力加载中...</div>
     <div class="padbox text-center" v-if="hasNext">
         <a href="javascript:void(0)" class="more text-gray" @click="loadData">点击加载更多&gt;&gt;</a>
     </div>
@@ -78,8 +77,7 @@ export default {
       hasNext: '', // 是否有下一页
       fundList: [], // ajax返回的基金列表
       a: false,
-      b: false,
-      loading: true
+      b: false
     }
   },
   created: function () {
@@ -109,6 +107,10 @@ export default {
       this.loadData()
     },
     loadData: async function () {
+      this.$vux.loading.show({
+        text: '加载中'
+      })
+      this.hasNext = false
       const res = await this.$http.get('api/v1/funds/searchs/actions/search-all', {'limit': this.pageSize, 'page_no': this.pageIndex, 'type': this.fundType, 'order_by': this.dayIncrease})
       if (res.data.fstat) {
         for (var i = 0; i < res.data.fundList.length; i++) {
@@ -116,10 +118,8 @@ export default {
         }
         this.hasNext = res.data.hasNext
         this.pageIndex++
-        this.loading = false
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
       }
+      this.$vux.loading.hide()
     },
     locHref: function (id) {
       this.$router.push({name: 'funddetail', params: { id: id }})

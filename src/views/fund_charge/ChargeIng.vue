@@ -57,8 +57,6 @@ export default {
       for (let i = 0; i < res.data.dayOrderList.length; i++) {
         this.list[i] = res.data.dayOrderList[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

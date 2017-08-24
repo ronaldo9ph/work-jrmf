@@ -66,8 +66,6 @@ export default {
       for (let prop in res.data.profession) {
         this.profession[prop] = res.data.profession[prop]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
   methods: {

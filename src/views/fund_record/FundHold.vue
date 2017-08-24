@@ -58,8 +58,6 @@ export default {
       for (let i = 0; i < res.data.fundStkDetailList.length; i++) {
         this.fundStkDetailList[i] = res.data.fundStkDetailList[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

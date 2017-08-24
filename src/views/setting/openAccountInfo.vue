@@ -50,7 +50,7 @@
   </ul>
   <p class="w text-gray text-center text-normal">为了简便您的操作，支付密码同时适用于理财和基金。</p>
   <div class="padbox">
-    <p class="text-normal text-center"><input type="checkbox" class="ck" v-model="ck" />己阅读并同意<a href="#" class="text-red">《开户协议》</a>及<a href="#" class="text-red">《投资人权益须知》</a></p>
+    <p class="text-normal text-center"><input type="checkbox" class="ck" v-model="ck" />己阅读并同意<router-link :to="{ name: 'protocal'}" class="text-red">《开户协议》</router-link>及<router-link :to="{ name: 'protocal2'}" class="text-red">《投资人权益须知》</router-link></p>
     <input type="button" value="下一步" @click="subFun()" class="btn btn-red btn-block" />
   </div>
   <div class="popbg" id="popbg" style="display:none;" v-show="isPop"></div>
@@ -70,6 +70,7 @@
 let bankreg = /^[0-9]{16,19}$/
 let tel = /^0?(13|15|18|17|14)[0-9]{9}$/
 let num = /^[0-9]\d*$|^0$/
+import debounce from 'lodash.debounce'
 import { Group, Cell, Countdown, XSwitch } from 'vux'
 export default {
   components: {
@@ -148,13 +149,10 @@ export default {
         this.$vux.toast.text('手机号格式有误', 'middle')
         return false
       }
-      const res = await this.$http.post('api/v1/funds/accounts/actions/sendcode', {'bankno': this.bank, 'depositacct': this.bankno, 'identityno': this.$route.params.identify, 'mobiletelno': this.mobileno, 'realname': this.$route.params.username})
+      const res = await this.$http.post('api/v1/funds/accounts/actions/sendcode', {'bankno': this.bank, 'depositacct': this.bankno, 'identityno': this.$route.params.identityno, 'mobiletelno': this.mobileno, 'realname': this.$route.params.realname})
       if (res.data.fstat) {
         this.start = true
         this.isShow = 1
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
     },
     onSelected: async function (event) {
@@ -164,15 +162,12 @@ export default {
         this.arealist = []
         let arealist = this.arealist.concat(res.data.arealist)
         this.arealist = arealist
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
     },
     closePopwin: function () {
       this.isPop = false
     },
-    subFun: async function () {
+    subFun: debounce(async function (e) {
       if (this.bank === '') {
         this.$vux.toast.text('请选择开户行', 'middle')
         return false
@@ -219,14 +214,11 @@ export default {
         this.$vux.toast.text('请阅读并同意《开户协议》及《投资人权益须知》', 'middle')
         return false
       }
-      const res = await this.$http.get('api/v1/funds/accounts/actions/open', { 'address': this.address, 'bankcardno': this.bankno, 'bankno': this.bank, 'citycode': this.city, 'crmpassword': this.repassword, 'email': this.$route.params.email, 'identityno': this.$route.params.identify, 'mobileno': this.mobileno, 'password': this.password, 'phonecode': this.code, 'profession': this.$route.params.job, 'provincecode': this.province, 'realname': this.$route.params.username })
+      const res = await this.$http.post('api/v1/funds/accounts/actions/open', { 'address': this.$route.params.address, 'bankcardno': this.bankno, 'bankno': this.bank, 'citycode': this.city, 'crmpassword': this.repassword, 'email': this.$route.params.email, 'identityno': this.$route.params.identityno, 'mobileno': this.mobileno, 'password': this.password, 'phonecode': this.code, 'profession': this.$route.params.profession, 'provincecode': this.province, 'realname': this.$route.params.realname })
       if (res.data.fstat) {
         this.isPop = true
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
       }
-    }
+    }, 500)
   }
 }
 

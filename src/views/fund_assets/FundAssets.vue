@@ -40,17 +40,17 @@
       <x-chart :id="id" :option="option" ref="chart"></x-chart>
       <input type="hidden" v-model="selType" />
       <div class="tbg">
-        <a href="javascript:void(0)" :class="selType==1?'current':''" @click="drawChart('',1)">月</a><span class="line"></span>
-        <a href="javascript:void(0)" :class="selType==3?'current':''" @click="drawChart('',3)">季</a><span class="line"></span>
-        <a href="javascript:void(0)" :class="selType==6?'current':''" @click="drawChart('',6)">半年</a><span class="line"></span>
-        <a href="javascript:void(0)" :class="selType==12?'current':''" @click="drawChart('',12)">年</a>
+        <a href="javascript:void(0)" :class="selType==1?'current disabled':''" @click="drawChart('',1)">月</a><span class="line"></span>
+        <a href="javascript:void(0)" :class="selType==3?'current disabled':''" @click="drawChart('',3)">季</a><span class="line"></span>
+        <a href="javascript:void(0)" :class="selType==6?'current disabled':''" @click="drawChart('',6)">半年</a><span class="line"></span>
+        <a href="javascript:void(0)" :class="selType==12?'current disabled':''" @click="drawChart('',12)">年</a>
       </div>
     </div>
   </div>
   <div class="box chtBox">
     <tab :line-width="2" custom-bar-width="60px" active-color='#ef5643'>
-      <tab-item selected   @on-item-click="drawChart(1)">收益明细</tab-item>
-      <tab-item  @on-item-click="drawChart(2)">交易记录</tab-item>
+      <tab-item selected   @on-item-click="showTab('a')">收益明细</tab-item>
+      <tab-item  @on-item-click="showTab('b')">交易记录</tab-item>
     </tab>
     <div class="syDetail" v-show="a">
       <ul class="list" v-if="profitList">
@@ -137,45 +137,7 @@ export default {
       type: 1, // 单位净值c，累积净值d
       id: 'container',
       data: [],
-      option: {
-        chart: {
-          height: 200
-        },
-        colors: ['#ff6c44'],
-        rangeSelector: {
-          selected: 1,
-          enabled: false
-        },
-        credits: {
-          enabled: false
-        },
-        navigator: {
-          enabled: false
-        },
-        scrollbar: {
-          enabled: false
-        },
-        xAxis: {
-          type: 'datetime',
-          dateTimeLabelFormats: {
-            second: '%m-%d',
-            minute: '%m-%d',
-            hour: '%m-%d',
-            day: '%d',
-            week: '%y-%m-%d',
-            month: '%Y-%m',
-            year: '%Y'
-          }
-        },
-        series: [{
-          name: ' ',
-          data: ' ',
-          type: 'spline',
-          tooltip: {
-            valueDecimals: 2
-          }
-        }]
-      }
+      option: {}
     }
   },
   created: async function () {
@@ -197,8 +159,6 @@ export default {
       this.nav = res.data.fund.nav
       this.canRedeem = res.data.fund.canRedeem
       this.fundstatus = res.data.fund.fundstatus
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
   methods: {
@@ -229,6 +189,56 @@ export default {
       }
     },
     drawChart: async function (type, id) {
+      var seriesType = [{name: '', data: []}]
+      let _Highcharts = HighCharts
+      var options = {
+        chart: {
+          height: 200
+        },
+        colors: ['#ff6c44'],
+        rangeSelector: {
+          selected: 1,
+          enabled: false
+        },
+        credits: {
+          enabled: false
+        },
+        navigator: {
+          enabled: false
+        },
+        scrollbar: {
+          enabled: false
+        },
+        xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: {
+            second: '%m-%d',
+            minute: '%m-%d',
+            hour: '%m-%d',
+            day: '%d',
+            week: '%y-%m-%d',
+            month: '%Y-%m',
+            year: '%Y'
+          }
+        },
+        title: {
+          text: ''
+        },
+        tooltip: {
+          backgroundColor: '#ef5043',   // 背景颜色
+          borderRadius: 4,             // 边框圆角
+          shadow: true,                 // 是否显示阴影
+          animation: true,               // 是否启用动画效果
+          style: {                      // 文字内容相关样式
+            color: 'white',
+            fontSize: '12px'
+          },
+          formatter: function () {
+            return '<b>' + _Highcharts.dateFormat('%Y-%m-%d', this.x) + '</b><br/><span>净值：' + this.y + '</span>'
+          }
+        },
+        series: seriesType
+      }
       this.selType = id
       if (type !== '') {
         this.type = type
@@ -240,28 +250,18 @@ export default {
           for (let i = 0; i < res.data.unitnetList.length; i++) {
             this.data[i] = res.data.unitnetList[i]
           }
-          console.log(this.data)
-        } else {
-          this.$vux.toast.text(res.data.respmsg, 'middle')
-          return false
         }
       } else {
-        const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/fund-unitnets', {'month': id})
+        const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/fund-navcalc', {'month': id})
         if (res.data.fstat) {
           this.data = []
           for (let i = 0; i < res.data.unitnetList.length; i++) {
             this.data[i] = res.data.unitnetList[i]
           }
-          console.log(this.data)
-        } else {
-          this.$vux.toast.text(res.data.respmsg, 'middle')
-          return false
         }
       }
-      this.option.series[0].data = this.data
-      let _Highcharts = HighCharts
-      let chart = new _Highcharts.StockChart(this.$refs.chart.$el, this.option)
-      console.log(chart)
+      options.series[0].data = this.data
+      _Highcharts.StockChart(this.$refs.chart.$el, options)
     },
     showTab: function (e) {
       if (e === 'a') {

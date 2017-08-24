@@ -15,33 +15,38 @@
       </div>
     </div>
   </div>
-  <div class="act box clearfix">
-    <router-link :to="{ name: 'detailprofit'}"><i class="sy"></i>收益明细</router-link>
-    <router-link :to="{ name: 'chargelist/ing'}"><i class="jy"></i>交易纪录</router-link>
+  <div v-if="openAccountStatus!=0 && fundList.length!=0">
+    <div class="act box clearfix">
+      <router-link :to="{ name: 'detailprofit'}"><i class="sy"></i>收益明细</router-link>
+      <router-link :to="{ name: 'chargelist/ing'}"><i class="jy"></i>交易纪录</router-link>
+    </div>
+    <router-link :to="{ name: 'chargelist/ing'}" class="link box" v-if="count">有<span class="text-red">{{count}}</span>笔交易正在确认中</router-link>
+    <ul class="list">
+      <li v-for="item in fundList" @click="locHref(item.fundcode)">
+        <div class="tp clearfix">
+          <h3 class="t pull-left">{{item.fundname}}（{{item.fundcode}}）</h3>
+          <span class="tag pull-right">{{item.fundtype}}</span>
+        </div>
+        <div class="bt clearfix">
+          <div class="item pull-left">
+            <p class="text-gray t">金额(元)</p>
+            <p class="num text-red"><span v-if="item.minredemptionvol>0">+</span>{{item.minredemptionvol}}</p>
+          </div>
+          <div class="item pull-left">
+            <p class="text-gray t">昨日收益(元)</p>
+            <p class="num text-red"><span v-if="item.yestDprofit>0">+</span>{{item.yestDprofit}}</p>
+          </div>
+          <div class="item pull-left">
+            <p class="text-gray t">持有收益(元)</p>
+            <p :class="[item.holdProfit>=0?'num text-red':'num text-green']"><span v-if="item.holdProfit>0">+</span>{{item.holdProfit}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
-  <router-link :to="{ name: 'chargelist/ing'}" class="link box" v-if="count">有<span class="text-red">{{count}}</span>笔交易正在确认中</router-link>
-  <ul class="list">
-    <li v-for="item in fundList" @click="locHref(item.fundcode)">
-      <div class="tp clearfix">
-        <h3 class="t pull-left">{{item.fundname}}（{{item.fundcode}}）</h3>
-        <span class="tag pull-right">{{item.fundtype}}</span>
-      </div>
-      <div class="bt clearfix">
-        <div class="item pull-left">
-          <p class="text-gray t">金额(元)</p>
-          <p class="num text-red"><span v-if="item.minredemptionvol>0">+</span>{{item.minredemptionvol}}</p>
-        </div>
-        <div class="item pull-left">
-          <p class="text-gray t">昨日收益(元)</p>
-          <p class="num text-red"><span v-if="item.yestDprofit>0">+</span>{{item.yestDprofit}}</p>
-        </div>
-        <div class="item pull-left">
-          <p class="text-gray t">持有收益(元)</p>
-          <p :class="[item.holdProfit>=0?'num text-red':'num text-green']"><span v-if="item.holdProfit>0">+</span>{{item.holdProfit}}</p>
-        </div>
-      </div>
-    </li>
-  </ul>
+  <div v-if="openAccountStatus!=0" class="text-gray text-center pad">
+    想赚钱？快来买<router-link :to="{ name: 'fundlist'}" class="text-blue">基金</router-link>吧
+  </div>
   <div class="fixed-bottom">
     <router-link :to="{ name: 'fundindex'}"><i class="hot"></i>热门</router-link>
     <router-link :to="{ name: 'myhold'}" class="current"><i class="hold"></i>持有</router-link>
@@ -57,10 +62,14 @@ export default {
       fundYesDprofit: '', // 昨日收益
       fundmarketvalue: '', // 总金额
       fundList: [], // 持有基金列表
-      count: '' // 确认中个数
+      count: '', // 确认中个数
+      openAccountStatus: 0
     }
   },
   created: async function () {
+    this.$vux.loading.show({
+      text: '加载中'
+    })
     const res = await this.$http.get('api/v1/funds/holdings')
     if (res.data.fstat) {
       this.fundTotalprofit = res.data.fundTotalprofit
@@ -71,9 +80,12 @@ export default {
       for (let i = 0; i < res.data.fundList.length; i++) {
         this.fundList[i] = res.data.fundList[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
+    const result = await this.$http.get('api/v1/funds/accounts')
+    if (result.data.fstat) {
+      this.openAccountStatus = result.data.openAccountStatus
+    }
+    this.$vux.loading.hide()
   },
   methods: {
     locHref: function (id) {

@@ -35,7 +35,7 @@
                 <td class="text-left" v-else-if="item.term_rela_name=='<X'||item.term_rela_name=='<=X'">大于{{item.hld_term_low_lim }}{{item.hld_term_unit_mark }}</td>
                 <td class="text-left" v-else-if="item.term_rela_name=='X<'||item.term_rela_name=='X<='">小于{{item.hld_term_up_lim }}{{item.hld_term_unit_mark }}</td>
                 <td class="text-left" v-else>{{item.hld_term_low_lim }}{{item.hld_term_unit_mark }}至{{item.hld_term_up_lim }}{{item.hld_term_unit_mark }}</td>
-                <td class="text-red">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
+                <td class="text-right">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
             </tr>
         </table>
     </div>
@@ -68,8 +68,6 @@ export default{
       for (var i = 0; i < res.data.fundChagRateList.length; i++) {
         this.fundChagRateList[i] = res.data.fundChagRateList[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

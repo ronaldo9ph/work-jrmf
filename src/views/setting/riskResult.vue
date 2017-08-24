@@ -20,6 +20,15 @@ export default {
       riskLevelInfo: '' // 描述
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (from.fullPath === '/setting') {
+        window.localStorage.setItem('backUrl', from.fullPath)
+        let backUrl = window.localStorage.getItem('backUrl')
+        vm.$store.commit('backUrl', {backUrl: backUrl})
+      }
+    })
+  },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/risks')
     if (res.data.fstat) {
@@ -29,7 +38,7 @@ export default {
   },
   methods: {
     loadHref: function () {
-      if (this.$store.state.backUrl === '/bank' || this.$store.state.backUrl === '/setting') {
+      if (this.$store.state.backUrl === '/bank' || this.$store.state.backUrl === '/setting' || this.$store.state.backUrl === '/riskresult') {
         this.$router.push({path: 'myhold'})
       } else {
         this.$router.push({path: this.$store.state.backUrl})

@@ -1,4 +1,25 @@
 @import url('./normalize.less');
+.v-fade-enter-active ,.v-fade-leave-active{
+  opacity: 1;
+  transition: opacity linear 0.2s
+}
+
+.v-fade-enter, .v-fade-leave-active {
+  opacity: 0;
+}
+
+/**
+ * fade
+ */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s ease;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+}
+
+
 /*全局变量*/
 @blue:#78a8ff;
 
@@ -92,7 +113,7 @@ ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd, p, img{
     color: @red;
 }
 .text-blue {
-    color: @blue;
+    color: #3695ff;
 }
 .text-green {
     color: @green;
@@ -191,6 +212,11 @@ ul, ol, li, h1, h2, h3, h4, h5, h6, dl, dt, dd, p, img{
 .btn-green {
     color: @white;
     background-color: @green;
+}
+.disabled{
+  background: none;
+  pointer-events: none;
+  cursor: default;
 }
 .btn-disabled,
 .btn.disabled,

@@ -31,8 +31,6 @@ export default {
       for (let i = 0; i < res.data.querInduSumConfList.length; i++) {
         this.querInduSumConfList[i] = res.data.querInduSumConfList[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }

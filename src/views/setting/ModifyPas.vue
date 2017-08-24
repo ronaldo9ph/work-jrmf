@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 export default {
   data () {
     return {
@@ -21,7 +22,7 @@ export default {
     }
   },
   methods: {
-    nextFun: async function () {
+    nextFun: debounce(async function (e) {
       var num = /^[0-9]\d*$|^0$/
       if (this.password === '') {
         this.$vux.toast.text('请输入原六位数字交易密码', 'middle')
@@ -34,10 +35,8 @@ export default {
       const res = await this.$http.get('api/v1/funds/passwords/actions/old-pwd', {'tranPassword': this.password})
       if (res.data.fstat) {
         this.$router.push({path: 'resetpas2/reset2'})
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
       }
-    }
+    }, 500)
   }
 }
 

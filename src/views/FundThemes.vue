@@ -3,7 +3,7 @@
   <tab :line-width=2 active-color='#fc378c' v-model="index">
     <tab-item class="vux-center" :selected="selected === item" v-for="(item, index) in list2" @click="selected = item" @on-item-click="onItemClick(item)" :key="index">{{item}}</tab-item>
   </tab>
-  <swiper v-model="index" height="auto" :show-dots="false">
+  <swiper v-model="index" height="2000px" :show-dots="false">
     <swiper-item v-for="(item, index) in list2" :key="index">
       <table class="tb">
         <tr>
@@ -72,11 +72,10 @@ export default{
       }
       const res = await this.$http.get('api/v1/funds/themes/' + this.$route.params.id, {'order_by': this.order_by})
       if (res.data.fstat) {
-        let arr = this.list.concat(res.data.fundList)
-        this.list = arr
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
+        this.list = []
+        for (let i = 0; i < res.data.fundList.length; i++) {
+          this.list[i] = res.data.fundList[i]
+        }
       }
     }
   }

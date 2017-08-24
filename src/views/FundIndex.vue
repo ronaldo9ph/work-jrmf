@@ -46,25 +46,30 @@ export default{
       list: []// 热卖推荐
     }
   },
-  created: async function () {
-    const result = await this.$http.get('api/v1/funds/recommends')
-    if (result.data.fstat) {
-      this.list = []
-      for (let i = 0; i < result.data.list.length; i++) {
-        this.list[i] = result.data.list[i]
+  created: function () {
+    var _self = this
+    new Promise(async function (resolve, reject) {
+      if (window.sessionStorage.getItem('tokens') === null) {
+        let customkey = _self.getParam('customkey')
+        let mobiletelno = _self.getParam('mobiletelno')
+        let custId = _self.getParam('cust_id')
+        let timeStamp = _self.getParam('timeStamp')
+        let sign = _self.getParam('sign')
+        const res = await _self.$http.get('api/v1/funds/actions/login', {'cust_id': custId, 'customkey': customkey, 'mobiletelno': mobiletelno, 'sign': sign, 'timeStamp': timeStamp})
+        if (res.data.fstat) {
+          if (res.data.hasReg) {
+            window.sessionStorage.setItem('tokens', res.data.token)
+          } else {
+            _self.$router.push({path: '/Identification/' + mobiletelno + '/' + custId + '/' + customkey})
+          }
+        }
       }
-    } else {
-      this.$vux.toast.text(result.data.respmsg, 'middle')
-    }
-    const res = await this.$http.get('api/v1/funds/themes')
-    if (res.data.fstat) {
-      this.hotThemeList = []
-      for (let i = 0; i < res.data.hotThemeList.length; i++) {
-        this.hotThemeList[i] = res.data.hotThemeList[i]
+      setTimeout(resolve, 1)
+    }).then(async function () {
+      if (window.sessionStorage.getItem('tokens') !== null) {
+        _self.loadData()
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
-    }
+    })
   },
   methods: {
     splitTag: function (value) {
@@ -77,6 +82,38 @@ export default{
     },
     fundDetail: function (id) {
       this.$router.push({path: '/funddetail/' + id})
+    },
+    getParam (name) {
+      var after = window.location.hash.split('?')[1]
+      if (after) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+        var r = after.match(reg)
+        if (r != null) {
+          return decodeURIComponent(r[2])
+        } else {
+          return null
+        }
+      }
+    },
+    loadData: async function () {
+      this.$vux.loading.show({
+        text: '加载中'
+      })
+      const res = await this.$http.get('api/v1/funds/recommends')
+      if (res.data.fstat) {
+        this.list = []
+        for (let i = 0; i < res.data.list.length; i++) {
+          this.list[i] = res.data.list[i]
+        }
+      }
+      const result = await this.$http.get('api/v1/funds/themes')
+      if (result.data.fstat) {
+        this.hotThemeList = []
+        for (let i = 0; i < result.data.hotThemeList.length; i++) {
+          this.hotThemeList[i] = result.data.hotThemeList[i]
+        }
+      }
+      this.$vux.loading.hide()
     }
   }
 }

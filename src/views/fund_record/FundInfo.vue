@@ -19,7 +19,7 @@
                 <p v-for="item in fundManager">{{item.resume}}</p>
             </div>
             <div class="more text-right">
-                <a href="javascript:void(0)" @click="showMore($event)" class="text-red">查看更多</a>
+                <a href="javascript:void(0)" @click="showMore($event,'fundManager')" class="text-red">查看更多</a>
             </div>
         </div>
         <div class="box fund-wgt">
@@ -30,8 +30,11 @@
         </div>
         <div class="box fund-wgt">
             <h3 class="title">投资策略</h3>
-            <div class="con auto">
+            <div class="con" id="investClue">
                 <p v-html="invst_stra"></p>
+            </div>
+            <div class="more text-right">
+                <a href="javascript:void(0)" @click="showMore($event,'investClue')" class="text-red">查看更多</a>
             </div>
         </div>
     </div>
@@ -68,17 +71,15 @@ export default {
       for (let i = 0; i < res.data.fundManager.length; i++) {
         this.fundManager[i] = res.data.fundManager[i]
       }
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   },
   methods: {
-    showMore: function (event) {
+    showMore: function (event, id) {
       if (event.currentTarget.innerText === '收起') {
-        document.getElementById('fundManager').style.height = '120px'
+        document.getElementById(id).style.height = '120px'
         event.currentTarget.innerText = '查看更多'
       } else {
-        document.getElementById('fundManager').style.height = 'auto'
+        document.getElementById(id).style.height = 'auto'
         event.currentTarget.innerText = '收起'
       }
     }

@@ -12,8 +12,8 @@
                   <p>{{unit_net}}</p>
               </li>
               <li>
-                  <p>指数型基金</p>
-                  <p>{{fundrisk}}</p>
+                  <p>{{fundtype}}基金</p>
+                  <p>{{fundrisk}}风险</p>
               </li>
           </ul>
       </div>
@@ -23,10 +23,10 @@
               <router-link :to="{ name: 'detailhistory', params: {id:fundcode} }" class="arrow pull-right">查看历史净值</router-link>
           </div>
           <div class="tab clearfix">
-              <a href="javascript:void(0)" @click="drawChart(1)" :class="isActive==1?'current':''">近一月</a>
-              <a href="javascript:void(0)" @click="drawChart(3)" :class="isActive==3?'current':''">近三月</a>
-              <a href="javascript:void(0)" @click="drawChart(6)" :class="isActive==6?'current':''">近六月</a>
-              <a href="javascript:void(0)" @click="drawChart(12)" :class="isActive==12?'current':''">近一年</a>
+              <a href="javascript:void(0)" @click="drawChart(1)" :class="isActive==1?'current disabled':''">近一月</a>
+              <a href="javascript:void(0)" @click="drawChart(3)" :class="isActive==3?'current disabled':''">近三月</a>
+              <a href="javascript:void(0)" @click="drawChart(6)" :class="isActive==6?'current disabled':''">近六月</a>
+              <a href="javascript:void(0)" @click="drawChart(12)" :class="isActive==12?'current disabled':''">近一年</a>
           </div>
           <x-chart :id="id" :option="options" ref="chart"></x-chart>
       </div>
@@ -48,8 +48,8 @@
                   </tr>
                   <tr>
                       <td>T日</td>
-                      <td>T+1</td>
-                      <td class="text-right">T+1当日净值更新后</td>
+                      <td>1~2个交易日</td>
+                      <td class="text-right">确认份额当日净值更新后</td>
                   </tr>
               </table>
           </div>
@@ -71,7 +71,7 @@
       </div>
       <div class="popbg" id="popbg" style="display:none;" v-show="isShow"></div>
       <div class="popwin" style="display:none;" v-show="isShow">
-        <div class="con w" v-show="isOpenAccount!=1">
+        <div class="con w" v-show="isOpenAccount==1">
           <p>为保护您的投资权益，根据相关规定，您必须完成风险测评，如未完成，将不能向您提供基金产品及服务</p>
           <div class="bt clearfix text-center">
             <router-link :to="{ name: 'risktest'}" class="btn btn-red">去风险测评</router-link>
@@ -98,6 +98,7 @@ export default {
       fundid: '',
       fundsname: '', // 基金短名称
       fundcode: '', // 基金代码
+      fundtype: '', // 基金类型
       unit_NET_CHNG_PCT: '', // 日涨幅
       unit_net: '', // 最新净值
       fundrisk: '', // 基金风险等级
@@ -107,7 +108,38 @@ export default {
       isActive: 1, // chart selected
       id: 'container',
       data: [],
-      options: {
+      options: {}
+    }
+  },
+  created: async function () {
+    const res = await this.$http.get('api/v1/funds/' + this.$route.params.id)
+    if (res.data.fstat) {
+      this.fundid = res.data.fundid
+      this.fundtype = res.data.fundtype
+      this.innercode = res.data.innercode
+      this.fundsname = res.data.fundinfo.fundsname
+      this.fundcode = res.data.fund_code
+      this.unit_NET_CHNG_PCT = res.data.unit_net_chng_pct
+      this.unit_net = res.data.unit_net
+      this.fundrisk = res.data.fundrisk
+    }
+    const result = await this.$http.get('api/v1/funds/accounts')
+    if (result.data.fstat) {
+      this.isOpenAccount = result.data.openAccountStatus
+    }
+    this.drawChart(1)
+  },
+  methods: {
+    openDialog: function () {
+      this.isShow = true
+    },
+    close: function () {
+      this.isShow = false
+    },
+    drawChart: async function (id) {
+      var seriesType = [{name: '', data: []}]
+      let _Highcharts = HighCharts
+      var options = {
         chart: {
           height: 200
         },
@@ -137,44 +169,24 @@ export default {
             year: '%Y'
           }
         },
-        series: [{
-          name: ' ',
-          data: 'aa',
-          type: 'spline',
-          tooltip: {
-            valueDecimals: 2
+        title: {
+          text: ''
+        },
+        tooltip: {
+          backgroundColor: '#ef5043',   // 背景颜色
+          borderRadius: 4,             // 边框圆角
+          shadow: true,                 // 是否显示阴影
+          animation: true,               // 是否启用动画效果
+          style: {                      // 文字内容相关样式
+            color: 'white',
+            fontSize: '12px'
+          },
+          formatter: function () {
+            return '<b>' + _Highcharts.dateFormat('%Y-%m-%d', this.x) + '</b><br/><span>净值：' + this.y + '</span>'
           }
-        }]
+        },
+        series: seriesType
       }
-    }
-  },
-  created: async function () {
-    this.drawChart(1)
-    const res = await this.$http.get('api/v1/funds/' + this.$route.params.id)
-    if (res.data.fstat) {
-      this.fundid = res.data.fundid
-      this.innercode = res.data.innercode
-      this.fundsname = res.data.fundinfo.fundsname
-      this.fundcode = res.data.fund_code
-      this.unit_NET_CHNG_PCT = res.data.unit_net_chng_pct
-      this.unit_net = res.data.unit_net
-      this.fundrisk = res.data.fundrisk
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
-    }
-    const result = await this.$http.get('api/v1/funds/accounts')
-    if (result.data.fstat) {
-      this.isOpenAccount = result.data.openAccountStatus
-    }
-  },
-  methods: {
-    openDialog: function () {
-      this.isShow = true
-    },
-    close: function () {
-      this.isShow = false
-    },
-    drawChart: async function (id) {
       this.isActive = id
       const res = await this.$http.get('api/v1/funds/holdings/' + this.$route.params.id + '/fund-unitnets', {'month': id})
       if (res.data.fstat) {
@@ -182,15 +194,9 @@ export default {
         for (let i = 0; i < res.data.unitnetList.length; i++) {
           this.data[i] = res.data.unitnetList[i]
         }
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
-        return false
+        options.series[0].data = this.data
+        _Highcharts.StockChart(this.$refs.chart.$el, options)
       }
-      // console.log(this.options.colors)
-      this.options.series[0].data = this.data
-      let _Highcharts = HighCharts
-      let chart = new _Highcharts.StockChart(this.$refs.chart.$el, this.options)
-      console.log(chart)
     }
   },
   components: {
@@ -202,4 +208,5 @@ export default {
 
 <style lang="less">
 @import '../styles/style.less';
+
 </style>

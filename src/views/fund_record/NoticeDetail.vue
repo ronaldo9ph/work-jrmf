@@ -27,8 +27,6 @@ export default {
       this.txt_content = res.data.fundAnnounceDetail.txt_content
       this.declaredate = res.data.fundAnnounceDetail.declaredate
       this.source = res.data.fundAnnounceDetail.source
-    } else {
-      this.$vux.toast.text(res.data.respmsg, 'middle')
     }
   }
 }
