@@ -24,7 +24,7 @@
         </div>
         <p class="b des">T日申请，将按T日基金净值确认份额。份额确认当日，基金净值更新后即可查看首笔盈亏，确认后下一个T日可卖出。</p>
     </div>
-    <div class="box mrfl">
+    <div class="box mrfl" v-if="fundChagRateList.length!=0">
         <h3 class="title">认购费率</h3>
         <table class="tb">
             <tr>
@@ -40,7 +40,7 @@
             </tr>
         </table>
     </div>
-    <div class="box mrfl">
+    <div class="box mrfl" v-if="fundChagRateList.length!=0">
         <h3 class="title">申购费率</h3>
         <table class="tb">
             <tr>
@@ -101,11 +101,15 @@ export default{
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/chag-rates/' + this.$route.params.id)
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.fundChagRateList = []
       for (var i = 0; i < res.data.fundChagRateList.length; i++) {
         this.fundChagRateList[i] = res.data.fundChagRateList[i]
       }
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   }
 }

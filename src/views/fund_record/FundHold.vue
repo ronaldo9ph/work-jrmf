@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="fund-hold">
-        <div class="box clearfix">{{sourceReport}}</div>
+        <div class="box clearfix" v-if="sourceReport">{{sourceReport}}</div>
         <div class="box clearfix">
             <label class="pull-left">股票</label>
             <span class="pull-right">{{stk_val_asset_prop}}%</span>
@@ -47,7 +47,7 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/fund-holdings')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.sourceReport = res.data.sourceReport
       this.fundAsset = res.data.fundAsset
       this.bnd_val_asset_prop = res.data.fundAsset.bnd_val_asset_prop
@@ -58,6 +58,10 @@ export default {
       for (let i = 0; i < res.data.fundStkDetailList.length; i++) {
         this.fundStkDetailList[i] = res.data.fundStkDetailList[i]
       }
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   }
 }

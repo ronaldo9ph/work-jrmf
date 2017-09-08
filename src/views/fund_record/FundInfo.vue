@@ -57,7 +57,7 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id)
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.fundname = res.data.fundInfo.fundname
       this.fund_CODE = res.data.fundInfo.fund_CODE
       this.estab_date = res.data.fundInfo.estab_date
@@ -71,6 +71,10 @@ export default {
       for (let i = 0; i < res.data.fundManager.length; i++) {
         this.fundManager[i] = res.data.fundManager[i]
       }
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {

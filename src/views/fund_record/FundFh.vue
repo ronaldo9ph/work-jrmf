@@ -22,16 +22,20 @@ export default {
   },
   created: async function () {
     this.$vux.loading.show({
-      text: '加载中'
+      text: '加载中...'
     })
     const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/fund-dividends')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.queryFundDivList = []
       for (let i = 0; i < res.data.queryFundDivList.length; i++) {
         this.queryFundDivList[i] = res.data.queryFundDivList[i]
       }
     }
     this.$vux.loading.hide()
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
+    }
   }
 }
 

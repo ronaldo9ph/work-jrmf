@@ -494,6 +494,27 @@ body{
         padding-left: 10px;
       }
     }
+    .item{
+      &.over{
+        overflow: hidden;
+        height: 200px;
+      }
+    }
+    .act{
+      a{
+        display: block;
+        height: 30px;
+        text-indent: -9999px;
+        &.down{
+          background: url("@{url}/down2.png") no-repeat center center;
+          background-size: 20px;
+        }
+        &.up{
+          background: url("@{url}/up.png") no-repeat center center;
+          background-size: 20px;
+        }
+      }
+    }
     li{
       border-bottom: 1px solid #eff0f4;
       a{
@@ -531,6 +552,9 @@ body{
 }
 .chargePage{
   margin-top: 5px;
+  .padbox{
+    padding: 30px 0px;
+  }
   .item{
     padding: 0px 15px;
     background-color: white;

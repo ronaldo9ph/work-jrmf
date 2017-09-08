@@ -50,15 +50,15 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.fullPath !== '/') {
-        window.localStorage.setItem('backUrl', from.fullPath)
+        window.sessionStorage.setItem('backUrl', from.fullPath)
+        let backUrl = window.sessionStorage.getItem('backUrl')
+        vm.$store.commit('backUrl', {backUrl: backUrl})
       }
-      let backUrl = window.localStorage.getItem('backUrl')
-      vm.$store.commit('backUrl', {backUrl: backUrl})
     })
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/accounts/actions/search')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.profession = {}
       this.hasInfo = res.data.hasInfo
       this.username = res.data.realName
@@ -66,6 +66,10 @@ export default {
       for (let prop in res.data.profession) {
         this.profession[prop] = res.data.profession[prop]
       }
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {

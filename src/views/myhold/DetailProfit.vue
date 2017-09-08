@@ -11,8 +11,8 @@
     </div>
   </div>
   <div class="box">
-    <h3 class="title"><span class="w">盈利</span></h3>
-    <ul class="item" v-if="profitFundList.length!=0">
+    <h3 class="title"><span class="w">日盈利</span></h3>
+    <ul :class="profitFundList.length>5?'item over':'item'" v-if="profitFundList.length!=0" id="mod-1">
       <li v-for="item in profitFundList">
         <router-link :to="{ name: 'fundassets', params: {'id':item.fundcode} }" class="clearfix">
           <span class="name pull-left">{{item.fundname}}</span>
@@ -20,19 +20,25 @@
         </router-link>
       </li>
     </ul>
-    <p class="text-center text-gray padbox" v-else>暂无数据！</p>
+    <div class="text-center act" v-if="profitFundList.length>5">
+      <a href="javascript:void(0)" class="down" @click="showFun(1,$event)">查看更多</a>
+    </div>
+    <p class="text-center text-gray padbox" v-if="profitFundList.length==0">暂无数据！</p>
   </div>
   <div class="box">
-    <h3 class="title"><span class="w">亏损</span></h3>
-    <ul class="item" v-if="lossFundList.length!=0">
+    <h3 class="title"><span class="w">日亏损</span></h3>
+    <ul :class="lossFundList.length>5?'item over':'item'" v-if="lossFundList.length!=0" id="mod-2">
       <li v-for="item in lossFundList">
         <router-link :to="{ name: 'fundassets', params: {'id':item.fundcode} }" class="clearfix">
           <span class="name pull-left">{{item.fundname}}</span>
-          <span class="text-green pull-right">-{{item.yestDprofit}}元</span>
+          <span class="text-green pull-right">{{item.yestDprofit}}元</span>
         </router-link>
       </li>
     </ul>
-    <p class="text-center text-gray padbox" v-else>暂无数据！</p>
+    <div class="text-center act" v-if="lossFundList.length>5">
+      <a href="javascript:void(0)" class="down" @click="showFun(2,$event)">查看更多</a>
+    </div>
+    <p class="text-center text-gray padbox" v-if="lossFundList.length==0">暂无数据！</p>
   </div>
 </div>
 </template>
@@ -50,8 +56,11 @@ export default {
     }
   },
   created: async function () {
+    this.$vux.loading.show({
+      text: '加载中...'
+    })
     const res = await this.$http.get('api/v1/funds/holdings')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.isShow = true
       if (res.data.lossFundList.length > 0) {
         let arr1 = this.lossFundList.concat(res.data.lossFundList)
@@ -65,11 +74,29 @@ export default {
       this.lastDate = res.data.lastDate
       this.fundYesDPec = res.data.fundYesDPec
     }
+    this.$vux.loading.hide()
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
+    }
+  },
+  methods: {
+    showFun: function (id, event) {
+      if (event.currentTarget.innerText === '收起') {
+        document.getElementById('mod-' + id).style.height = '200px'
+        event.currentTarget.innerText = '查看更多'
+        event.currentTarget.setAttribute('class', 'down')
+      } else {
+        document.getElementById('mod-' + id).style.height = 'auto'
+        event.currentTarget.innerText = '收起'
+        event.currentTarget.setAttribute('class', 'up')
+      }
+    }
   }
 }
 
 </script>
 
 <style lang="less">
-@import '../styles/index.less';
+@import '../../styles/index.less';
 </style>

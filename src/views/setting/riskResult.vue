@@ -31,13 +31,18 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/risks')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.riskLevelDesc = res.data.riskLevelDesc
       this.riskLevelInfo = res.data.riskLevelInfo
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {
     loadHref: function () {
+      console.log(this.$store.state.backUrl)
       if (this.$store.state.backUrl === '/bank' || this.$store.state.backUrl === '/setting' || this.$store.state.backUrl === '/riskresult') {
         this.$router.push({path: 'myhold'})
       } else {

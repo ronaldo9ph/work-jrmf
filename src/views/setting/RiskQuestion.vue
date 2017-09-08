@@ -315,8 +315,12 @@ export default {
         this.list = array
         this.index = index - 1
         const res = await this.$http.post('api/v1/funds/risks/actions/submit', {'arr': this.selectArr})
-        if (res.data.fstat) {
+        if (res.data.fstat === 1) {
           this.$router.push({path: 'riskresult'})
+        }
+        if (res.data.fstat === 9) {
+          this.$vux.toast.text(res.data.respmsg, 'middle')
+          return false
         }
       }
     },

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div v-if="isShow">
     <ul class="fundNotice" v-if="fundAnnounceList.length!=0">
         <li v-for="item in fundAnnounceList">
           <router-link :to="{ name: 'noticedetail', params: {'id':fundid,'disc_id':item.disc_id} }">
@@ -22,7 +22,8 @@ export default {
       fundid: '',
       hasNext: false,
       pageSize: 10,
-      pageIndex: 1
+      pageIndex: 1,
+      isShow: false
     }
   },
   created: function () {
@@ -31,10 +32,10 @@ export default {
   methods: {
     loadData: async function () {
       this.$vux.loading.show({
-        text: '加载中'
+        text: '加载中...'
       })
       const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/announcements', {'page_size': this.pageSize, 'page_index': this.pageIndex})
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         this.fundid = res.data.fundid
         if (this.pageIndex === 1) {
           this.fundAnnounceList = []
@@ -45,7 +46,12 @@ export default {
         this.hasNext = res.data.hasNext
         this.pageIndex++
       }
+      this.isShow = true
       this.$vux.loading.hide()
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
+      }
     }
   }
 }

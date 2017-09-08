@@ -52,13 +52,26 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+router.beforeEach((to, from, next) => {
+  if (to.matched.length === 0) {                                        // 如果未匹配到路由
+    next({
+      path: '/error',
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()                                                                            // 如果匹配到正确跳转
+  }
+})
+
 Vue.use(http)
 
 /* eslint-disable no-new */
-new Vue({
+const vue = new Vue({
   el: '#app',
   store,
   router,
   template: '<App/>',
   components: { App }
 })
+
+export default vue

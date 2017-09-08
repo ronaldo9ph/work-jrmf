@@ -2,7 +2,7 @@
 <div class="searchPage">
   <div class="searchBox">
       <input type="text" v-model="val" class="txt" placeholder="请输入基金名称或代码" id="txt" />
-      <input type="button" class="search-btn" value="搜索" @click="searchFund()" />
+      <input type="button" class="search-btn" value="搜索" @click="searchVal()" />
   </div>
   <div class="search-history" v-show="isEmpty && setData.length!=0" style="display:none">
     <div class="top clearfix">
@@ -30,7 +30,7 @@
         </tr>
       </table>
       <div class="pad text-center" v-show="hasnext" style="display:none">
-        <a href="javascript:void(0)" class="text-gray" @click.stop="searchFund()">点击加载更多</a>
+        <a href="javascript:void(0)" class="text-gray" @click="searchFund()">点击加载更多</a>
       </div>
     </div>
     <p v-if="isFind" class="pad text-center text-gray">没找到，请输入基金全名或代码试试</p>
@@ -63,19 +63,27 @@ export default{
   },
   created: async function () {
     const res = await this.$http.get('/api/v1/funds/searchs/recommands')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.recommandList = []
       for (let i = 0; i < res.data.recommandList.length; i++) {
         this.recommandList[i] = res.data.recommandList[i]
       }
     }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
+    }
     const restag = await this.$http.get('api/v1/funds/searchs/histories')
-    if (restag.data.fstat) {
+    if (restag.data.fstat === 1) {
       this.setData = []
       for (let i = 0; i < restag.data.setData.length; i++) {
         this.setData[i] = restag.data.setData[i]
       }
       this.isEmpty = true
+    }
+    if (restag.data.fstat === 9) {
+      this.$vux.toast.text(restag.data.respmsg, 'middle')
+      return false
     }
   },
   watch: {
@@ -91,17 +99,21 @@ export default{
     },
     clearRecord: debounce(async function (e) {
       const res = await this.$http.get('api/v1/funds/searchs/actions/clean')
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         this.isEmpty = false
+      }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     }, 500),
     searchFund: debounce(async function (e) {
       if (this.val) {
         this.$vux.loading.show({
-          text: '加载中'
+          text: '加载中...'
         })
         const res = await this.$http.post('/api/v1/funds/searchs/actions/search', {'page_size': this.pageSize, 'page_index': this.pageIndex, 'key': this.val})
-        if (res.data.fstat) {
+        if (res.data.fstat === 1) {
           if (res.data.recommandProductsFund.length > 0) {
             this.isHotShow = false
             this.isEmpty = false
@@ -115,7 +127,7 @@ export default{
               this.setData[i] = res.data.setData[i]
             }
             this.pageIndex++
-            this.hasnext = res.data.hasnext
+            this.hasnext = res.data.hasNext
           } else {
             this.recommandProductsFund.length = 0
             this.isFind = true
@@ -124,10 +136,19 @@ export default{
           }
         }
         this.$vux.loading.hide()
+        if (res.data.fstat === 9) {
+          this.$vux.toast.text(res.data.respmsg, 'middle')
+          return false
+        }
+      } else {
+        this.$vux.toast.text('请输入基金名称或代码', 'middle')
+        return false
       }
     }, 500),
     searchVal: function (obj) {
-      this.val = obj
+      if (obj) {
+        this.val = obj
+      }
       this.pageIndex = 1
       this.searchFund()
     },
@@ -140,5 +161,5 @@ export default{
 </script>
 
 <style lang="less">
-@import '../styles/index.less';
+@import '../../styles/index.less';
 </style>

@@ -68,9 +68,13 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/logins/actions/checkp2p', {'mobiletelno': this.$route.params.mobileno})
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.hasBindCard = res.data.hasBindCard
       this.mobileno = this.$route.params.mobileno
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {
@@ -107,9 +111,13 @@ export default {
         return false
       }
       const res = await this.$http.post('api/v1/funds/logins/actions/sendCode', {'hasBindCard': this.hasBindCard, 'identityno': this.identify, 'mobiletelno': this.mobileno, 'realname': this.username})
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         this.start = true
         this.isShow = 1
+      }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     },
     subFun: async function () {
@@ -144,9 +152,13 @@ export default {
         return false
       }
       const res = await this.$http.post('api/v1/funds/logins/actions/vili-code', {'hasBindCard': this.hasBindCard, 'identityno': this.identify, 'mobiletelno': this.mobileno, 'realname': this.username, 'customkey': this.$route.params.customkey, 'cust_id': this.$route.params.cust_id, 'phonecode': this.code})
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         window.sessionStorage.setItem('tokens', res.data.token)
         this.$router.push({name: 'fundindex'})
+      }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     }
   }
@@ -155,5 +167,5 @@ export default {
 </script>
 
 <style lang="less">
-@import '../styles/setting.less';
+@import '../../styles/setting.less';
 </style>

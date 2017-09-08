@@ -8,8 +8,8 @@ export default new Router({
       path: '/fundindex', // 基金首页
       name: 'fundindex',
       component: resolve => {
-        require.ensure(['@/views/FundIndex'], () => {
-          resolve(require('@/views/FundIndex'))
+        require.ensure(['@/views/fund_index'], () => {
+          resolve(require('@/views/fund_index'))
         })
       },
       meta: {
@@ -20,8 +20,8 @@ export default new Router({
       path: '/error', // error
       name: 'error',
       component: resolve => {
-        require.ensure(['@/views/Error'], () => {
-          resolve(require('@/views/Error'))
+        require.ensure(['@/views/error'], () => {
+          resolve(require('@/views/error'))
         })
       },
       meta: {
@@ -32,8 +32,8 @@ export default new Router({
       path: '/Identification/:mobileno/:cust_id/:customkey', // 验证身份
       name: 'identification',
       component: resolve => {
-        require.ensure(['@/views/Identification'], () => {
-          resolve(require('@/views/Identification'))
+        require.ensure(['@/views/setting/Identification'], () => {
+          resolve(require('@/views/setting/Identification'))
         })
       },
       meta: {
@@ -41,7 +41,7 @@ export default new Router({
       }
     },
     {
-      path: '/charttest', // charttest
+      path: '/charttest/:id', // charttest
       name: 'charttest',
       component: resolve => {
         require.ensure(['@/views/ChartTest'], () => {
@@ -56,8 +56,8 @@ export default new Router({
       path: '/fundthemes/:id', // 基金主题详情页
       name: 'fundthemes',
       component: resolve => {
-        require.ensure(['@/views/FundThemes'], () => {
-          resolve(require('@/views/FundThemes'))
+        require.ensure(['@/views/fund_themes'], () => {
+          resolve(require('@/views/fund_themes'))
         })
       },
       meta: {
@@ -69,8 +69,8 @@ export default new Router({
       path: '/fundsearch', // 基金搜索
       name: 'fundsearch',
       component: resolve => {
-        require.ensure(['@/views/FundSearch'], () => {
-          resolve(require('@/views/FundSearch'))
+        require.ensure(['@/views/fund_search'], () => {
+          resolve(require('@/views/fund_search'))
         })
       },
       meta: {
@@ -82,8 +82,8 @@ export default new Router({
       path: '/myhold', // 基金持有
       name: 'myhold',
       component: resolve => {
-        require.ensure(['@/views/MyHold'], () => {
-          resolve(require('@/views/MyHold'))
+        require.ensure(['@/views/myhold'], () => {
+          resolve(require('@/views/myhold'))
         })
       },
       meta: {
@@ -95,8 +95,8 @@ export default new Router({
       path: '/setting', // 设置
       name: 'setting',
       component: resolve => {
-        require.ensure(['@/views/setting/Index'], () => {
-          resolve(require('@/views/setting/Index'))
+        require.ensure(['@/views/setting'], () => {
+          resolve(require('@/views/setting'))
         })
       },
       meta: {
@@ -179,7 +179,7 @@ export default new Router({
       },
       meta: {
         requiresAuth: true,
-        title: '重置支付密码'
+        title: '支付密码'
       }
     },
     {
@@ -264,8 +264,8 @@ export default new Router({
       path: '/detailprofit', // 基金持有收益明细
       name: 'detailprofit',
       component: resolve => {
-        require.ensure(['@/views/DetailProfit'], () => {
-          resolve(require('@/views/DetailProfit'))
+        require.ensure(['@/views/myhold/DetailProfit'], () => {
+          resolve(require('@/views/myhold/DetailProfit'))
         })
       },
       meta: {
@@ -277,8 +277,8 @@ export default new Router({
       path: '/fundassets/:id/', // 基金资产详情页
       name: 'fundassets',
       component: resolve => {
-        require.ensure(['@/views/fund_assets/FundAssets'], () => {
-          resolve(require('@/views/fund_assets/FundAssets'))
+        require.ensure(['@/views/fund_assets'], () => {
+          resolve(require('@/views/fund_assets'))
         })
       },
       meta: {
@@ -290,8 +290,8 @@ export default new Router({
       path: '/fundlist', // 基金列表页
       name: 'fundlist',
       component: resolve => {
-        require.ensure(['@/views/AllFundList'], () => {
-          resolve(require('@/views/AllFundList'))
+        require.ensure(['@/views/fund_list'], () => {
+          resolve(require('@/views/fund_list'))
         })
       },
       meta: {
@@ -303,8 +303,8 @@ export default new Router({
       path: '/funddetail/:id', // 基金详情页
       name: 'funddetail',
       component: resolve => {
-        require.ensure(['@/views/FundDetail'], () => {
-          resolve(require('@/views/FundDetail'))
+        require.ensure(['@/views/fund_detail'], () => {
+          resolve(require('@/views/fund_detail'))
         })
       },
       meta: {
@@ -316,8 +316,8 @@ export default new Router({
       path: '/order/:id', // 基金购买
       name: 'order',
       component: resolve => {
-        require.ensure(['@/views/Order'], () => {
-          resolve(require('@/views/Order'))
+        require.ensure(['@/views/fund_order'], () => {
+          resolve(require('@/views/fund_order'))
         })
       },
       meta: {
@@ -329,8 +329,8 @@ export default new Router({
       path: '/buysuccess/:id', // 基金购买成功
       name: 'buysuccess',
       component: resolve => {
-        require.ensure(['@/views/BuySuccess'], () => {
-          resolve(require('@/views/BuySuccess'))
+        require.ensure(['@/views/fund_order/Success'], () => {
+          resolve(require('@/views/fund_order/Success'))
         })
       },
       meta: {
@@ -342,8 +342,8 @@ export default new Router({
       path: '/redeem/:id', // 基金赎回
       name: 'redeem',
       component: resolve => {
-        require.ensure(['@/views/Redeem'], () => {
-          resolve(require('@/views/Redeem'))
+        require.ensure(['@/views/fund_redeem'], () => {
+          resolve(require('@/views/fund_redeem'))
         })
       },
       meta: {
@@ -355,8 +355,8 @@ export default new Router({
       path: '/redeemsuccess/:id', // 基金赎回成功
       name: 'redeemsuccess',
       component: resolve => {
-        require.ensure(['@/views/RedeemSuccess'], () => {
-          resolve(require('@/views/RedeemSuccess'))
+        require.ensure(['@/views/fund_redeem/Success'], () => {
+          resolve(require('@/views/fund_redeem/Success'))
         })
       },
       meta: {
@@ -367,8 +367,8 @@ export default new Router({
     {
       path: '/chargelist', // 基金交易记录
       component: resolve => {
-        require.ensure(['@/views/fund_charge/ChargeList'], () => {
-          resolve(require('@/views/fund_charge/ChargeList'))
+        require.ensure(['@/views/fund_charge'], () => {
+          resolve(require('@/views/fund_charge'))
         })
       },
       name: 'chargelist',
@@ -406,8 +406,8 @@ export default new Router({
     {
       path: '/fundrecord/:id', // 基金档案
       component: resolve => {
-        require.ensure(['@/views/fund_record/FundRecord'], () => {
-          resolve(require('@/views/fund_record/FundRecord'))
+        require.ensure(['@/views/fund_record'], () => {
+          resolve(require('@/views/fund_record'))
         })
       },
       name: 'fundrecord',
@@ -481,8 +481,8 @@ export default new Router({
     {
       path: '/traderule/:id', // 基金交易规则
       component: resolve => {
-        require.ensure(['@/views/fund_rule/FundRule'], () => {
-          resolve(require('@/views/fund_rule/FundRule'))
+        require.ensure(['@/views/fund_rule'], () => {
+          resolve(require('@/views/fund_rule'))
         })
       },
       name: 'traderule',
@@ -521,8 +521,8 @@ export default new Router({
       path: '/detailhistory/:id', // 基金历史净值
       name: 'detailhistory',
       component: resolve => {
-        require.ensure(['@/views/DetailHistory'], () => {
-          resolve(require('@/views/DetailHistory'))
+        require.ensure(['@/views/fund_detail/DetailHistory'], () => {
+          resolve(require('@/views/fund_detail/DetailHistory'))
         })
       },
       meta: {

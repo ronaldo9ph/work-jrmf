@@ -25,15 +25,19 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/accounts')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.openAccountStatus = res.data.openAccountStatus
       if (res.data.openAccountStatus === 2) {
         this.bankLogo = res.data.bankLogo
         this.bankName = res.data.bankName
         this.bankNoLast = res.data.bankNo.substr(-4, 4)
-        this.bankNoBefore = res.data.bankNo.substr(1, 4)
+        this.bankNoBefore = res.data.bankNo.substr(0, 3)
       }
       this.isShow = true
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   }
 }

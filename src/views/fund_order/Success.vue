@@ -18,5 +18,5 @@
 </template>
 
 <style lang="less">
-@import '../styles/style.less';
+@import '../../styles/style.less';
 </style>

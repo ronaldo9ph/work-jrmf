@@ -55,8 +55,12 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/passwords/actions/mobileno')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.tel = res.data.mobiletelno
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {
@@ -75,9 +79,13 @@ export default {
         return false
       }
       const res = await this.$http.get('api/v1/funds/passwords/actions/check-info', {'identity': this.identify, 'mobiletelno': this.tel})
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         this.start = true
         this.isShow = 1
+      }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     }, 500),
     subFun: debounce(async function (e) {
@@ -94,8 +102,12 @@ export default {
         return false
       }
       const res = await this.$http.get('api/v1/funds/passwords/actions/vili-code', {'code': this.code, 'identity': this.identity, 'mobiletelno': this.tel})
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         this.$router.push({path: 'resetpas2/reset'})
+      }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
       }
     }, 500)
   }

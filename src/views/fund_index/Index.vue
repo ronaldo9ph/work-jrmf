@@ -56,12 +56,16 @@ export default{
         let timeStamp = _self.getParam('timeStamp')
         let sign = _self.getParam('sign')
         const res = await _self.$http.get('api/v1/funds/actions/login', {'cust_id': custId, 'customkey': customkey, 'mobiletelno': mobiletelno, 'sign': sign, 'timeStamp': timeStamp})
-        if (res.data.fstat) {
+        if (res.data.fstat === 1) {
           if (res.data.hasReg) {
             window.sessionStorage.setItem('tokens', res.data.token)
           } else {
             _self.$router.push({path: '/Identification/' + mobiletelno + '/' + custId + '/' + customkey})
           }
+        }
+        if (res.data.fstat === 9) {
+          _self.$vux.toast.text(res.data.respmsg, 'middle')
+          return false
         }
       }
       setTimeout(resolve, 1)
@@ -97,23 +101,31 @@ export default{
     },
     loadData: async function () {
       this.$vux.loading.show({
-        text: '加载中'
+        text: '加载中...'
       })
       const res = await this.$http.get('api/v1/funds/recommends')
-      if (res.data.fstat) {
+      if (res.data.fstat === 1) {
         this.list = []
         for (let i = 0; i < res.data.list.length; i++) {
           this.list[i] = res.data.list[i]
         }
       }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
+      }
       const result = await this.$http.get('api/v1/funds/themes')
-      if (result.data.fstat) {
+      if (result.data.fstat === 1) {
         this.hotThemeList = []
         for (let i = 0; i < result.data.hotThemeList.length; i++) {
           this.hotThemeList[i] = result.data.hotThemeList[i]
         }
       }
       this.$vux.loading.hide()
+      if (result.data.fstat === 9) {
+        this.$vux.toast.text(result.data.respmsg, 'middle')
+        return false
+      }
     }
   }
 }
@@ -121,5 +133,5 @@ export default{
 </script>
 
 <style lang="less">
-@import '../styles/index.less';
+@import '../../styles/index.less';
 </style>

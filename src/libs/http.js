@@ -25,7 +25,7 @@ axios.interceptors.request.use(config => {
 
 // code状态码200判断
 axios.interceptors.response.use(res => {
-  console.log(res.data)
+  // console.log(res.data)
   // if (res.data.code !== 200) {
   //   // console.error(res.data.msg)
   //   return Promise.reject(res)
@@ -38,7 +38,7 @@ axios.interceptors.response.use(res => {
 function checkStatus (response) {
   // 如果http状态码正常，则直接返回数据
   if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
-    if (!response.data || !response.data.fstat) {
+    if (!response.data || response.data.fstat === 0) {
       router.push({path: '/error'})
     }
     return response

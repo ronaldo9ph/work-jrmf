@@ -24,8 +24,12 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/accounts')
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.openAccountStatus = res.data.openAccountStatus
+    }
+    if (res.data.fstat === 9) {
+      this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   },
   methods: {
