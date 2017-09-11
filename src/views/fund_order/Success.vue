@@ -17,23 +17,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-
-    }
-  },
-  created: async function () {
-    const res = await this.$http.get('')
-    if (res) {
-
-    }
-  }
-}
-
-</script>
-
 <style lang="less">
-@import '../styles/style.less';
+@import '../../styles/style.less';
 </style>

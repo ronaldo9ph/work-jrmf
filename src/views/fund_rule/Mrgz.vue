@@ -18,45 +18,41 @@
                 <tr>
                     <td>T日</td>
                     <td>1~2个交易日</td>
-                    <td class="text-right">T确认份额当日净值更新后</td>
+                    <td class="text-right">确认份额当日净值更新后</td>
                 </tr>
             </table>
         </div>
         <p class="b des">T日申请，将按T日基金净值确认份额。份额确认当日，基金净值更新后即可查看首笔盈亏，确认后下一个T日可卖出。</p>
     </div>
-    <div class="box mrfl">
+    <div class="box mrfl" v-if="fundChagRateList.length!=0">
         <h3 class="title">认购费率</h3>
         <table class="tb">
             <tr>
                 <th class="text-left">金额</th>
-                <th>&nbsp;</th>
-                <th>优惠费率</th>
+                <th class="text-right">费率</th>
             </tr>
             <tr v-for="item in fundChagRateList" v-if="item.max_term_name == '认购费'">
                 <td class="text-left" v-if="item.cond_rela_name==null">--</td>
                 <td class="text-left" v-else-if="item.cond_rela_name=='<X'||item.cond_rela_name=='<=X'">大于{{item.pert_val_low_lim }}{{item.val_unit_name }}</td>
                 <td class="text-left" v-else-if="item.cond_rela_name=='X<'||item.cond_rela_name=='X<='">小于{{item.pert_val_up_lim }}{{item.val_unit_name }}</td>
                 <td class="text-left" v-else>{{item.pert_val_low_lim }}{{item.val_unit_name }}至{{item.pert_val_up_lim }}{{item.val_unit_name }}</td>
-                <td><s>{{item.fund_rate}}{{item.rate_unit_name }}</s></td>
-                <td class="text-red">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
+                <td class="text-right">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
             </tr>
         </table>
     </div>
-    <div class="box mrfl">
+    <div class="box mrfl" v-if="fundChagRateList.length!=0">
         <h3 class="title">申购费率</h3>
         <table class="tb">
             <tr>
                 <th class="text-left">金额</th>
-                <th>&nbsp;</th>
-                <th>优惠费率</th>
+                <th class="text-right">费率</th>
             </tr>
             <tr v-for="item in fundChagRateList" v-if="item.max_term_name == '申购费' && item.chng_min_term_mark=='日常申购费' ">
                 <td class="text-left" v-if="item.cond_rela_name==null">--</td>
                 <td class="text-left" v-else-if="item.cond_rela_name=='<X'||item.cond_rela_name=='<=X'">大于{{item.pert_val_low_lim }}{{item.val_unit_name }}</td>
                 <td class="text-left" v-else-if="item.cond_rela_name=='X<'||item.cond_rela_name=='X<='">小于{{item.pert_val_up_lim }}{{item.val_unit_name }}</td>
                 <td class="text-left" v-else>{{item.pert_val_low_lim }}{{item.val_unit_name }}至{{item.pert_val_up_lim }}{{item.val_unit_name }}</td>
-                <td><s>{{item.fund_rate}}{{item.rate_unit_name }}</s></td>
-                <td class="text-red">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
+                <td class="text-right">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
             </tr>
         </table>
     </div>
@@ -105,13 +101,15 @@ export default{
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/chag-rates/' + this.$route.params.id)
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.fundChagRateList = []
       for (var i = 0; i < res.data.fundChagRateList.length; i++) {
         this.fundChagRateList[i] = res.data.fundChagRateList[i]
       }
-    } else {
+    }
+    if (res.data.fstat === 9) {
       this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   }
 }

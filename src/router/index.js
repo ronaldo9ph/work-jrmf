@@ -1,239 +1,546 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
-import MyHold from '@/views/MyHold'
-import Setting from '@/views/setting/Index'
-import RiskTest from '@/views/setting/RiskTest'
-import RiskQuestion from '@/views/setting/RiskQuestion'
-import RiskResult from '@/views/setting/RiskResult'
-import Password from '@/views/setting/Password'
-import ResetPas from '@/views/setting/ResetPas'
-import ResetPas2 from '@/views/setting/ResetPas2'
-import ModifyPas from '@/views/setting/ModifyPas'
-import Bank from '@/views/setting/Bank'
-import OpenFundAccount from '@/views/setting/OpenFundAccount'
-import OpenAccountInfo from '@/views/setting/OpenAccountInfo'
-import FundIndex from '@/views/FundIndex'
-import ChartTest from '@/views/ChartTest'
-import FundThemes from '@/views/FundThemes'
-import FundSearch from '@/views/FundSearch'
-import Fundlist from '@/views/AllFundList'
-import FundDetail from '@/views/FundDetail'
-import BuySuccess from '@/views/BuySuccess'
-import FundOrder from '@/views/Order'
-import FundRedeem from '@/views/Redeem'
-import RedeemSuccess from '@/views/RedeemSuccess'
-import Traderule from '@/views/fund_rule/FundRule'
-import mrRule from '@/views/fund_rule/Mrgz'
-import mcRule from '@/views/fund_rule/Mcgz'
-import Detailhistory from '@/views/DetailHistory'
-import FundRecord from '@/views/fund_record/FundRecord'
-import FundInfo from '@/views/fund_record/FundInfo'
-import FundNotice from '@/views/fund_record/FundNotice'
-import FundHold from '@/views/fund_record/FundHold'
-import ChargeList from '@/views/fund_charge/ChargeList'
-import ChargeIng from '@/views/fund_charge/ChargeIng'
-import ChargeHistory from '@/views/fund_charge/ChargeHistory'
-import DetailProfit from '@/views/DetailProfit'
-import FundAssets from '@/views/fund_assets/FundAssets'
-import FundFh from '@/views/fund_record/FundFh'
-import FundType from '@/views/fund_record/FundType'
-import NoticeDetail from '@/views/fund_record/NoticeDetail'
-
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
-    {
       path: '/fundindex', // 基金首页
       name: 'fundindex',
-      component: FundIndex
+      component: resolve => {
+        require.ensure(['@/views/fund_index'], () => {
+          resolve(require('@/views/fund_index'))
+        })
+      },
+      meta: {
+        title: '基金'
+      }
     },
     {
-      path: '/charttest', // charttest
+      path: '/error', // error
+      name: 'error',
+      component: resolve => {
+        require.ensure(['@/views/error'], () => {
+          resolve(require('@/views/error'))
+        })
+      },
+      meta: {
+        title: 'Error'
+      }
+    },
+    {
+      path: '/Identification/:mobileno/:cust_id/:customkey', // 验证身份
+      name: 'identification',
+      component: resolve => {
+        require.ensure(['@/views/setting/Identification'], () => {
+          resolve(require('@/views/setting/Identification'))
+        })
+      },
+      meta: {
+        title: '身份认证'
+      }
+    },
+    {
+      path: '/charttest/:id', // charttest
       name: 'charttest',
-      component: ChartTest
+      component: resolve => {
+        require.ensure(['@/views/ChartTest'], () => {
+          resolve(require('@/views/ChartTest'))
+        })
+      },
+      meta: {
+        title: 'test'
+      }
     },
     {
       path: '/fundthemes/:id', // 基金主题详情页
       name: 'fundthemes',
-      component: FundThemes
+      component: resolve => {
+        require.ensure(['@/views/fund_themes'], () => {
+          resolve(require('@/views/fund_themes'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '基金主题详情'
+      }
     },
     {
       path: '/fundsearch', // 基金搜索
       name: 'fundsearch',
-      component: FundSearch
+      component: resolve => {
+        require.ensure(['@/views/fund_search'], () => {
+          resolve(require('@/views/fund_search'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '搜索'
+      }
     },
     {
       path: '/myhold', // 基金持有
       name: 'myhold',
-      component: MyHold
+      component: resolve => {
+        require.ensure(['@/views/myhold'], () => {
+          resolve(require('@/views/myhold'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '持有'
+      }
     },
     {
       path: '/setting', // 设置
       name: 'setting',
-      component: Setting
+      component: resolve => {
+        require.ensure(['@/views/setting'], () => {
+          resolve(require('@/views/setting'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '设置'
+      }
     },
     {
-      path: '/risktest', // 风险测试
+      path: '/risktest', // 风险测评
       name: 'risktest',
-      component: RiskTest
+      component: resolve => {
+        require.ensure(['@/views/setting/RiskTest'], () => {
+          resolve(require('@/views/setting/RiskTest'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '风险测评'
+      }
     },
     {
-      path: '/riskquestion', // 风险测试问题
+      path: '/riskquestion', // 风险测评问题
       name: 'riskquestion',
-      component: RiskQuestion
+      component: resolve => {
+        require.ensure(['@/views/setting/RiskQuestion'], () => {
+          resolve(require('@/views/setting/RiskQuestion'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '风险测评'
+      }
     },
     {
       path: '/riskresult', // 风险测试结果
       name: 'riskresult',
-      component: RiskResult
+      component: resolve => {
+        require.ensure(['@/views/setting/RiskResult'], () => {
+          resolve(require('@/views/setting/RiskResult'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '风险测评'
+      }
     },
     {
       path: '/password', // 支付密码
       name: 'password',
-      component: Password
+      component: resolve => {
+        require.ensure(['@/views/setting/Password'], () => {
+          resolve(require('@/views/setting/Password'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '密码管理'
+      }
     },
     {
-      path: '/resetpas/', // 重置支付密码1
+      path: '/resetpas', // 重置支付密码1
       name: 'resetpas',
-      component: ResetPas
+      component: resolve => {
+        require.ensure(['@/views/setting/ResetPas'], () => {
+          resolve(require('@/views/setting/ResetPas'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '重置支付密码'
+      }
     },
     {
       path: '/resetpas2/:from', // 重置支付密码2
       name: 'resetpas2',
-      component: ResetPas2
+      component: resolve => {
+        require.ensure(['@/views/setting/ResetPas2'], () => {
+          resolve(require('@/views/setting/ResetPas2'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '支付密码'
+      }
     },
     {
       path: '/modifypas', // 修改支付密码
       name: 'modifypas',
-      component: ModifyPas
+      component: resolve => {
+        require.ensure(['@/views/setting/ModifyPas'], () => {
+          resolve(require('@/views/setting/ModifyPas'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '修改支付密码'
+      }
     },
     {
       path: '/bank', // 基金银行卡
       name: 'bank',
-      component: Bank
+      component: resolve => {
+        require.ensure(['@/views/setting/Bank'], () => {
+          resolve(require('@/views/setting/Bank'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '银行卡'
+      }
     },
     {
       path: '/openfundaccount', // 基金开户1
       name: 'openfundaccount',
-      component: OpenFundAccount
+      component: resolve => {
+        require.ensure(['@/views/setting/OpenFundAccount'], () => {
+          resolve(require('@/views/setting/OpenFundAccount'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '基金开户'
+      }
     },
     {
       path: '/openaccountinfo/:realname/:identityno/:profession/:address/:email', // 基金开户2
       name: 'openaccountinfo',
-      component: OpenAccountInfo
+      component: resolve => {
+        require.ensure(['@/views/setting/OpenAccountInfo'], () => {
+          resolve(require('@/views/setting/OpenAccountInfo'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '基金开户'
+      }
+    },
+    {
+      path: '/protocal', // 基金开户协议
+      name: 'protocal',
+      component: resolve => {
+        require.ensure(['@/views/setting/Protocal'], () => {
+          resolve(require('@/views/setting/Protocal'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '基金开户协议'
+      }
+    },
+    {
+      path: '/protocal2', // 投资人权益须知
+      name: 'protocal2',
+      component: resolve => {
+        require.ensure(['@/views/setting/Protocal2'], () => {
+          resolve(require('@/views/setting/Protocal2'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '投资人权益须知'
+      }
     },
     {
       path: '/detailprofit', // 基金持有收益明细
       name: 'detailprofit',
-      component: DetailProfit
+      component: resolve => {
+        require.ensure(['@/views/myhold/DetailProfit'], () => {
+          resolve(require('@/views/myhold/DetailProfit'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '收益明细'
+      }
     },
     {
       path: '/fundassets/:id/', // 基金资产详情页
       name: 'fundassets',
-      component: FundAssets
+      component: resolve => {
+        require.ensure(['@/views/fund_assets'], () => {
+          resolve(require('@/views/fund_assets'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '资产详情'
+      }
     },
     {
       path: '/fundlist', // 基金列表页
       name: 'fundlist',
-      component: Fundlist
+      component: resolve => {
+        require.ensure(['@/views/fund_list'], () => {
+          resolve(require('@/views/fund_list'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '基金列表'
+      }
     },
     {
       path: '/funddetail/:id', // 基金详情页
       name: 'funddetail',
-      component: FundDetail
+      component: resolve => {
+        require.ensure(['@/views/fund_detail'], () => {
+          resolve(require('@/views/fund_detail'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '基金详情'
+      }
     },
     {
       path: '/order/:id', // 基金购买
       name: 'order',
-      component: FundOrder
+      component: resolve => {
+        require.ensure(['@/views/fund_order'], () => {
+          resolve(require('@/views/fund_order'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '购买'
+      }
     },
     {
       path: '/buysuccess/:id', // 基金购买成功
       name: 'buysuccess',
-      component: BuySuccess
+      component: resolve => {
+        require.ensure(['@/views/fund_order/Success'], () => {
+          resolve(require('@/views/fund_order/Success'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '购买成功'
+      }
     },
     {
       path: '/redeem/:id', // 基金赎回
       name: 'redeem',
-      component: FundRedeem
+      component: resolve => {
+        require.ensure(['@/views/fund_redeem'], () => {
+          resolve(require('@/views/fund_redeem'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '赎回'
+      }
     },
     {
       path: '/redeemsuccess/:id', // 基金赎回成功
       name: 'redeemsuccess',
-      component: RedeemSuccess
+      component: resolve => {
+        require.ensure(['@/views/fund_redeem/Success'], () => {
+          resolve(require('@/views/fund_redeem/Success'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '赎回成功'
+      }
     },
     {
       path: '/chargelist', // 基金交易记录
-      component: ChargeList,
+      component: resolve => {
+        require.ensure(['@/views/fund_charge'], () => {
+          resolve(require('@/views/fund_charge'))
+        })
+      },
       name: 'chargelist',
+      meta: {
+        requiresAuth: true,
+        title: '交易记录'
+      },
       children: [
         { path: 'ing',
           name: 'chargelist/ing', // 全部
-          component: ChargeIng
+          component: resolve => {
+            require.ensure(['@/views/fund_charge/ChargeIng'], () => {
+              resolve(require('@/views/fund_charge/ChargeIng'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '交易记录'
+          }
         },
         { path: 'history',
           name: 'chargelist/history', // 待确认
-          component: ChargeHistory
+          component: resolve => {
+            require.ensure(['@/views/fund_charge/ChargeHistory'], () => {
+              resolve(require('@/views/fund_charge/ChargeHistory'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '交易记录'
+          }
         }
       ]
     },
     {
       path: '/fundrecord/:id', // 基金档案
-      component: FundRecord,
+      component: resolve => {
+        require.ensure(['@/views/fund_record'], () => {
+          resolve(require('@/views/fund_record'))
+        })
+      },
       name: 'fundrecord',
+      meta: {
+        requiresAuth: true,
+        title: '基金档案'
+      },
       children: [
         { path: 'info',
           name: 'fundrecord/info', // 基金概况
-          component: FundInfo
+          component: resolve => {
+            require.ensure(['@/views/fund_record/FundInfo'], () => {
+              resolve(require('@/views/fund_record/FundInfo'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '基金概况'
+          }
         },
         { path: 'notice',
           name: 'fundrecord/notice', // 基金公告列表
-          component: FundNotice
+          component: resolve => {
+            require.ensure(['@/views/fund_record/FundNotice'], () => {
+              resolve(require('@/views/fund_record/FundNotice'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '公告'
+          }
         },
         { path: 'hold',
           name: 'fundrecord/hold', // 基金持仓
-          component: FundHold
+          component: resolve => {
+            require.ensure(['@/views/fund_record/FundHold'], () => {
+              resolve(require('@/views/fund_record/FundHold'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '持仓'
+          }
         },
         { path: 'type',
           name: 'fundrecord/type', // 基金行业
-          component: FundType
+          component: resolve => {
+            require.ensure(['@/views/fund_record/FundType'], () => {
+              resolve(require('@/views/fund_record/FundType'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '行业'
+          }
         },
         { path: 'fh',
           name: 'fundrecord/fh', // 基金分红配送
-          component: FundFh
+          component: resolve => {
+            require.ensure(['@/views/fund_record/FundFh'], () => {
+              resolve(require('@/views/fund_record/FundFh'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '分红'
+          }
         }
       ]
     },
     {
       path: '/traderule/:id', // 基金交易规则
-      component: Traderule,
+      component: resolve => {
+        require.ensure(['@/views/fund_rule'], () => {
+          resolve(require('@/views/fund_rule'))
+        })
+      },
       name: 'traderule',
+      meta: {
+        requiresAuth: true,
+        title: '交易规则'
+      },
       children: [
         { path: 'mrgz',
           name: 'traderule/mrgz',
-          component: mrRule
+          component: resolve => {
+            require.ensure(['@/views/fund_rule/Mrgz'], () => {
+              resolve(require('@/views/fund_rule/Mrgz'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '交易规则'
+          }
         },
         { path: 'mcgz',
           name: 'traderule/mcgz',
-          component: mcRule
+          component: resolve => {
+            require.ensure(['@/views/fund_rule/Mcgz'], () => {
+              resolve(require('@/views/fund_rule/Mcgz'))
+            })
+          },
+          meta: {
+            requiresAuth: true,
+            title: '交易规则'
+          }
         }
       ]
     },
     {
       path: '/detailhistory/:id', // 基金历史净值
       name: 'detailhistory',
-      component: Detailhistory
+      component: resolve => {
+        require.ensure(['@/views/fund_detail/DetailHistory'], () => {
+          resolve(require('@/views/fund_detail/DetailHistory'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '历史净值'
+      }
     },
     { path: '/notice/:id/:disc_id',
       name: 'noticedetail', // 基金公告详情
-      component: NoticeDetail
+      component: resolve => {
+        require.ensure(['@/views/fund_record/NoticeDetail'], () => {
+          resolve(require('@/views/fund_record/NoticeDetail'))
+        })
+      },
+      meta: {
+        requiresAuth: true,
+        title: '详情'
+      }
     }
   ]
 })

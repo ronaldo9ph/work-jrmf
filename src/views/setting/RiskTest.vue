@@ -14,11 +14,25 @@
 export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if (from.fullPath !== '/' && from.fullPath.indexOf('openaccountinfo') <= 0) {
-        window.localStorage.setItem('backUrl', from.fullPath)
+      if ((from.fullPath !== '/' && !from.fullPath.indexOf('openaccountinfo') === 1 && !window.sessionStorage.getItem('backUrl').indexOf('funddetail'))) {
+        window.sessionStorage.setItem('backUrl', from.fullPath)
+        let backUrl = window.sessionStorage.getItem('backUrl')
+        vm.$store.commit('backUrl', {backUrl: backUrl})
       }
-      let backUrl = window.localStorage.getItem('backUrl')
-      vm.$store.commit('backUrl', {backUrl: backUrl})
+      if ((from.fullPath !== '/' && from.fullPath.indexOf('openaccountinfo') && window.sessionStorage.getItem('backUrl').indexOf('funddetail'))) {
+        let backUrl = window.sessionStorage.getItem('backUrl')
+        vm.$store.commit('backUrl', {backUrl: backUrl})
+      }
+      if (from.fullPath !== '/' && from.fullPath.indexOf('order') === 1) {
+        window.sessionStorage.setItem('backUrl', from.fullPath)
+        let backUrl = window.sessionStorage.getItem('backUrl')
+        vm.$store.commit('backUrl', {backUrl: backUrl})
+      }
+      if (from.fullPath === '/riskresult' || from.fullPath === '/setting') {
+        window.sessionStorage.setItem('backUrl', '/myhold')
+        let backUrl = window.sessionStorage.getItem('backUrl')
+        vm.$store.commit('backUrl', {backUrl: backUrl})
+      }
     })
   }
 }

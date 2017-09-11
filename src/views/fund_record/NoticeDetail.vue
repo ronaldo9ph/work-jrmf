@@ -21,14 +21,16 @@ export default {
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/records/' + this.$route.params.id + '/announcements/' + this.$route.params.disc_id)
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.fundid = res.data.fundid
       this.title = res.data.fundAnnounceDetail.title
       this.txt_content = res.data.fundAnnounceDetail.txt_content
       this.declaredate = res.data.fundAnnounceDetail.declaredate
       this.source = res.data.fundAnnounceDetail.source
-    } else {
+    }
+    if (res.data.fstat === 9) {
       this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   }
 }

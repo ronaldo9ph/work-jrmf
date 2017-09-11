@@ -9,23 +9,6 @@
 </ul>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-
-    }
-  },
-  created: async function () {
-    const res = await this.$http.post('')
-    if (res) {
-
-    }
-  }
-}
-
-</script>
-
 <style lang="less">
 @import '../../styles/setting.less';
 </style>

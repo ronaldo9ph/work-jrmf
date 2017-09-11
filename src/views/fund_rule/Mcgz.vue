@@ -28,14 +28,14 @@
         <table class="tb">
             <tr>
                 <th class="text-left">持有期限</th>
-                <th>费率</th>
+                <th class="text-right">费率</th>
             </tr>
             <tr v-for="item in fundChagRateList" v-if="item.max_term_name == '赎回费' && item.chng_min_term_mark=='日常赎回费' ">
                 <td class="text-left" v-if="item.term_rela_name==null">--</td>
                 <td class="text-left" v-else-if="item.term_rela_name=='<X'||item.term_rela_name=='<=X'">大于{{item.hld_term_low_lim }}{{item.hld_term_unit_mark }}</td>
                 <td class="text-left" v-else-if="item.term_rela_name=='X<'||item.term_rela_name=='X<='">小于{{item.hld_term_up_lim }}{{item.hld_term_unit_mark }}</td>
                 <td class="text-left" v-else>{{item.hld_term_low_lim }}{{item.hld_term_unit_mark }}至{{item.hld_term_up_lim }}{{item.hld_term_unit_mark }}</td>
-                <td class="text-red">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
+                <td class="text-right">{{item.chag_rate_up_lim}}{{item.rate_unit_name }}</td>
             </tr>
         </table>
     </div>
@@ -62,14 +62,16 @@ export default{
   },
   created: async function () {
     const res = await this.$http.get('api/v1/funds/chag-rates/' + this.$route.params.id)
-    if (res.data.fstat) {
+    if (res.data.fstat === 1) {
       this.fundChagRateList = []
       this.redeemDay = res.data.redeemDay
       for (var i = 0; i < res.data.fundChagRateList.length; i++) {
         this.fundChagRateList[i] = res.data.fundChagRateList[i]
       }
-    } else {
+    }
+    if (res.data.fstat === 9) {
       this.$vux.toast.text(res.data.respmsg, 'middle')
+      return false
     }
   }
 }

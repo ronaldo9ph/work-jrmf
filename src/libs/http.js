@@ -1,20 +1,21 @@
 import axios from 'axios'
 import qs from 'qs'
-import store from '../store'
-
-axios.defaults.timeout = 15000
+import router from '../router'
+axios.defaults.timeout = 150000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+
 // axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2/'
-axios.defaults.baseURL = 'http://192.168.30.177:8080/yilucaifu-openapi/'
-// axios.defaults.headers.common['Authorization'] = 'token123123123'
+// axios.defaults.baseURL = 'http://yl-openapi.yilucaifu.com'
+// axios.defaults.baseURL = 'http://a.yilucaifu.com/test/'
+// axios.defaults.baseURL = 'http://192.168.30.96:8080/yilucaifu-openapi/'
 // POST传参序列化
 axios.interceptors.request.use(config => {
   // loading
   if (config.method === 'post') {
     config.data = qs.stringify(config.data)
   }
-  if (store.state.token) {
-    // config.headers.Authorization = `token ${store.state.token}`
+  if (window.sessionStorage.getItem('tokens') !== null) {
+    config.headers.Authorization = `${window.sessionStorage.getItem('tokens')}`
   }
   return config
 }, error => {
@@ -24,7 +25,7 @@ axios.interceptors.request.use(config => {
 
 // code状态码200判断
 axios.interceptors.response.use(res => {
-  console.log(res.data)
+  // console.log(res.data)
   // if (res.data.code !== 200) {
   //   // console.error(res.data.msg)
   //   return Promise.reject(res)
@@ -35,11 +36,15 @@ axios.interceptors.response.use(res => {
 })
 
 function checkStatus (response) {
-  // loading
   // 如果http状态码正常，则直接返回数据
   if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
+    if (!response.data || response.data.fstat === 0) {
+      router.push({path: '/error'})
+    }
     return response
     // 如果不需要除了data之外的数据，可以直接 return response.data
+  } else {
+    router.push({path: '/error'})
   }
   // 异常状态下，把错误信息返回去
   return {
@@ -51,6 +56,7 @@ function checkStatus (response) {
 function checkCode (res) {
   // 如果code异常(这里已经包括网络错误，服务器错误，后端抛出的错误)，可以弹出一个错误提示，告诉用户
   if (res.status === -404) {
+    router.push({path: '/error'})
     console.error(res.msg)
   }
   // if (res.data && (!res.data.success)) {

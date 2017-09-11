@@ -3,6 +3,43 @@
 body{
     background: #eeeeee;
 }
+.errPage{
+  padding: 100px 20px 20px;
+  .top{
+    font-size: 20px;
+    border-bottom: 1px solid #cecece;
+    padding-bottom: 30px;
+    img{
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+  }
+  .reason{
+    padding-top: 30px;
+    margin: 0 auto;
+    width: 220px;
+    color: #999999;
+    padding-left: 80px;
+    position: relative;
+    line-height: 30px;
+    em{
+      position: relative;
+      font-size: 20px;
+      top: -2px;
+      margin-right: 5px;
+      display: inline-block;
+      color: #cdcdcd;
+    }
+    .t{
+      position: absolute;
+      left: 0px;
+      top: 32px;
+    }
+    p{
+      list-style: disc;
+    }
+  }
+}
 .fund-list{
     .tb{
         width: 100%;
@@ -87,7 +124,6 @@ body{
         width: 100%;
         th{
             background-color: #eff0f4;
-            font-size: 16px;
             color: #666666;
             font-weight: normal;
         }
@@ -96,7 +132,7 @@ body{
             text-align: center;
         }
         td{
-            border: 1px solid #c8c8c8;
+            border: 1px solid #dfe0df;
             background-color: white;
         }
     }
@@ -252,6 +288,10 @@ body{
                     border-bottom: 1px solid #e1e0e0;
                     &.text-left{
                         text-align: left;
+                    }
+                    &.text-right{
+                        text-align: right;
+                        padding-right: 15px;
                     }
                 }
                 th{
@@ -452,6 +492,12 @@ body{
         }
     }
 }
+.fhPage{
+  .tips{
+    text-align: center;
+    padding: 30px;
+  }
+}
 .fund-fh{
     color: #666666;
     margin-top:10px;
@@ -602,6 +648,17 @@ body{
     background-color: #ef4a43;
     padding: 20px 0px;
     color: white;
+    .zk{
+      background-color: white;
+      height: 18px;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 0px 10px;
+      display: inline-block;
+      border-radius: 8px;
+      color: #ef4a43;
+      margin-left: 5px;
+    }
     .tp{
       padding:0px 15px;
       margin-bottom: 10px;
@@ -821,6 +878,48 @@ body{
       border: none;
     }
   }
+}
+.fund-list .tb th.text-right .selectRelbox{
+  float: right;
+}
+.selectRelbox{
+    text-align: left;
+    a{
+        color: #666666;
+    }
+    dt{
+        .sel{
+            padding-right: 13px;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            background: url("@{url}/down.png") no-repeat right center;
+            background-size: 10px;
+        }
+    }
+    dd{
+        position: absolute;
+        width: 100%;
+        top: 40px;
+        left: 0px;
+        z-index: 9;
+        padding-left: 10px;
+        background-color: white;
+        border-top: 1px solid #d6d6d6;
+        a{
+            display: block;
+            line-height: 40px;
+            border-bottom: 1px solid #d6d6d6;
+            &:last-child{
+                border-bottom: none;
+            }
+            &.current{
+                color: @main_color;
+                background: url("@{url}/right.png") no-repeat 95% center;
+                background-size: 15px;
+            }
+        }
+    }
 }
 @media screen and (max-width: 360px) {
 .fundSum{

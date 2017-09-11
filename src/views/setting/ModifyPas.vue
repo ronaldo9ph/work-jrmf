@@ -14,30 +14,38 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 export default {
   data () {
     return {
       password: ''
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      window.sessionStorage.setItem('repasBackUrl', from.fullPath)
+    })
+  },
   methods: {
-    nextFun: async function () {
+    nextFun: debounce(async function (e) {
       var num = /^[0-9]\d*$|^0$/
       if (this.password === '') {
-        this.$vux.toast.text('请输入原六位数字交易密码', 'middle')
+        this.$vux.toast.text('请输入原六位数字支付密码', 'middle')
         return false
       }
       if (this.password.length !== 6 || !num.test(this.password)) {
-        this.$vux.toast.text('交易密码必须为六位数字', 'middle')
+        this.$vux.toast.text('支付密码必须为六位数字', 'middle')
         return false
       }
       const res = await this.$http.get('api/v1/funds/passwords/actions/old-pwd', {'tranPassword': this.password})
-      if (res.data.fstat) {
-        this.$router.push({path: 'resetpas2/reset2'})
-      } else {
-        this.$vux.toast.text(res.data.respmsg, 'middle')
+      if (res.data.fstat === 1) {
+        this.$router.push({path: 'resetpas2/reset'})
       }
-    }
+      if (res.data.fstat === 9) {
+        this.$vux.toast.text(res.data.respmsg, 'middle')
+        return false
+      }
+    }, 500)
   }
 }
 

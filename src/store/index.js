@@ -6,8 +6,7 @@ export default new Vuex.Store({
   state: {
     count: 0,
     isLoading: false,
-    backUrl: '',
-    token: 'aaa'
+    backUrl: ''
   },
   mutations: {
     // example
