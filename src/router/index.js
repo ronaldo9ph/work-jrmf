@@ -41,7 +41,7 @@ export default new Router({
       }
     },
     {
-      path: '/charttest/:id', // charttest
+      path: '/charttest', // charttest
       name: 'charttest',
       component: resolve => {
         require.ensure(['@/views/ChartTest'], () => {

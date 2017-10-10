@@ -53,14 +53,14 @@ export default {
         disableVol: '', // 冻结份额
         minredemptionvol: '', // 基金最少赎回份数
         minaccountbalance: '', // 基金最低持有份数
-        maxredemptionvol: '', // 基金最高赎回份数
-        amount: ' ' // 可赎回份额
+        maxredemptionvol: '' // 基金最高赎回份数
       },
       fundBank: {
         bankName: '', // 银行名称
         bankLogo: '', // 银行logo
         bankbook: '' // 银行卡号
       },
+      amount: ' ', // 可赎回份额
       isShow: false, // 支付密码弹窗是否显示
       password: '' // 密码
     }
