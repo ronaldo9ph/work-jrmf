@@ -1,21 +1,33 @@
 <template>
-    <div :id="id"
-    :option="option"></div>
+<div>
+  <ul>
+     <li v-for="(value, index) in girls">
+          {{ index }} - {{ value.name }} - {{ value.age }}
+          <a href="javascript:void(0)" @click="notice(value.name,value.age)">发消息</a>
+      </li>
+  </ul>
+  <div>接收来自大群的消息:{{ noticeGirl }}</div>
+</div>
 </template>
 <script>
-import HighCharts from 'highcharts/highstock'
 export default {
-  // 验证类型
   props: {
-    id: {
-      type: String
+    girls: {
+      type: Array,
+      required: true
     },
-    option: {
-      type: Object
+    noticeGirl: {
+      type: String,
+      required: false
     }
   },
-  mounted () {
-    HighCharts.chart(this.id, this.option)
+  methods: {
+    notice: function (a, b) {
+      this.$emit('introduce', {
+        name: a,
+        age: b
+      })
+    }
   }
 }
 

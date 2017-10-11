@@ -5,13 +5,23 @@
       <p>您访问的页面出错了</p>
     </div>
     <div class="reason">
-      <label class="t">可能原因：</label>
-      <p><em>.</em>网络信号弱</p>
-      <p><em>.</em>找不到请求页面</p>
-      <p><em>.</em>输入的网址不正确</p>
+      <p>{{respmsg}}</p>
     </div>
   </div>
 </template>
+<script>
+export default{
+  data () {
+    return {
+      respmsg: ''
+    }
+  },
+  created: function () {
+    this.respmsg = window.sessionStorage.getItem('respmsg')
+  }
+}
+
+</script>
 
 <style lang="less">
 @import '../../styles/style.less';

@@ -41,6 +41,7 @@ router.afterEach(function (to, from, next) {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (window.sessionStorage.getItem('tokens') === null) {
+      window.sessionStorage.setItem('respmsg', 'token失效')
       next({
         path: '/error',
         query: { redirect: to.fullPath }
@@ -53,13 +54,14 @@ router.beforeEach((to, from, next) => {
   }
 })
 router.beforeEach((to, from, next) => {
-  if (to.matched.length === 0) {                                        // 如果未匹配到路由
+  if (to.matched.length === 0) { // 如果未匹配到路由
+    window.sessionStorage.setItem('respmsg', '非法的请求')
     next({
       path: '/error',
       query: { redirect: to.fullPath }
     })
   } else {
-    next()                                                                            // 如果匹配到正确跳转
+    next()
   }
 })
 

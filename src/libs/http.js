@@ -4,7 +4,7 @@ import router from '../router'
 axios.defaults.timeout = 150000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
-// axios.defaults.baseURL = 'http://rap.mofang.com/mockjsdata/2/'
+// axios.defaults.baseURL = 'https://rap.mofang.com/mockjsdata/2/'
 // axios.defaults.baseURL = 'http://yl-openapi.yilucaifu.com'
 // axios.defaults.baseURL = 'http://a.yilucaifu.com/test/'
 // axios.defaults.baseURL = 'http://192.168.30.96:8080/yilucaifu-openapi/'
@@ -37,13 +37,19 @@ axios.interceptors.response.use(res => {
 
 function checkStatus (response) {
   // 如果http状态码正常，则直接返回数据
-  if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
+  if (response && (response.status === 200 || response.status === 304)) {
     if (!response.data || response.data.fstat === 0) {
+      window.sessionStorage.setItem('respmsg', response.data.respmsg)
+      router.push({path: '/error'})
+    }
+    if (response.status === 400) {
+      window.sessionStorage.setItem('respmsg', '参数异常')
       router.push({path: '/error'})
     }
     return response
     // 如果不需要除了data之外的数据，可以直接 return response.data
   } else {
+    window.sessionStorage.setItem('respmsg', '参数异常')
     router.push({path: '/error'})
   }
   // 异常状态下，把错误信息返回去
