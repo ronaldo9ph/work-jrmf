@@ -8,12 +8,13 @@
   </div>
   <div class="module" v-if="list">
     <h3 class="title">热卖推荐</h3>
-    <dl class="hotRec" v-for="item in list" @click="fundDetail(item.fund_code)">
+    <dl class="hotRec" v-for="(item,index) in list" @click="fundDetail(item.fund_code)">
       <dt>
         <p class="num text-red">{{item.unit_NET_CHNG_PCT_1_YEAR}}%</p>
         <p class="text-gray">近一年收益</p>
       </dt>
       <dd>
+        <span class="rec" v-if="index==0"></span>
         <h3 class="name">{{item.fundname}}</h3>
         <div class="tag" v-html="splitTag(item.lable)"></div>
       </dd>
@@ -55,10 +56,18 @@ export default{
         let custId = _self.getParam('cust_id')
         let timeStamp = _self.getParam('timeStamp')
         let sign = _self.getParam('sign')
+        let redUrl = _self.getParam('redUrl')
+        let fundcode = _self.getParam('fundcode')
         const res = await _self.$http.get('api/v1/funds/actions/login', {'cust_id': custId, 'customkey': customkey, 'mobiletelno': mobiletelno, 'sign': sign, 'timeStamp': timeStamp})
         if (res.data.fstat === 1) {
           if (res.data.hasReg) {
             window.sessionStorage.setItem('tokens', res.data.token)
+            if (redUrl === 'fundDetail') {
+              _self.$router.push({path: '/funddetail/' + fundcode})
+            }
+            if (redUrl === 'fundhold') {
+              _self.$router.push({path: '/myhold'})
+            }
           } else {
             _self.$router.push({path: '/Identification/' + mobiletelno + '/' + custId + '/' + customkey})
           }
@@ -103,7 +112,8 @@ export default{
       this.$vux.loading.show({
         text: '加载中...'
       })
-      const res = await this.$http.get('api/v1/funds/recommends')
+      let recomfundcode = this.getParam('recomfundcode')
+      const res = await this.$http.get('api/v1/funds/recommends', {'recomfundcode': recomfundcode})
       if (res.data.fstat === 1) {
         this.list = []
         for (let i = 0; i < res.data.list.length; i++) {

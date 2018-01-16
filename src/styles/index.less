@@ -1,6 +1,6 @@
 @url:"../assets";
-@main_color:#ef5843;
-@deep_color:#e94d3a;
+@main_color:#fd5525;
+@deep_color:#f05326;
 body{
     background: #eeeeee;
     padding-bottom: 80px;
@@ -14,7 +14,7 @@ body{
     width: 70px;
     border: 1px solid white;
     color: white;
-    background-color: #ef4a43;
+    background-color: #fd5525;
     position: absolute;
     right: 15px;
     top:15px;
@@ -33,7 +33,7 @@ body{
 }
 .indexPage{
   .searchBox{
-    background-color: #ef4a43;
+    background-color: #fd5525;
     margin-bottom: 5px;
     .txt{
       cursor: pointer;
@@ -55,12 +55,23 @@ body{
 }
 .hotRec{
   margin:0px 15px 15px;
-  border-right: 5px solid #ef4a43;
+  border-right: 5px solid #fd5525;
   box-shadow: 0px 0px 10px #eeeeee;
   border-radius: 3px;
   position: relative;
   padding: 0px 0px 0px 100px;
   height: 85px;
+  .rec{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: block;
+    background: url("@{url}/rec.png") no-repeat;
+    background-size: 40px;
+    right: 15px;
+    top:-17px;
+    z-index: 3;
+  }
   dt{
     position: absolute;
     height: 85px;
@@ -120,7 +131,7 @@ body{
     height: 45px;
     line-height: 45px;
     &.current{
-      background-color: #ef4a43;
+      background-color: #fd5525;
       color: white;
     }
   }
@@ -245,10 +256,10 @@ body{
       display: inline-block;
       padding: 0px 5px;
       border-radius: 10px;
-      border: 1px solid #ef4a43;
+      border: 1px solid #f05326;
       margin-left: 5px;
       font-size: 12px;
-      color: #ef4a43;
+      color: #f05326;
     }
     th{
       padding: 0px 15px 5px;
