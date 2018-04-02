@@ -33,7 +33,7 @@
         </div>
         <div class="bt clearfix">
           <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消</a>
-          <a href="javascript:void(0)" class="btn btn-red pull-right" @click="subForm()">确认赎回</a>
+          <a href="javascript:void(0)" :class="dis==true?'btn btn-red pull-right':'btn btn-red pull-right disabled'" @click="subForm()">确认赎回</a>
         </div>
       </div>
     </div>
@@ -62,7 +62,8 @@ export default {
       },
       amount: ' ', // 可赎回份额
       isShow: false, // 支付密码弹窗是否显示
-      password: '' // 密码
+      password: '', // 密码
+      dis: true // 防止提交订单按钮重复提交
     }
   },
   created: async function () {
@@ -115,8 +116,10 @@ export default {
       this.amount = e
     },
     subForm: debounce(async function (e) {
+      this.dis = false
       if (this.password === '' || this.password.length !== 6) {
         this.$vux.toast.text('请输入六位数字支付密码', 'middle')
+        this.dis = true
         return false
       }
       const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/redeem', {'transpasswd': this.password, 'applicationvol': this.amount, 'availablevol': this.fund.availablevol - this.fund.disableVol})
@@ -125,6 +128,7 @@ export default {
       }
       if (res.data.fstat === 9) {
         this.$vux.toast.text(res.data.respmsg, 'middle')
+        this.dis = true
         return false
       }
     }, 500)

@@ -2,8 +2,9 @@
 <div class="myhold" v-if="isShow">
   <div class="top">
     <router-link :to="{ name: 'setting'}" class="set">设置</router-link>
-    <p class="t">总金额(元)</p>
-    <p class="num total">{{fundmarketvalue}}</p>
+    <p class="t">总金额(元)<em :class="[isHide?'icon':'icon dis']" @click="totalShow"></em></p>
+    <p class="num total" v-if="isHide">{{fundmarketvalue}}</p>
+    <p class="num total" v-else>****</p>
     <div class="con clearfix">
       <div class="item">
         <p>昨日收益(元)</p>
@@ -45,7 +46,7 @@
     </ul>
   </div>
   <div v-if="openAccountStatus==0" class="text-gray text-center pad">
-    想赚钱？快来买<router-link :to="{ name: 'fundlist'}" class="text-blue">基金</router-link>吧
+    想赚钱？快来买<router-link :to="{ name: 'fundindex'}" class="text-blue">基金</router-link>吧
   </div>
   <div class="fixed-bottom">
     <router-link :to="{ name: 'fundindex'}"><i class="hot"></i>热门</router-link>
@@ -64,7 +65,8 @@ export default {
       fundList: [], // 持有基金列表
       count: '', // 确认中个数
       openAccountStatus: 0,
-      isShow: false
+      isShow: false,
+      isHide: true
     }
   },
   created: async function () {
@@ -100,6 +102,9 @@ export default {
   methods: {
     locHref: function (id) {
       this.$router.push({path: '/fundassets/' + id})
+    },
+    totalShow: function () {
+      this.isHide = !this.isHide
     }
   }
 }

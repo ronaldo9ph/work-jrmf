@@ -3,7 +3,7 @@ export default {
   chart: {
     height: 200
   },
-  colors: ['#ff6c44'],
+  colors: ['#f04a3a'],
   rangeSelector: {
     selected: 1,
     enabled: false
@@ -33,7 +33,7 @@ export default {
     text: ''
   },
   tooltip: {
-    backgroundColor: '#ef5043',   // 背景颜色
+    backgroundColor: '#f04a3a',   // 背景颜色
     borderRadius: 4,             // 边框圆角
     shadow: true,                 // 是否显示阴影
     animation: true,               // 是否启用动画效果

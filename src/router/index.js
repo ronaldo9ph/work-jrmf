@@ -65,7 +65,7 @@ export default new Router({
         })
       },
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         requiresAuth: true,
         title: '基金主题详情'
       }
@@ -219,7 +219,7 @@ export default new Router({
         })
       },
       meta: {
-        keepAlive: false,
+        keepAlive: true,
         requiresAuth: true,
         title: '银行卡'
       }
@@ -303,7 +303,7 @@ export default new Router({
         })
       },
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         requiresAuth: true,
         title: '资产详情'
       }
@@ -443,7 +443,7 @@ export default new Router({
       },
       name: 'fundrecord',
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         requiresAuth: true,
         title: '基金档案'
       },
@@ -456,7 +456,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '基金概况'
           }
@@ -469,7 +469,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '公告'
           }
@@ -482,7 +482,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '持仓'
           }
@@ -495,7 +495,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '行业'
           }
@@ -508,7 +508,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '分红'
           }
@@ -537,7 +537,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '交易规则'
           }
@@ -550,7 +550,7 @@ export default new Router({
             })
           },
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
             title: '交易规则'
           }
@@ -566,7 +566,7 @@ export default new Router({
         })
       },
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         requiresAuth: true,
         title: '历史净值'
       }
@@ -579,7 +579,7 @@ export default new Router({
         })
       },
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         requiresAuth: true,
         title: '详情'
       }

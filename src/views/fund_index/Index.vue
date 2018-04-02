@@ -1,27 +1,39 @@
 <template lang="html">
 <div class="indexPage">
-  <div class="searchBox">
+  <div class="searchBox" v-if="customkey!='guoanshequ'">
     <router-link :to="{ name: 'fundsearch'}">
       <input type="text" class="txt" placeholder="请输入基金名称或代码" />
     </router-link>
     <router-link :to="{ name: 'fundlist'}" class="search-btn">全部</router-link>
   </div>
   <div class="module" v-if="list">
-    <h3 class="title">热卖推荐</h3>
-    <dl class="hotRec" v-for="(item,index) in list" @click="fundDetail(item.fund_code)">
-      <dt>
-        <p class="num text-red">{{item.unit_NET_CHNG_PCT_1_YEAR}}%</p>
+    <h3 class="title">王牌好基<em class="text-gray">选股突出  业绩稳健</em></h3>
+    <template v-for="(item,index) in list">
+      <div class="wpFund"  @click="fundDetail(item.fund_code)" v-if="index==0">
+        <h2 class="t">{{item.fundname}}</h2>
+        <p class="fee text-red"><span class="num"><span v-if="item.unit_NET_CHNG_PCT_1_YEAR>0">+</span>{{item.unit_NET_CHNG_PCT_1_YEAR}}</span>%</p>
         <p class="text-gray">近一年收益</p>
-      </dt>
-      <dd>
-        <span class="rec" v-if="index==0"></span>
-        <h3 class="name">{{item.fundname}}</h3>
-        <div class="tag" v-html="splitTag(item.lable)"></div>
-      </dd>
-    </dl>
+        <input type="button"value="立即抢购" class="btn btn-red" />
+      </div>
+    </template>
   </div>
-  <div class="module" v-if="hotThemeList">
-    <h3 class="title">主题基金</h3>
+  <div class="module" v-if="list">
+    <h3 class="title">热卖推荐<em class="text-gray">专家推荐  人气好基</em></h3>
+    <template v-for="(item,index) in list">
+      <dl class="hotRec" @click="fundDetail(item.fund_code)" v-if="index>0">
+        <dt>
+          <p class="num text-red">{{item.unit_NET_CHNG_PCT_1_YEAR}}%</p>
+          <p class="text-gray">近一年收益</p>
+        </dt>
+        <dd>
+          <h3 class="name">{{item.fundname}}</h3>
+          <div class="tag" v-html="splitTag(item.lable)"></div>
+        </dd>
+      </dl>
+    </template>
+  </div>
+  <div class="module" v-if="hotThemeList && customkey!='guoanshequ'">
+    <h3 class="title">主题基金<em class="text-gray">紧追热点  发现机遇</em></h3>
     <ul class="main-fund clearfix">
       <li v-for="item in hotThemeList">
         <router-link :to="{ name: 'fundthemes', params: {id:item.theme_id} }">
@@ -43,6 +55,7 @@
 export default{
   data () {
     return {
+      customkey: '',
       hotThemeList: [], // 主题基金
       list: []// 热卖推荐
     }
@@ -58,7 +71,8 @@ export default{
         let sign = _self.getParam('sign')
         let redUrl = _self.getParam('redUrl')
         let fundcode = _self.getParam('fundcode')
-        const res = await _self.$http.get('api/v1/funds/actions/login', {'cust_id': custId, 'customkey': customkey, 'mobiletelno': mobiletelno, 'sign': sign, 'timeStamp': timeStamp})
+        window.localStorage.setItem('customkey', customkey)
+        const res = await _self.$http.get('api/v1/funds/actions/login', {'cust_id': custId, 'customkey': window.localStorage.getItem('customkey'), 'mobiletelno': mobiletelno, 'sign': sign, 'timeStamp': timeStamp})
         if (res.data.fstat === 1) {
           if (res.data.hasReg) {
             window.sessionStorage.setItem('tokens', res.data.token)
@@ -80,6 +94,7 @@ export default{
       setTimeout(resolve, 1)
     }).then(async function () {
       if (window.sessionStorage.getItem('tokens') !== null) {
+        _self.customkey = window.localStorage.getItem('customkey')
         _self.loadData()
       }
     })
@@ -113,7 +128,7 @@ export default{
         text: '加载中...'
       })
       let recomfundcode = this.getParam('recomfundcode')
-      const res = await this.$http.get('api/v1/funds/recommends', {'recomfundcode': recomfundcode})
+      const res = await this.$http.get('api/v1/funds/recommends', {'recomfundcode': recomfundcode, 'customkey': window.localStorage.getItem('customkey')})
       if (res.data.fstat === 1) {
         this.list = []
         for (let i = 0; i < res.data.list.length; i++) {

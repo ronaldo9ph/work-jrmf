@@ -1,7 +1,8 @@
 @url:"../assets";
-@main_color:#fd5525;
+@main_color:#f04a3a;
+@deep_color:#fe5949;
 body{
-    background: #eeeeee;
+    background: #f5f5f5;
 }
 .errPage{
   padding: 100px 20px 20px;
@@ -114,7 +115,7 @@ body{
             text-align: center;
         }
         td{
-            border: 1px solid #dfe0df;
+            border: 1px solid #e8e8e8;
             background-color: white;
         }
     }
@@ -124,31 +125,30 @@ body{
       padding: 20px 15px;
     }
     .top{
-        background-color: #fd5525;
+        background-color: @main_color;
         color: white;
         text-align: center;
-        padding-bottom: 15px;
         .name{
             padding: 12% 0px;
             font-size: 18px;
             font-weight: normal;
         }
         .item{
+          padding: 15px 0px;
+          background-color:@deep_color;
             li{
                 float: left;
                 width: 33.3%;
                 line-height: 20px;
                 &:nth-child(2){
-                    border-left: 1px solid white;
-                    border-right: 1px solid white;
+                    border-left: 1px solid #ef3422;
+                    border-right: 1px solid #ef3422;
                 }
             }
         }
     }
     .box{
         background-color: white;
-        border-top: 1px solid #cfd0d3;
-        border-bottom: 1px solid #cfd0d3;
         margin-top: 10px;
         &.chart{
             padding-bottom: 15px;
@@ -174,11 +174,11 @@ body{
         margin-left: 15px;
         li{
             line-height: 40px;
-            border-top: 1px solid #e1e0e0;
+            border-top: 1px solid #e8e8e8;
         }
     }
     .con{
-        border-top: 1px solid #e1e0e0;
+        border-top: 1px solid #e8e8e8;
         margin: 0px 0px 0px 15px;
         padding: 15px;
         img{
@@ -186,7 +186,7 @@ body{
         }
     }
     .tab{
-        border: 1px solid #fd5525;
+        border: 1px solid @main_color;
         border-radius: 4px;
         margin:0px 15px 15px;
         a{
@@ -195,11 +195,11 @@ body{
             float: left;
             height: 35px;
             line-height: 35px;
-            color: #fd5525;
-            border-right: 1px solid #fd5525;
+            color: @main_color;
+            border-right: 1px solid @main_color;
             &.current{
                 color: white;
-                background-color: #fd5525;
+                background-color: @main_color;
             }
             &:last-child{
                 border-right:none;
@@ -209,7 +209,7 @@ body{
 }
 .detal-rule{
     .tab{
-        border-bottom: 1px solid #e5e5e6;
+        border-bottom: 1px solid #e8e8e8;
         background-color: white;
         text-align: center;
         margin-bottom: 5px;
@@ -218,28 +218,26 @@ body{
             margin: 0px 10px;
             display: inline-block;
             &.current{
-                border-bottom: 2px solid #fd5525;
+                border-bottom: 2px solid @main_color;
                 position: relative;
                 top: 1px;
-                color: #fd5525;
+                color: @main_color;
             }
         }
     }
     .box{
         background-color: white;
         padding-left: 15px;
-        border-top: 1px solid #e1e1e4;
-        border-bottom: 1px solid #e1e1e4;
         margin-bottom: 5px;
         .title{
             padding: 10px 0px;
-            border-bottom: 1px solid #e1e0e0;
+            border-bottom: 1px solid #e8e8e8;
             font-weight: normal;
         }
         &.mrlc{
             .img{
                 padding: 10px 15px 10px 0px;
-                border-bottom: 1px solid #e1e0e0;
+                border-bottom: 1px solid #e8e8e8;
                 img{
                     width: 100%;
                 }
@@ -249,7 +247,7 @@ body{
                 line-height: 22px;
                 color: #999999;
                 &.b{
-                    border-top: 1px solid #e1e0e0;
+                    border-top: 1px solid #e8e8e8;
                 }
             }
         }
@@ -267,7 +265,7 @@ body{
                     padding: 8px 0px;
                     font-weight: normal;
                     text-align: center;
-                    border-bottom: 1px solid #e1e0e0;
+                    border-bottom: 1px solid #e8e8e8;
                     &.text-left{
                         text-align: left;
                     }
@@ -313,10 +311,10 @@ body{
         top: 45px;
         left: 0px;
         height: 5px;
-        background:#fd5525; /* 一些不支持背景渐变的浏览器 */
-        background:-moz-linear-gradient(left, #fdaf7c, #ff6c44);
-        background:-webkit-gradient(linear, 0 0, 0 right, from(#ff0000), to(#ff6c44));
-        background:-o-linear-gradient(left, #fdaf7c, #ff6c44);
+        background:@main_color; /* 一些不支持背景渐变的浏览器 */
+        background:-moz-linear-gradient(left, #fdaf7c, @main_color);
+        background:-webkit-gradient(linear, 0 0, 0 right, from(#ff0000), to(@main_color));
+        background:-o-linear-gradient(left, #fdaf7c, @main_color);
         border-radius: 4px;
     }
     .tb{
@@ -349,7 +347,7 @@ body{
         padding: 20px 0px;
     }
     .tab{
-        border-bottom: 1px solid #e5e5e6;
+        border-bottom: 1px solid #e8e8e8;
         background-color: white;
         text-align: center;
         a{
@@ -368,15 +366,14 @@ body{
     }
 }
 .fundSum{
+  margin-top: 5px;
     .box{
         background-color: white;
-        border-top: 1px solid #e5e5e6;
-        border-bottom: 1px solid #e5e5e6;
         margin-bottom: 5px;
         .title{
             height: 40px;
             line-height: 40px;
-            border-bottom: 1px solid #e5e5e6;
+            border-bottom: 1px solid #e8e8e8;
             padding-left: 15px;
             color: #666666;
             font-weight: normal;
@@ -424,8 +421,9 @@ body{
     }
 }
 .fundNotice{
+    margin-top: 5px;
     li{
-        border-bottom: 1px solid #c9c9c9;
+        border-bottom: 1px solid #e8e8e8;
         a{
             display: block;
             padding: 8px 10px 8px 105px;
@@ -443,11 +441,10 @@ body{
     }
 }
 .fund-hold{
+    margin-top: 5px;
     color: #666666;
     .box{
         background-color: white;
-        border-top: 1px solid #e9e9ec;
-        border-bottom: 1px solid #e9e9ec;
         padding:10px 15px;
         margin-top: 5px;
     }
@@ -457,7 +454,7 @@ body{
         td,th{
             padding: 10px 15px;
             text-align: center;
-            border-bottom: 1px solid #dadada;
+            border-bottom: 1px solid #e8e8e8;
             font-weight: normal;
             &.text-left{
                 text-align: left;
@@ -482,7 +479,7 @@ body{
 }
 .fund-fh{
     color: #666666;
-    margin-top:10px;
+    margin-top:5px;
     li{
         margin-bottom: 5px;
         background-color: white;
@@ -568,7 +565,7 @@ body{
     }
   }
   .tab{
-      border-bottom: 1px solid #e5e5e6;
+      border-bottom: 1px solid #e8e8e8;
       background-color: white;
       text-align: center;
       a{
@@ -594,7 +591,7 @@ body{
   .list{
     li{
       padding: 10px 15px;
-      border-bottom: 1px solid #e5e5e6;
+      border-bottom: 1px solid #e8e8e8;
       &:last-child{
         border-bottom: none;
       }
@@ -632,10 +629,10 @@ body{
     color: white;
     .zk{
       background-color: white;
-      height: 18px;
+      height: 15px;
       font-size: 12px;
-      line-height: 18px;
-      padding: 0px 10px;
+      line-height: 15px;
+      padding: 0px 3px;
       display: inline-block;
       border-radius: 8px;
       color: #ef4a43;
@@ -648,6 +645,12 @@ body{
         font-size: 18px;
         font-weight: normal;
         margin: 0px;
+        width: 70%;
+        height: 20px;
+        line-height: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
       .tag{
         padding: 0px 10px 0px 15px;
@@ -657,6 +660,7 @@ body{
         line-height: 18px;
         background: url("@{url}/tag-white.png") no-repeat;
         background-size:100% 18px;
+        margin-top: 3px;
       }
     }
     .bt{
@@ -705,6 +709,7 @@ body{
         height: 40px;
         line-height: 40px;
         border: none;
+        background-color: white;
       }
     }
   }
@@ -787,7 +792,7 @@ body{
 }
 .redeemSuc{
   .w{
-    color: #f04a3a;
+    color: @main_color;
     padding: 15px 0px;
     text-align: center;
     font-size: 18px;
@@ -811,7 +816,7 @@ body{
       left: 30px;
       height: 100px;
       top: 25px;
-      border-left: 1px solid #f04a3a;
+      border-left: 1px solid @main_color;
     }
     .it{
       margin-left: 50px;
@@ -887,11 +892,11 @@ body{
         z-index: 9;
         padding-left: 10px;
         background-color: white;
-        border-top: 1px solid #d6d6d6;
+        border-top: 1px solid #e8e8e8;
         a{
             display: block;
             line-height: 40px;
-            border-bottom: 1px solid #d6d6d6;
+            border-bottom: 1px solid #e8e8e8;
             &:last-child{
                 border-bottom: none;
             }

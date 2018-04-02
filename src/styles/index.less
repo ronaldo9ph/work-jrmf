@@ -1,8 +1,8 @@
 @url:"../assets";
-@main_color:#fd5525;
-@deep_color:#f05326;
+@main_color:#f04a3a;
+@deep_color:#fe5949;
 body{
-    background: #eeeeee;
+    background: #f5f5f5;
     padding-bottom: 80px;
 }
 .searchBox{
@@ -14,7 +14,7 @@ body{
     width: 70px;
     border: 1px solid white;
     color: white;
-    background-color: #fd5525;
+    background-color: @main_color;
     position: absolute;
     right: 15px;
     top:15px;
@@ -32,8 +32,29 @@ body{
   }
 }
 .indexPage{
+  .wpFund{
+    margin-left: 20px;
+    padding: 20px 40px 20px 20px;
+    border-top: 1px solid #e8e8e8;
+    text-align: center;
+    .t{
+      font-size: 18px;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+    .fee{
+      line-height: 30px;
+      .num{
+        font-size: 34px;
+      }
+    }
+    .btn{
+      width: 60%;
+      margin-top: 10px;
+    }
+  }
   .searchBox{
-    background-color: #fd5525;
+    background-color: @main_color;
     margin-bottom: 5px;
     .txt{
       cursor: pointer;
@@ -42,20 +63,26 @@ body{
   .module{
     margin-bottom: 10px;
     background-color: white;
-    border-top: 1px solid #e1e2e5;
-    border-bottom: 1px solid #e1e2e5;
+    overflow: hidden;
   }
   .title{
-      border-left: 5px solid #1967b2;
-      height: 40px;
-      line-height: 40px;
+      border-left: 5px solid #6498fb;
+      height: 25px;
+      line-height: 25px;
       padding-left: 15px;
       font-size: 18px;
+      margin:10px 0px;
+      em{
+        margin-left: 5px;
+        font-size: 12px;
+        color: #999999;
+        font-weight: normal;
+      }
   }
 }
 .hotRec{
   margin:0px 15px 15px;
-  border-right: 5px solid #fd5525;
+  border-right: 5px solid @main_color;
   box-shadow: 0px 0px 10px #eeeeee;
   border-radius: 3px;
   position: relative;
@@ -78,7 +105,7 @@ body{
     width: 100px;
     padding-top: 12px;
     text-align: center;
-    border-right: 1px dashed #707070;
+    border-right: 1px dashed #e8e8e8;
     left: 0px;
     top: 0px;
     .num{
@@ -124,6 +151,7 @@ body{
   width: 100%;
   height: 45px;
   background-color: white;
+  overflow: hidden;
   a{
     width:50%;
     float: left;
@@ -131,7 +159,7 @@ body{
     height: 45px;
     line-height: 45px;
     &.current{
-      background-color: #fd5525;
+      background-color: @main_color;
       color: white;
     }
   }
@@ -170,12 +198,12 @@ body{
     height: 110px;
     overflow: hidden;
     width:50%;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #e8e8e8;
     a{
       display: block;
       margin:15px 0px;
       height: 80px;
-      border-right: 1px solid #dadada;
+      border-right: 1px solid #e8e8e8;
       padding-left: 25px;
     }
     &:nth-child(even){
@@ -188,7 +216,7 @@ body{
     font-size: 16px;
   }
   dfn{
-    color: #1967b2;
+    color: @main_color;
     font-size: 24px;
     line-height: 25px;
     margin: 5px 0px;
@@ -197,7 +225,7 @@ body{
 }
 .fundThemes{
   .tab{
-      border-bottom: 1px solid #e5e5e6;
+      border-bottom: 1px solid #e8e8e8;
       background-color: white;
       text-align: center;
       a{
@@ -216,12 +244,12 @@ body{
   }
   .tb{
     width: 100%;
-    border-top: 1px solid #e5e5e6;
+    border-top: 1px solid #e8e8e8;
     margin-top: 5px;
     th,td{
       padding: 10px 15px;
       background-color: white;
-      border-bottom: 1px solid #e5e5e6;
+      border-bottom: 1px solid #e8e8e8;
       &.text-left{
         text-align: left;
       }
@@ -287,7 +315,7 @@ body{
   }
   .searchBox{
     background-color: white;
-    border-bottom: 1px solid #dbdbdb;
+    border-bottom: 1px solid #e8e8e8;
     .txt{
       background-color: #efeff0;
     }
@@ -296,7 +324,7 @@ body{
     background-color: white;
     padding:0px 0px 0px 15px;
     .top{
-      border-bottom: 1px solid #e9e9e9;
+      border-bottom: 1px solid #e8e8e8;
       padding:10px 15px 10px 0px;
       .title{
         color: #999999;
@@ -313,7 +341,7 @@ body{
         line-height: 20px;
         font-size: 12px;
         color: #666666;
-        border: 1px solid #d5d6d8;
+        border: 1px solid #e8e8e8;
         padding: 0px 5px;
         border-radius: 4px;
         margin:0px 5px 10px;
@@ -327,12 +355,10 @@ body{
     font-weight: normal;
   }
   .hot-list{
-    border-top: 1px solid #e5e5e6;
-    border-bottom: 1px solid #e5e5e6;
     background-color: white;
     li{
       margin-left: 15px;
-      border-bottom: 1px solid #e5e5e6;
+      border-bottom: 1px solid #e8e8e8;
       line-height: 40px;
       &:last-child{
         border-bottom: none;
@@ -355,19 +381,32 @@ body{
     color: white;
     position: relative;
     margin-bottom: 10px;
+    .icon{
+      width: 18px;
+      height: 14px;
+      display: inline-block;
+      margin-left: 5px;
+      background: url("@{url}/total-icon.png") no-repeat;
+      background-size: 18px;
+      position: relative;
+      top: 4px;
+      &.dis{
+        background-position: 0px -20px;
+      }
+    }
     .set{
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
       background: url("@{url}/setting.png") no-repeat;
-      background-size: 20px;
+      background-size: 25px;
       display: block;
       right: 15px;
       top: 15px;
       text-indent: -9999px;
     }
     .total{
-      font-size: 40px;
+      font-size: 32px;
       margin-top: 5px;
     }
   }
@@ -378,7 +417,7 @@ body{
     line-height: 25px;
     .item{
       width: 50%;
-      border-right: 1px solid white;
+      border-right: 1px solid #ef3422;
       float: left;
       &:last-child{
         border-right: none;
@@ -386,8 +425,6 @@ body{
     }
   }
   .box{
-    border-top: 1px solid #d9d6d6;
-    border-bottom: 1px solid #d9d6d6;
     background-color: white;
   }
   .link{
@@ -406,7 +443,7 @@ body{
       text-align: center;
       line-height: 35px;
       float: left;
-      border-right: 1px solid #d9d6d6;
+      border-right: 1px solid #e8e8e8;
       &:last-child{
         border-right: none;
       }
@@ -444,6 +481,7 @@ body{
           border: 1px solid #1967b2;
           padding: 0px 5px;
           border-radius: 10px;
+          box-sizing: content-box;
         }
         .t{
           font-size: 18px;
@@ -469,7 +507,7 @@ body{
 }
 .detailprofit{
   .top{
-    background-color: #ef4a43;
+    background-color: #f04a3a;
     padding: 15px 0px;
     .item{
       width: 50%;
@@ -477,7 +515,7 @@ body{
       color: white;
       float: left;
       padding: 5px 0px;
-      border-right: 1px solid white;
+      border-right: 1px solid #ef3422;
       &:last-child{
         border-right: none;
       }
@@ -493,11 +531,9 @@ body{
   .box{
     background-color: white;
     margin-top: 5px;
-    border-top: 1px solid #eff0f4;
-    border-bottom: 1px solid #eff0f4;
     .title{
       font-weight: bold;
-      border-bottom: 1px solid #eff0f4;
+      border-bottom: 1px solid #e8e8e8;
       padding: 10px 15px;
       .w{
         display: inline-block;
@@ -527,7 +563,7 @@ body{
       }
     }
     li{
-      border-bottom: 1px solid #eff0f4;
+      border-bottom: 1px solid #e8e8e8;
       a{
         display: block;
         line-height: 40px;
@@ -543,7 +579,7 @@ body{
 }
 .chargelist{
   .tab{
-    border-bottom: 1px solid #e5e5e6;
+    border-bottom: 1px solid #e8e8e8;
     background-color: white;
     text-align: center;
     a{
@@ -570,8 +606,6 @@ body{
     padding: 0px 15px;
     background-color: white;
     margin-bottom: 10px;
-    border-bottom: 1px solid #dfdfdf;
-    border-top: 1px solid #dfdfdf;
   }
   .tb{
     width: 100%;
@@ -590,7 +624,7 @@ body{
         padding-top: 0px;
       }
       &.bt{
-        border-top: 1px solid #dfdfdf;
+        border-top: 1px solid #e8e8e8;
       }
     }
   }

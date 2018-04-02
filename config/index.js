@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       // '/api': {
-      //   target: 'http://yl-openapi.yilucaifu.com',
+      //   target: 'http://openapi.yilucaifu.com',
       //   changeOrigin: true
       // }
     },
