@@ -13,6 +13,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         title: '基金'
       }
     },
@@ -25,6 +26,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         title: 'Error'
       }
     },
@@ -37,6 +39,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         title: '身份认证'
       }
     },
@@ -49,6 +52,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         title: 'test'
       }
     },
@@ -61,6 +65,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '基金主题详情'
       }
@@ -74,6 +79,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '搜索'
       }
@@ -87,6 +93,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '持有'
       }
@@ -100,6 +107,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '设置'
       }
@@ -113,6 +121,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '风险测评'
       }
@@ -126,6 +135,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '风险测评'
       }
@@ -139,6 +149,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '风险测评'
       }
@@ -152,6 +163,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '密码管理'
       }
@@ -165,6 +177,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '重置支付密码'
       }
@@ -178,6 +191,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '支付密码'
       }
@@ -191,6 +205,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '修改支付密码'
       }
@@ -204,6 +219,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '银行卡'
       }
@@ -217,6 +233,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '基金开户'
       }
@@ -230,6 +247,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '基金开户'
       }
@@ -243,6 +261,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '基金开户协议'
       }
@@ -256,6 +275,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '投资人权益须知'
       }
@@ -269,6 +289,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '收益明细'
       }
@@ -282,6 +303,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '资产详情'
       }
@@ -295,6 +317,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '基金列表'
       }
@@ -308,6 +331,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '基金详情'
       }
@@ -321,6 +345,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '购买'
       }
@@ -334,6 +359,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '购买成功'
       }
@@ -347,6 +373,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '赎回'
       }
@@ -360,6 +387,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '赎回成功'
       }
@@ -373,6 +401,7 @@ export default new Router({
       },
       name: 'chargelist',
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '交易记录'
       },
@@ -385,6 +414,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '交易记录'
           }
@@ -397,6 +427,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '交易记录'
           }
@@ -412,6 +443,7 @@ export default new Router({
       },
       name: 'fundrecord',
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '基金档案'
       },
@@ -424,6 +456,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '基金概况'
           }
@@ -436,6 +469,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '公告'
           }
@@ -448,6 +482,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '持仓'
           }
@@ -460,6 +495,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '行业'
           }
@@ -472,6 +508,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '分红'
           }
@@ -487,6 +524,7 @@ export default new Router({
       },
       name: 'traderule',
       meta: {
+        keepAlive: true,
         requiresAuth: true,
         title: '交易规则'
       },
@@ -499,6 +537,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '交易规则'
           }
@@ -511,6 +550,7 @@ export default new Router({
             })
           },
           meta: {
+            keepAlive: false,
             requiresAuth: true,
             title: '交易规则'
           }
@@ -526,6 +566,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '历史净值'
       }
@@ -538,6 +579,7 @@ export default new Router({
         })
       },
       meta: {
+        keepAlive: false,
         requiresAuth: true,
         title: '详情'
       }

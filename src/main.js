@@ -37,6 +37,7 @@ router.beforeEach(function (to, from, next) {
 router.afterEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {isLoading: false})
   document.title = to.meta.title
+  document.body.scrollTop = 0
 })
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

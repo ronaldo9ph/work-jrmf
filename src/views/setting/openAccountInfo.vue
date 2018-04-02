@@ -4,13 +4,12 @@
     <li>
       <label class="t">开户银行</label>
       <select class="sel" v-model="bank">
-        <option value="" disabled selected>请选择</option>
         <option :value="item.bankno" v-for="item in bankList">{{item.bankname}}</option>
       </select>
     </li>
     <li>
       <label class="t">银行卡号</label>
-      <input type="text" class="txt" v-model="bankno" />
+      <input type="text" class="txt" v-model="bankno"/>
     </li>
     <li>
       <label class="t">开卡省/直辖市</label>
@@ -87,6 +86,7 @@ export default {
       address: '',
       email: '',
       bank: '', // 银行编号
+      bankname: '', // 上一页银行名称
       bankno: '', // 银行卡号
       province: '', // 省编号
       city: '', // 市编号
@@ -117,6 +117,9 @@ export default {
       this.provincelist = []
       let arrprovincelist = this.provincelist.concat(res.data.provincelist)
       this.provincelist = arrprovincelist
+      this.bankno = res.data.bankcardno
+      this.bank = res.data.bankNo
+      this.mobileno = res.data.mobiletelno
     }
     if (res.data.fstat === 9) {
       this.$vux.toast.text(res.data.respmsg, 'middle')

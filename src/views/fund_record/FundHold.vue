@@ -12,7 +12,7 @@
             </tr>
             <tr v-for="item in fundStkDetailList">
                 <td class="text-left">
-                    <p class="t">{{item.fundsname}}</p>
+                    <p class="t">{{item.stocksname}}</p>
                     <p>{{item.stockcode}}</p>
                 </td>
                 <td class="text-right">{{item.tot_val_prop}}%</td>

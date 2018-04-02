@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="fundThemes">
-  <tab :line-width=2 active-color='#fc378c' v-model="index">
+  <tab :line-width=2 active-color='#f04a3a' v-model="index">
     <tab-item class="vux-center" :selected="selected === item" v-for="(item, index) in list2" @click="selected = item" @on-item-click="onItemClick(item)" :key="index">{{item}}</tab-item>
   </tab>
   <swiper v-model="index" height="800px" :show-dots="false">

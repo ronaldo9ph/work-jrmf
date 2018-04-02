@@ -33,7 +33,7 @@
   </div>
   <div class="box chtBox">
     <tab :line-width="2" custom-bar-width="60px" active-color='#ef5643'>
-      <tab-item selected @on-item-click="drawChart(1,1)"><span v-if="fund.fundtype!='货币型'">单位净值</span><span v-else>七日年划</span></tab-item>
+      <tab-item selected @on-item-click="drawChart(1,1)"><span v-if="fund.fundtype!='货币型'">单位净值</span><span v-else>七日年化</span></tab-item>
       <tab-item @on-item-click="drawChart(2,1)"><span v-if="fund.fundtype!='货币型'">累积盈亏</span><span v-else>万份收益</span></tab-item>
     </tab>
     <div class="chtCon">

@@ -149,7 +149,7 @@ export default {
       this.fundinfo.accum_NET = res.data.fundinfo.accum_NET
       this.fundinfo.unit_NET_CHNG_PCT = res.data.fundinfo.unit_NET_CHNG_PCT
       this.fundinfo.unit_net = res.data.fundinfo.unit_NET
-      this.fundinfo.fundrisk = res.data.fundinfo.fundrisk
+      this.fundinfo.fundrisk = res.data.fundrisk
     }
     if (res.data.fstat === 9) {
       this.$vux.toast.text(res.data.respmsg, 'middle')

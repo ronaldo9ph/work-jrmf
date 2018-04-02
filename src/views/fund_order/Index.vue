@@ -44,7 +44,7 @@
   <div class="popbg" id="popbg" style="display:none;" v-show="isShow"></div>
   <div class="popwin" id="popwin" style="display:none;" v-show="isShow">
     <div class="con w" v-if="fund.risklevel=='保守型' && !fund.match">
-      <p>本基金的风险等级为（高），您的风险测评结果为保守型。</p>
+      <p>本基金的风险等级为（{{fund.fundriskgrade}}），您的风险测评结果为保守型。</p>
       <p>根据相关规定，最低风险承受能力的用户不得购买高于其风险承受能力的基金产品。</p>
       <div class="bt clearfix">
         <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消购买</a>
@@ -68,7 +68,7 @@
       </div>
       <div class="bt clearfix">
         <a href="javascript:void(0)" @click="closePopwin()" class="btn btn-white pull-left">取消</a>
-        <a href="javascript:void(0)" class="btn btn-red pull-right" @click="subForm()">确定</a>
+        <a href="javascript:void(0)" :class="dis==true?'btn btn-red pull-right':'btn btn-red pull-right disabled'" @click="subForm()">确定</a>
       </div>
     </div>
   </div>
@@ -106,7 +106,8 @@ export default {
       isShow: false, // 弹窗是否显示
       can: false, // 密码弹窗是否显示
       password: '', // 密码
-      amount: '' // 输入金额
+      amount: '', // 输入金额
+      dis: true // 防止提交订单按钮重复提交
     }
   },
   created: async function () {
@@ -125,7 +126,7 @@ export default {
       this.fund.match = res.data.match
       this.fund.QUOTA = res.data.QUOTA
       this.fund.Fund_type = res.data.Fund_type
-      this.fundBank.bankname = res.data.fundBank.bankname
+      this.fundBank.bankname = res.data.fundBank.banknoname
       this.fundBank.bankbook = res.data.fundBank.bankbook.substr(-4, 4)
       this.fundBank.logo_url = res.data.bankInfo.logo_url
       this.fundBank.bankno = res.data.bankInfo.bankno
@@ -170,8 +171,10 @@ export default {
       this.isShow = true
     },
     subForm: debounce(async function (e) {
+      this.dis = false
       if (this.password === '' || this.password.length !== 6) {
         this.$vux.toast.text('请输入六位数字支付密码', 'middle')
+        this.dis = true
         return false
       }
       const res = await this.$http.get('api/v1/funds/' + this.$route.params.id + '/actions/buy', {'transpasswd': this.password, 'applicationamount': this.amount})
@@ -180,6 +183,7 @@ export default {
       }
       if (res.data.fstat === 9) {
         this.$vux.toast.text(res.data.respmsg, 'middle')
+        this.dis = true
         return false
       }
     }, 500)

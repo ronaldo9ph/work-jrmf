@@ -4,10 +4,10 @@ import router from '../router'
 axios.defaults.timeout = 150000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
-// axios.defaults.baseURL = 'https://rap.mofang.com/mockjsdata/2/'
+// axios.defaults.baseURL = 'https://rap.jrmf360.com/mockjsdata/2/'
 // axios.defaults.baseURL = 'http://yl-openapi.yilucaifu.com'
 // axios.defaults.baseURL = 'http://a.yilucaifu.com/test/'
-// axios.defaults.baseURL = 'http://192.168.30.96:8080/yilucaifu-openapi/'
+// axios.defaults.baseURL = 'http://localhost:8020/yilucaifu-openapi/'
 // POST传参序列化
 axios.interceptors.request.use(config => {
   // loading
