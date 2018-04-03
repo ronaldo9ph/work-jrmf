@@ -1,0 +1,367 @@
+@url:"../assets";
+@main_color:#f04a3a;
+@deep_color:#fe5949;
+body{
+    background: #f5f5f5;
+    padding-bottom: 80px;
+}
+.personPage .tel{
+  position:fixed;
+  width:100%;
+  bottom:10px;
+}
+.setting{
+  border-top: 1px solid #e3e3e6;
+  background-color: white;
+  border-bottom: 1px solid #e3e3e6;
+  margin-top: 5px;
+  li{
+    margin-left: 15px;
+    border-bottom: 1px solid #dfdddd;
+    &:last-child{
+      border-bottom: none;
+    }
+    a{
+      display: block;
+      line-height: 40px;
+      padding-left: 40px;
+      &.bank{
+        background: url("@{url}/bank.png") no-repeat 5px center;
+        background-size: 20px;
+      }
+      &.risk{
+        background: url("@{url}/risk.png") no-repeat 5px center;
+        background-size: 19px;
+      }
+      &.pas{
+        background: url("@{url}/pas.png") no-repeat 5px center;
+        background-size: 19px;
+      }
+    }
+  }
+}
+.pasPage{
+  border-top: 1px solid #e3e3e6;
+  background-color: white;
+  border-bottom: 1px solid #e3e3e6;
+  margin-top: 5px;
+  li{
+    margin-left: 15px;
+    border-bottom: 1px solid #dfdddd;
+    &:last-child{
+      border-bottom: none;
+    }
+    a{
+      display: block;
+      line-height: 40px;
+      padding-left: 5px;
+      background: url("@{url}/arrow.png") no-repeat 97% center;
+      background-size: 12px;
+    }
+  }
+}
+.bankPage{
+  padding: 5px 10px;
+  li{
+    background-color: #1c63a5;
+    border-radius: 4px;
+    position: relative;
+    padding: 15px 15px 15px 70px;
+    color: white;
+    line-height: 20px;
+    .num{
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 3px;
+    }
+    .it{
+      margin:0px 3px;
+      top: 3px;
+      position: relative;
+    }
+    .img{
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      width:40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  }
+  .btn{
+    background: none;
+    margin-top: 30px;
+  }
+}
+.openAccount{
+  .padbox{
+    padding: 20px 15px;
+  }
+  .item{
+    background-color: white;
+    border-top: 1px solid #e5e5e6;
+    border-bottom: 1px solid #e5e5e6;
+    li{
+      margin-left: 15px;
+      height: 40px;
+      border-bottom: 1px solid #e2e2e2;
+      position: relative;
+      padding: 0px 0px 0px 105px;
+      &:last-child{
+        border-bottom: none;
+      }
+      .txt{
+        width: 100%;
+        height: 38px;
+        line-height: 38px;
+        overflow: hidden;
+        border: none;
+        background-color: white;
+      }
+      .sel{
+        height: 38px;
+        line-height: 38px;
+        padding: 0px 5px;
+        overflow: hidden;
+        border: none;
+        width: 100%;
+        background-color: white;
+      }
+      .t{
+        width: 105px;
+        padding-left: 30px;
+        color: #666666;
+        position: absolute;
+        height: 30px;
+        line-height: 30px;
+        left: 0px;
+        top: 5px;
+        display: block;
+        background: url("@{url}/openaccount.png") no-repeat;
+        background-size: 22px;
+        &.t-1{
+          background-position: 0px 5px;
+        }
+        &.t-2{
+          background-position: 0px -21px;
+        }
+        &.t-3{
+          background-position: 0px -48px;
+        }
+        &.t-4{
+          background-position: 0px -74px;
+        }
+        &.t-5{
+          background-position: 0px -103px;
+        }
+      }
+    }
+  }
+}
+.openAccountInfo{
+  .w{
+    margin:10px 0px;
+  }
+  .ck{
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+  }
+  .padbox{
+    padding: 20px 15px;
+    .btn{
+      margin-top: 10px;
+    }
+  }
+  .item{
+    background-color: white;
+    border-top: 1px solid #e5e5e6;
+    border-bottom: 1px solid #e5e5e6;
+    li{
+      margin-left: 15px;
+      height: 40px;
+      border-bottom: 1px solid #e2e2e2;
+      position: relative;
+      padding: 0px 0px 0px 120px;
+      &:last-child{
+        border-bottom: none;
+      }
+      &.yzm{
+        padding-right: 100px;
+        .btn{
+          position: absolute;
+          right: 15px;
+          top:5px;
+          height: 28px;
+          line-height: 28px;
+          width: 80px;
+          padding: 0px;
+          font-size: 12px;
+        }
+      }
+      .txt{
+        width: 100%;
+        height: 38px;
+        line-height: 38px;
+        overflow: hidden;
+        border: none;
+        background-color: white;
+        padding: 0px 15px;
+      }
+      .sel{
+        width: 100%;
+        height: 38px;
+        line-height: 38px;
+        padding: 0px 15px;
+        overflow: hidden;
+        border: none;
+        background-color: white;
+      }
+      .t{
+        width: 120px;
+        color: #666666;
+        position: absolute;
+        height: 30px;
+        line-height: 30px;
+        left: 0px;
+        top: 5px;
+        display: block;
+      }
+    }
+  }
+}
+.riskTest{
+  margin-top: 5px;
+  .box{
+    background-color: white;
+    border-top: 1px solid #e5e5e6;
+    border-bottom: 1px solid #e5e5e6;
+    &.w{
+      padding: 15px 15px 0px;
+      line-height: 23px;
+      color: #666666;
+      p{
+        text-indent: 2em;
+        margin-bottom: 15px;
+      }
+    }
+  }
+  .padbox{
+    padding: 30px 15px;
+  }
+}
+.riskQuestion{
+  .btn{
+    color: @main_color;
+    font-weight: bold;
+    border: none;
+    background: none;
+    font-size: 20px;
+    margin-top: 30px;
+  }
+  .num{
+    padding: 20px 0px 20px 30px;
+    font-size: 18px;
+  }
+  .cur{
+    font-size: 60px;
+    font-weight: bold;
+  }
+  .t{
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 15px 10px;
+  }
+  .list{
+    border-top: 1px solid #e5e5e6;
+    border-bottom: 1px solid #e5e5e6;
+    background-color: white;
+    li{
+      padding: 10px 35px 10px 15px;
+      border-bottom: 1px solid #e5e5e6;
+      color: #666666;
+      &.selected{
+        background: url("@{url}/right.png") no-repeat 97% center;
+        background-size:20px;
+      }
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+  }
+}
+.RiskResult{
+  .t{
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 15px 10px;
+  }
+  .type{
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 80px;
+  }
+  .padbox{
+    padding: 30px 15px;
+    .btn{
+      font-size: 20px;
+    }
+    .btn-white{
+      color: @main_color;
+      font-weight: bold;
+      border: none;
+      background: none;
+      margin-top: 10px;
+    }
+  }
+}
+.popwin{
+  background-color: white;
+  width: 80%;
+  left: 10%;
+  top: 50%;
+  margin-top: -90px;
+  z-index: 10;
+  position: fixed;
+  .t{
+    text-align: center;
+    border-bottom: 1px solid #f5f5f5;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+  }
+  .con{
+    padding: 20px;
+    margin-left: 0px;
+    &.w{
+      line-height: 20px;
+      font-size: 12px;
+    }
+    .suc{
+      line-height: 30px;
+      display: inline-block;
+      padding-left: 30px;
+      color: @main_color;
+      font-size: 18px;
+      margin-bottom: 10px;
+      background: url("@{url}/successIcon.png") no-repeat left center;
+      background-size:20px;
+    }
+    .txt{
+      width: 100%;
+      height: 35px;
+      line-height: 35px;
+      padding: 0px 10px;
+      border: 1px solid #9f9f9f;
+      border-radius: 2px;
+      margin-bottom: 5px;
+    }
+    .bt{
+      padding-top: 15px;
+      a{
+        width: 46%;
+        border-radius: 2px;
+      }
+    }
+  }
+}

@@ -1,23 +1,34 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <loading v-model="isLoading"></loading>
+    <transition name="fade" mode="out-in">
+       <keep-alive>
+         <router-view v-if="$route.meta.keepAlive"></router-view>
+       </keep-alive>
+     </transition>
+     <transition name="fade" mode="out-in">
+       <router-view v-if="!$route.meta.keepAlive"></router-view>
+     </transition>
   </div>
 </template>
 
 <script>
+import { Loading } from 'vux'
+import { mapState } from 'vuex'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Loading
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.isLoading
+    })
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="less">
+@import '~vux/src/styles/reset.less';
+@import './styles/frame-openapi.less';
 </style>

@@ -1,0 +1,631 @@
+@url:"../assets";
+@main_color:#f04a3a;
+@deep_color:#fe5949;
+body{
+    background: #f5f5f5;
+    padding-bottom: 80px;
+}
+.searchBox{
+  padding: 15px 95px 15px 15px;
+  position: relative;
+  .search-btn{
+    height: 35px;
+    line-height: 35px;
+    width: 70px;
+    border: 1px solid white;
+    color: white;
+    background-color: @main_color;
+    position: absolute;
+    right: 15px;
+    top:15px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .txt{
+    width: 100%;
+    padding: 0px 10px 0px 35px;
+    height: 35px;
+    line-height: 35px;
+    background: url("@{url}/search.png") no-repeat 10px center white;
+    background-size: 18px;
+    border: 1px solid white;
+  }
+}
+.indexPage{
+  .wpFund{
+    margin-left: 20px;
+    padding: 20px 40px 20px 20px;
+    border-top: 1px solid #e8e8e8;
+    text-align: center;
+    .t{
+      font-size: 18px;
+      font-weight: normal;
+      margin-bottom: 10px;
+    }
+    .fee{
+      line-height: 30px;
+      .num{
+        font-size: 34px;
+      }
+    }
+    .btn{
+      width: 60%;
+      margin-top: 10px;
+    }
+  }
+  .searchBox{
+    background-color: @main_color;
+    margin-bottom: 5px;
+    .txt{
+      cursor: pointer;
+    }
+  }
+  .module{
+    margin-bottom: 10px;
+    background-color: white;
+    overflow: hidden;
+  }
+  .title{
+      border-left: 5px solid #6498fb;
+      height: 25px;
+      line-height: 25px;
+      padding-left: 15px;
+      font-size: 18px;
+      margin:10px 0px;
+      em{
+        margin-left: 5px;
+        font-size: 12px;
+        color: #999999;
+        font-weight: normal;
+      }
+  }
+}
+.hotRec{
+  margin:0px 15px 15px;
+  border-right: 5px solid @main_color;
+  box-shadow: 0px 0px 10px #eeeeee;
+  border-radius: 3px;
+  position: relative;
+  padding: 0px 0px 0px 100px;
+  height: 85px;
+  .rec{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: block;
+    background: url("@{url}/rec.png") no-repeat;
+    background-size: 40px;
+    right: 15px;
+    top:-17px;
+    z-index: 3;
+  }
+  dt{
+    position: absolute;
+    height: 85px;
+    width: 100px;
+    padding-top: 12px;
+    text-align: center;
+    border-right: 1px dashed #e8e8e8;
+    left: 0px;
+    top: 0px;
+    .num{
+      font-size: 26px;
+      line-height: 35px;
+    }
+  }
+  dd{
+    width: 100%;
+    padding: 12px;
+    .name{
+      line-height: 30px;
+      height: 30px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 16px;
+      font-weight: normal;
+    }
+    .tag{
+      margin-top: 5px;
+      height: 24px;
+      overflow: hidden;
+      .it{
+        display: inline-block;
+        font-size: 12px;
+        border: 1px solid @main_color;
+        padding: 0px 5px;
+        height: 22px;
+        line-height: 20px;
+        overflow: hidden;
+        border-radius: 2px;
+        margin: 0px 4px;
+        color: #666666;
+      }
+    }
+  }
+}
+.fixed-bottom{
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 45px;
+  background-color: white;
+  overflow: hidden;
+  a{
+    width:50%;
+    float: left;
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    &.current{
+      background-color: @main_color;
+      color: white;
+    }
+  }
+  i{
+    display: inline-block;
+    width: 18px;
+    height: 20px;
+    margin-right: 5px;
+    position: relative;
+    top: 4px;
+    &.hot{
+      background: url("@{url}/hot-dis.png") no-repeat;
+      background-size: 18px;
+    }
+    &.hold{
+      background: url("@{url}/hold-dis.png") no-repeat;
+      background-size: 20px;
+    }
+  }
+  .current{
+    i{
+      &.hot{
+        background: url("@{url}/hot.png") no-repeat;
+        background-size: 18px;
+      }
+      &.hold{
+        background: url("@{url}/hold.png") no-repeat;
+        background-size: 20px;
+      }
+    }
+  }
+}
+.main-fund{
+  li{
+    float: left;
+    height: 110px;
+    overflow: hidden;
+    width:50%;
+    border-top: 1px solid #e8e8e8;
+    a{
+      display: block;
+      margin:15px 0px;
+      height: 80px;
+      border-right: 1px solid #e8e8e8;
+      padding-left: 25px;
+    }
+    &:nth-child(even){
+      a{
+        border-right: none;
+      }
+    }
+  }
+  .name{
+    font-size: 16px;
+  }
+  dfn{
+    color: @main_color;
+    font-size: 24px;
+    line-height: 25px;
+    margin: 5px 0px;
+    display: block;
+  }
+}
+.fundThemes{
+  .tab{
+      border-bottom: 1px solid #e8e8e8;
+      background-color: white;
+      text-align: center;
+      a{
+          padding: 10px 0px;
+          width: 33.3%;
+          float: left;
+          text-align: center;
+          color: #666666;
+          &.current{
+              border-bottom: 2px solid #ef5643;
+              position: relative;
+              top: 1px;
+              color: #ef5643;
+          }
+      }
+  }
+  .tb{
+    width: 100%;
+    border-top: 1px solid #e8e8e8;
+    margin-top: 5px;
+    th,td{
+      padding: 10px 15px;
+      background-color: white;
+      border-bottom: 1px solid #e8e8e8;
+      &.text-left{
+        text-align: left;
+      }
+      &.text-right{
+        text-align: right;
+      }
+    }
+    th{
+      font-size: 12px;
+      font-weight: normal;
+      color: #666666;
+    }
+    .name{
+      margin-bottom: 5px;
+    }
+  }
+}
+.searchPage{
+  .tb{
+    width: 100%;
+    background-color: white;
+    td{
+      padding: 10px 15px;
+      text-align: center;
+      &.text-left{
+        text-align: left;
+      }
+    }
+    .tag{
+      height: 22px;
+      line-height: 20px;
+      display: inline-block;
+      padding: 0px 5px;
+      border-radius: 10px;
+      border: 1px solid #f05326;
+      margin-left: 5px;
+      font-size: 12px;
+      color: #f05326;
+    }
+    th{
+      padding: 0px 15px 5px;
+      font-weight: normal;
+    }
+    .name{
+      font-size: 16px;
+      line-height: 20px;
+      padding-left: 20px;
+    }
+    .num{
+      font-size: 28px;
+      line-height: 20px;
+      font-weight: bold;
+    }
+    .btn{
+      padding: 0px 20px;
+    }
+  }
+  .pad{
+    padding: 30px 0px;
+  }
+  .fundResult .tb{
+    margin-top: 5px;
+  }
+  .searchBox{
+    background-color: white;
+    border-bottom: 1px solid #e8e8e8;
+    .txt{
+      background-color: #efeff0;
+    }
+  }
+  .search-history{
+    background-color: white;
+    padding:0px 0px 0px 15px;
+    .top{
+      border-bottom: 1px solid #e8e8e8;
+      padding:10px 15px 10px 0px;
+      .title{
+        color: #999999;
+        padding-left: 20px;
+        background: url('@{url}/his.png') left center no-repeat;
+        background-size: 15px;
+      }
+    }
+    .con{
+      padding: 15px 15px 5px 0px;
+      a{
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        color: #666666;
+        border: 1px solid #e8e8e8;
+        padding: 0px 5px;
+        border-radius: 4px;
+        margin:0px 5px 10px;
+      }
+    }
+  }
+  .hot-title{
+    padding: 15px;
+    color: #666666;
+    font-size: 18px;
+    font-weight: normal;
+  }
+  .hot-list{
+    background-color: white;
+    li{
+      margin-left: 15px;
+      border-bottom: 1px solid #e8e8e8;
+      line-height: 40px;
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+  }
+}
+.myhold{
+  .pad{
+    padding: 40px 0px;
+    .text-blue{
+      margin:0px 5px;
+      text-decoration: underline;
+    }
+  }
+  .top{
+    background-color: @main_color;
+    padding: 15% 0px 0px;
+    text-align: center;
+    color: white;
+    position: relative;
+    margin-bottom: 10px;
+    .icon{
+      width: 18px;
+      height: 14px;
+      display: inline-block;
+      margin-left: 5px;
+      background: url("@{url}/total-icon.png") no-repeat;
+      background-size: 18px;
+      position: relative;
+      top: 4px;
+      &.dis{
+        background-position: 0px -20px;
+      }
+    }
+    .set{
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: url("@{url}/setting.png") no-repeat;
+      background-size: 25px;
+      display: block;
+      right: 15px;
+      top: 15px;
+      text-indent: -9999px;
+    }
+    .total{
+      font-size: 32px;
+      margin-top: 5px;
+    }
+  }
+  .con{
+    background-color: @deep_color;
+    margin-top: 6%;
+    padding: 10px 0px 10px;
+    line-height: 25px;
+    .item{
+      width: 50%;
+      border-right: 1px solid #ef3422;
+      float: left;
+      &:last-child{
+        border-right: none;
+      }
+    }
+  }
+  .box{
+    background-color: white;
+  }
+  .link{
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    padding: 0px 30px 0px 15px;
+    margin: 5px 0px;
+    background: url("@{url}/arrow.png") no-repeat white 98% center;
+    background-size: 12px;
+  }
+  .act{
+    padding: 5px 0px;
+    a{
+      width: 50%;
+      text-align: center;
+      line-height: 35px;
+      float: left;
+      border-right: 1px solid #e8e8e8;
+      &:last-child{
+        border-right: none;
+      }
+      i{
+        width: 17px;
+        height: 21px;
+        display: inline-block;
+        margin-right: 5px;
+        top: 6px;
+        position: relative;
+        &.sy{
+          background: url("@{url}/hold-sy.png") no-repeat;
+          background-size: 17px;
+        }
+        &.jy{
+          background: url("@{url}/hold-jy.png") no-repeat;
+          background-size: 17px;
+        }
+      }
+    }
+  }
+  .list{
+    margin-top: 5px;
+    li{
+      background-color: white;
+      padding: 15px 0px;
+      margin-bottom: 5px;
+      .tp{
+        padding: 0px 15px 10px;
+        .tag{
+          height: 20px;
+          line-height: 18px;
+          font-size: 12px;
+          color: #1967b2;
+          border: 1px solid #1967b2;
+          padding: 0px 5px;
+          border-radius: 10px;
+          box-sizing: content-box;
+        }
+        .t{
+          font-size: 18px;
+          font-weight: normal;
+        }
+      }
+      .bt{
+        .item{
+          width: 33.3%;
+          text-align: left;
+          padding-left: 15px;
+        }
+        .t{
+          font-size: 12px;
+        }
+        .num{
+          font-size: 18px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+.detailprofit{
+  .top{
+    background-color: #f04a3a;
+    padding: 15px 0px;
+    .item{
+      width: 50%;
+      text-align: center;
+      color: white;
+      float: left;
+      padding: 5px 0px;
+      border-right: 1px solid #ef3422;
+      &:last-child{
+        border-right: none;
+      }
+      .text-small{
+        font-size: 12px;
+      }
+      .num{
+        font-size: 30px;
+        margin-top: 15px;
+      }
+    }
+  }
+  .box{
+    background-color: white;
+    margin-top: 5px;
+    .title{
+      font-weight: bold;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 10px 15px;
+      .w{
+        display: inline-block;
+        border-left: 4px solid #1967b2;
+        padding-left: 10px;
+      }
+    }
+    .item{
+      &.over{
+        overflow: hidden;
+        height: 200px;
+      }
+    }
+    .act{
+      a{
+        display: block;
+        height: 30px;
+        text-indent: -9999px;
+        &.down{
+          background: url("@{url}/down2.png") no-repeat center center;
+          background-size: 20px;
+        }
+        &.up{
+          background: url("@{url}/up.png") no-repeat center center;
+          background-size: 20px;
+        }
+      }
+    }
+    li{
+      border-bottom: 1px solid #e8e8e8;
+      a{
+        display: block;
+        line-height: 40px;
+        padding: 0px 30px 0px 15px;
+        background: url("@{url}/arrow.png") no-repeat 98% center;
+        background-size: 10px;
+      }
+    }
+  }
+  .padbox{
+    padding: 15px;
+  }
+}
+.chargelist{
+  .tab{
+    border-bottom: 1px solid #e8e8e8;
+    background-color: white;
+    text-align: center;
+    a{
+        padding: 10px 0px;
+        width: 50%;
+        float: left;
+        text-align: center;
+        color: #666666;
+        &.current{
+            border-bottom: 2px solid #ef5643;
+            position: relative;
+            top: 1px;
+            color: #ef5643;
+        }
+    }
+  }
+}
+.chargePage{
+  margin-top: 5px;
+  .padbox{
+    padding: 30px 0px;
+  }
+  .item{
+    padding: 0px 15px;
+    background-color: white;
+    margin-bottom: 10px;
+  }
+  .tb{
+    width: 100%;
+    font-size: 14px;
+    .t{
+      font-size: 16px;
+    }
+    th{
+      padding: 0px;
+      font-weight: normal;
+      text-align: left;
+    }
+    td{
+      padding: 10px 0px 10px 0px;
+      &.text-red{
+        padding-top: 0px;
+      }
+      &.bt{
+        border-top: 1px solid #e8e8e8;
+      }
+    }
+  }
+}
